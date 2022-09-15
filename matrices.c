@@ -1,33 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   miniRT.h                                           :+:      :+:    :+:   */
+/*   matrices.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/03 10:45:39 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/09/15 11:50:30 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/09/15 11:49:37 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/09/15 11:50:41 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#include "miniRT.h"
 
-# include <math.h>
-# include <mlx.h>
-# include <stdbool.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-
-# define EPSILON 0.00001
-
-typedef struct s_tuple
-{
-	double	x;
-	double	y;
-	double	z;
-	double	w;
-}			t_tuple;
-
-#endif
