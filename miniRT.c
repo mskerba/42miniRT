@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/09/15 11:51:38 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/09/17 15:11:11 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,40 +49,9 @@ bool	compare1(double a, double b)
 	return (false);
 }
 
-double	**create_matrix(int rows, int columns)
-{
-	double	**matrix;
-	int		i;
 
-	matrix = malloc(rows * sizeof(double *));
-	i = -1;
-	while (++i < rows)
-		matrix[i] = malloc(columns * sizeof(double));
-	return (matrix);
-}
 
-double	**multiplication(double **a, double **b, int rows, int columns)
-{
-	double	**m;
-	int	r;
-	int	c;
-	int	i;
 
-	m = create_matrix(rows, columns);
-	r = -1;
-	while (++r < rows)
-	{
-		c = -1;
-		while (++c < columns)
-		{
-			m[r][c] = 0;
-			i = -1;
-			while (++i < rows)
-				m[r][c] += (a[r][i] * b[i][c]);
-		}
-	}
-	return (m);
-}
 
 void	repere(t_data *img)
 {

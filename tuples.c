@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 11:50:59 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/09/15 15:57:50 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/09/17 15:11:38 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_tuple	*add_tuples(t_tuple *a, t_tuple *b)
 	return (tuple);
 }
 
-t_tuple	*sub_tuples(t_tuple *a, t_tuple *b)
+t_tuple	*substract_tuples(t_tuple *a, t_tuple *b)
 {
 	t_tuple	*tuple;
 
