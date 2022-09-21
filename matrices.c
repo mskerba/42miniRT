@@ -6,14 +6,13 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 11:49:37 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/09/20 12:04:48 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/09/21 19:01:05 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
 t_tuple	*create_tuple(double x, double y, double z, double w);
-
 
 double	**create_matrix(int rows, int columns)
 {
@@ -26,9 +25,6 @@ double	**create_matrix(int rows, int columns)
 		matrix[i] = malloc(columns * sizeof(double));
 	return (matrix);
 }
-
-
-
 
 double	**matrix_multi(double **a, double **b, int rows, int columns)
 {
@@ -88,57 +84,103 @@ void	display_matrix(double **m, int rows, int col)
 	printf("\n");
 }
 
-double	cofactor(double **m, int r, int c)
+void	clear_matrix(double **m, int r)
 {
-	double	cof;
-
-	cof = m[0][0] * ((m[1][1] * m[2][2]) - ((m[2][1] * m[1][2])));
-	cof -= m[0][1] * ((m[1][0] * m[2][2]) - (m[2][0] * m[1][2]));
-	cof += m[0][2] * ((m[1][0] * m[2][1]) - (m[2][0] * m[1][1]));
-	if ((r + c) % 2)
-		cof *= -1;
-	return (cof);
+	while (--r >= 0)
+		free(m[r]);
+	free(m);
 }
 
-double	**create_submatrix(double **m, int size)
+void	get_submatrix(double **m, double **sub_m, int size, int r, int c)
+{
+	int		i;
+	int		j;
+	int		a;
+	int		b;
+
+	i = -1;
+	a = 0;
+	while (++i < size)
+	{
+		if (i == r)
+			continue ;
+		j = -1;
+		b = 0;
+		while (++j < size)
+		{
+			if (j == c)
+				continue ;
+			sub_m[a][b++] = m[i][j];
+		}
+		a++;
+	}
+}
+
+double	**cofactor(double **m, int size)
 {
 	double	**sub_m;
 	double	**cofactors = create_matrix(size, size);
-	int	a;
-	int	b;
-	int	i;
-	int	j;
-	int	r;
-	int	c;
+	double	cof;
+	int		i;
+	int		j;
 
-	r = -1;
-	while (++r < size)
+	sub_m = create_matrix(3, 3);
+	i = -1;
+	while (++i < size)
 	{
-		sub_m = create_matrix(size - 1, size - 1);
-		c = -1;
-		while (++c < size)
+		j = -1;
+		while (++j < size)
 		{
-			i = -1;
-			a = 0;
-			while (++i < size)
-			{
-				if (i == r)
-					continue ;
-				j = -1;
-				b = 0;
-				while (++j < size)
-				{
-					if (j == c)
-						continue ;
-					sub_m[a][b++] = m[i][j];
-				}
-				a++;
-			}
-			cofactors[r][c] = cofactor(sub_m, r, c);
+			get_submatrix(m, sub_m, size, i, j);
+			cof = sub_m[0][0] * ((sub_m[1][1] * sub_m[2][2]) - ((sub_m[2][1] * sub_m[1][2])));
+			cof -= sub_m[0][1] * ((sub_m[1][0] * sub_m[2][2]) - (sub_m[2][0] * sub_m[1][2]));
+			cof += sub_m[0][2] * ((sub_m[1][0] * sub_m[2][1]) - (sub_m[2][0] * sub_m[1][1]));
+			if ((i + j) % 2)
+				cof *= -1;
+			cofactors[i][j] = cof;
 		}
 	}
-	display_matrix(cofactors, 4, 4);
+	clear_matrix(sub_m, 3);
 	return (cofactors);
+}
+
+double	determinant(double **m, double **cofactors)
+{
+	double	det;
+	int		i;
+
+	det = 0;
+	i = -1;
+	while (++i < 4)
+		det += m[0][i] * cofactors[0][i];
+	return (det);
+}
+
+double	**inverse_matrix(double **m)
+{
+	double	**inverse;
+	double	**cof;
+	double	det;
+	int		i;
+	int		j;
+
+	cof = cofactor(m, 4);
+	det = determinant(m, cof);
+	if (!det)
+	{
+		clear_matrix(cof, 4);
+		return (NULL);
+	}
+	inverse = create_matrix(4, 4);
+	i = -1;
+	while (++i < 4)
+	{
+		j = -1;
+		while (++j < 4)
+			inverse[j][i] = cof[i][j] / det;
+	}
+	display_matrix(inverse, 4, 4);
+	return (inverse);
 }
 
 int	main()
@@ -148,22 +190,27 @@ int	main()
 	// double	**b = create_matrix(3, 3);
 	double	**m;
 	// t_tuple	*tuple;
-	a[0][0] = -2;
-	a[0][1] = -8;
-	a[0][2] = 3;
-	a[0][3] = 5;
-	a[1][0] = -3;
+	a[0][0] = 1;
+	a[0][1] = 0;
+	a[0][2] = 0;
+	a[0][3] = 0;
+	a[1][0] = 0;
 	a[1][1] = 1;
-	a[1][2] = 7;
-	a[1][3] = 3;
-	a[2][0] = 1;
-	a[2][1] = 2;
-	a[2][2] = -9;
-	a[2][3] = 6;
-	a[3][0] = -6;
-	a[3][1] = 7;
-	a[3][2] = 7;
-	a[3][3] = -9;
+	a[1][2] = 0;
+	a[1][3] = 0;
+	a[2][0] = 0;
+	a[2][1] = 0;
+	a[2][2] = 1;
+	a[2][3] = 0;
+	a[3][0] = 0;
+	a[3][1] =0;
+	a[3][2] = 0;
+	a[3][3] = 1;
+	m = inverse_matrix(a);
+	display_matrix(m, 4, 4);
+	printf("determinant = %2.lf\n", determinant(a, m));
+	system("leaks a.out");
+}
 	// b[0][0] = -2;
 	// b[0][1] = 1;
 	// b[0][2] = 2;
@@ -181,7 +228,10 @@ int	main()
 	// b[3][2] = 7;
 	// b[3][3] = 8;
 	// m = matrix_multi(a, b, 4, 4);
-	display_matrix(a, 4, 4);
+
+
+
+
 	// tuple = matrix_x_tuple(a, t);
 	// display_tuple(tuple);
 	// b[0][0] = 1;
@@ -193,5 +243,3 @@ int	main()
 	// b[2][0] = 7;
 	// b[2][1] = 7;
 	// b[2][2] = -9;
-	create_submatrix(a, 4);
-}
