@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 11:49:37 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/09/21 19:01:05 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/09/22 11:44:19 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,24 @@ double	**inverse_matrix(double **m)
 		while (++j < 4)
 			inverse[j][i] = cof[i][j] / det;
 	}
-	display_matrix(inverse, 4, 4);
 	return (inverse);
+}
+
+double	**transpose_matrix(double **m, int size)
+{
+	double	**transpose;
+	int	i;
+	int	j;
+
+	transpose = create_matrix(size, size);
+	i = -1;
+	while (++i < size)
+	{
+		j = -1;
+		while (++j < size)
+			transpose[i][j] = m[j][i];
+	}
+	return (transpose);
 }
 
 int	main()
@@ -190,26 +206,29 @@ int	main()
 	// double	**b = create_matrix(3, 3);
 	double	**m;
 	// t_tuple	*tuple;
-	a[0][0] = 1;
-	a[0][1] = 0;
+	a[0][0] = 9;
+	a[0][1] = 3;
 	a[0][2] = 0;
-	a[0][3] = 0;
-	a[1][0] = 0;
-	a[1][1] = 1;
-	a[1][2] = 0;
-	a[1][3] = 0;
-	a[2][0] = 0;
-	a[2][1] = 0;
-	a[2][2] = 1;
-	a[2][3] = 0;
-	a[3][0] = 0;
-	a[3][1] =0;
-	a[3][2] = 0;
-	a[3][3] = 1;
-	m = inverse_matrix(a);
-	display_matrix(m, 4, 4);
-	printf("determinant = %2.lf\n", determinant(a, m));
-	system("leaks a.out");
+	a[0][3] = 9;
+	a[1][0] = -5;
+	a[1][1] = -2;
+	a[1][2] = -6;
+	a[1][3] = -3;
+	a[2][0] = -4;
+	a[2][1] = 9;
+	a[2][2] = 6;
+	a[2][3] = 4;
+	a[3][0] = -7;
+	a[3][1] = 6;
+	a[3][2] = 6;
+	a[3][3] = 2;
+	// display_matrix(a, 4, 4);
+	// m = inverse_matrix(a);
+	// m = transpose_matrix(m, 4);
+	// display_matrix(m, 4, 4);
+	display_matrix(a, 4, 4);
+	// printf("determinant = %2.lf\n", determinant(a, m));
+	// system("leaks a.out");
 }
 	// b[0][0] = -2;
 	// b[0][1] = 1;
