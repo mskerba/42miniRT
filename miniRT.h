@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 10:45:39 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/09/15 11:50:30 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/07 17:51:24 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <math.h>
 
 # define EPSILON 0.00001
 

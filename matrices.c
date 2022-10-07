@@ -6,13 +6,17 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 11:49:37 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/09/22 11:44:19 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/07 18:20:09 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
 t_tuple	*create_tuple(double x, double y, double z, double w);
+double  **translation(double x, double y, double z);
+double  **rotation_x(double r);
+double  **scaling(double x, double y, double z);
+double  **shearing(double x_y, double x_z, double y_x, double y_z, double z_x, double z_y);
 
 double	**create_matrix(int rows, int columns)
 {
@@ -201,64 +205,5 @@ double	**transpose_matrix(double **m, int size)
 
 int	main()
 {
-	// t_tuple	*t = create_tuple(1, 2, 3, 1);
-	double	**a = create_matrix(4, 4);
-	// double	**b = create_matrix(3, 3);
-	double	**m;
-	// t_tuple	*tuple;
-	a[0][0] = 9;
-	a[0][1] = 3;
-	a[0][2] = 0;
-	a[0][3] = 9;
-	a[1][0] = -5;
-	a[1][1] = -2;
-	a[1][2] = -6;
-	a[1][3] = -3;
-	a[2][0] = -4;
-	a[2][1] = 9;
-	a[2][2] = 6;
-	a[2][3] = 4;
-	a[3][0] = -7;
-	a[3][1] = 6;
-	a[3][2] = 6;
-	a[3][3] = 2;
-	// display_matrix(a, 4, 4);
-	// m = inverse_matrix(a);
-	// m = transpose_matrix(m, 4);
-	// display_matrix(m, 4, 4);
-	display_matrix(a, 4, 4);
-	// printf("determinant = %2.lf\n", determinant(a, m));
-	// system("leaks a.out");
+	printf("%lf\n", cos(0));
 }
-	// b[0][0] = -2;
-	// b[0][1] = 1;
-	// b[0][2] = 2;
-	// b[0][3] = 3;
-	// b[1][0] = 3;
-	// b[1][1] = 2;
-	// b[1][2] = 1;
-	// b[1][3] = -1;
-	// b[2][0] = 4;
-	// b[2][1] = 3;
-	// b[2][2] = 6;
-	// b[2][3] = 5;
-	// b[3][0] = 1;
-	// b[3][1] = 2;
-	// b[3][2] = 7;
-	// b[3][3] = 8;
-	// m = matrix_multi(a, b, 4, 4);
-
-
-
-
-	// tuple = matrix_x_tuple(a, t);
-	// display_tuple(tuple);
-	// b[0][0] = 1;
-	// b[0][1] = 7;
-	// b[0][2] = 3;
-	// b[1][0] = 2;
-	// b[1][1] = -9;
-	// b[1][2] = 6;
-	// b[2][0] = 7;
-	// b[2][1] = 7;
-	// b[2][2] = -9;
