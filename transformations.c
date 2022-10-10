@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 16:25:54 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/10 18:21:21 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/10 20:51:25 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ double  **rotation_z(double r)
     matrix[1][2] = 0;
     matrix[1][3] = 0;
     
-    matrix[2][0] = 0);
+    matrix[2][0] = 0;
     matrix[2][1] = 0;
     matrix[2][2] = 1;
     matrix[2][3] = 0;
