@@ -6,14 +6,13 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 16:25:54 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/07 18:06:38 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/10 18:21:21 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-void	display_matrix(double **m, int rows, int col);
-double	**create_matrix(int rows, int columns);
+
 
 double  **translation(double x, double y, double z)
 {

@@ -6,17 +6,11 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 11:49:37 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/07 18:20:09 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/10 18:38:30 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-t_tuple	*create_tuple(double x, double y, double z, double w);
-double  **translation(double x, double y, double z);
-double  **rotation_x(double r);
-double  **scaling(double x, double y, double z);
-double  **shearing(double x_y, double x_z, double y_x, double y_z, double z_x, double z_y);
 
 double	**create_matrix(int rows, int columns)
 {
@@ -64,11 +58,6 @@ t_tuple	*matrix_x_tuple(double **m, t_tuple *t)
 	tuple->z = (m[2][0] * t->x) + (m[2][1] * t->y) + (m[2][2] * t->z) + (m[2][3] * t->w);
 	tuple->w = (m[3][0] * t->x) + (m[3][1] * t->y) + (m[3][2] * t->z) + (m[3][3] * t->w);
 	return (tuple);
-}
-
-void	display_tuple(t_tuple *t)
-{
-	printf("x = %2.lf\ny = %2.lf\nz = %2.lf\nw = %2.lf\n", t->x, t->y, t->z, t->w);
 }
 
 void	display_matrix(double **m, int rows, int col)
@@ -201,9 +190,4 @@ double	**transpose_matrix(double **m, int size)
 			transpose[i][j] = m[j][i];
 	}
 	return (transpose);
-}
-
-int	main()
-{
-	printf("%lf\n", cos(0));
 }

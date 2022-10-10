@@ -6,11 +6,16 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 11:50:59 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/09/17 15:11:38 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/10 18:34:41 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+
+void	display_tuple(t_tuple *t)
+{
+	printf("x = %2.lf\ny = %2.lf\nz = %2.lf\nw = %2.lf\n", t->x, t->y, t->z, t->w);
+}
 
 t_tuple	*create_tuple(double x, double y, double z, double w)
 {
