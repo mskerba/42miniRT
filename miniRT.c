@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/10 21:38:27 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/12 18:34:54 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,73 @@ void	intersect(t_ray *r)
 	printf("%lf  | %lf\n", (-b - sqrt(descriminant)) / (2 * a), (-b + sqrt(descriminant)) / (2 * a));
 }
 
+
+t_intersect	*create_intersect(double t, char type)
+{
+	t_intersect	*inter_section;
+
+	inter_section = (t_intersect *)malloc(sizeof(t_intersect));
+	inter_section->object = create_object(type);
+	inter_section->t = t;
+	inter_section->next = NULL;
+	return (inter_section);
+}
+
+
+
 void	test()
 {
 	t_tuple	*ori = create_tuple(0, 0, 5, 1);
 	t_tuple	*dir = create_tuple(0, 0, 1, 0);
 	t_ray	*r = create_ray(ori, dir);
 
-	// display_tuple(position(r, 0));
-	// display_tuple(position(r, 1));
-	// display_tuple(position(r, -1));
-	// display_tuple(position(r, 2.5));
+	t_object	*sphere = create_object('s');
+	printf("%d\n", sphere->id);
+	sphere = create_object('s');
+	printf("%d\n", sphere->id);
+	sphere = create_object('s');
+	printf("%d\n", sphere->id);
+	sphere = create_object('s');
+	printf("%d\n", sphere->id);
+	sphere = create_object('s');
+	printf("%d\n", sphere->id);
+	sphere = create_object('s');
+	printf("%d\n", sphere->id);
+	sphere = create_object('s');
+	printf("%d\n", sphere->id);
+	sphere = create_object('s');
+	printf("%d\n", sphere->id);
 	intersect(r);
 	
+}
+
+void	intersections(t_intersect **head, double t, char type)
+{
+	t_intersect	*inter_section;
+	t_intersect	*curr;
+	t_intersect	*prev;
+
+	inter_section = create_intersect(t, type);
+	if (!*head)
+		*head = inter_section;
+	else
+	{
+		curr = *head;
+		prev = NULL;
+		while (curr && curr->t >= 0 && (t > curr->t || t < 0))
+		{
+			prev = curr;
+			curr = curr->next;
+		}
+		if(!prev)
+		{
+			inter_section->next = *head;
+			*head = inter_section;
+			return ;
+		}
+		inter_section->next = prev->next;
+		prev->next = inter_section;
+	}
 }
 
 int	main(void)
@@ -99,7 +154,31 @@ int	main(void)
 	// img.img = mlx_new_image(img.mlx, 800, 800);
 	// img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
 	// repere(&img);
-	test();
+	// test();
 	// mlx_hook(img.mlx_win, 02, 0L, key_hook, &img);
 	// mlx_loop(img.mlx);
+
+
+	t_intersect	*head = NULL;
+
+	intersections(&head, 9, 's');
+	intersections(&head, 3, 's');
+	intersections(&head, -2, 's');
+	intersections(&head, 0, 's');
+	intersections(&head, 7, 's');
+	intersections(&head, 2, 's');
+	intersections(&head, -9, 's');
+	intersections(&head, 6, 's');
+	intersections(&head, 4, 's');
+	intersections(&head, 14, 's');
+	intersections(&head, 19, 's');
+	intersections(&head, 20, 's');
+	while (head)
+	{
+		printf("t : %lf\n", head->t);
+		printf("s : %c\n", head->object->type);
+		printf("----------------\n");
+		head = head->next;
+	}
 }
+

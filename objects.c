@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rays.c                                             :+:      :+:    :+:   */
+/*   objects.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/10 19:04:51 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/12 13:23:24 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/10/12 13:19:26 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/10/12 13:23:02 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-t_ray	*create_ray(t_tuple *origin, t_tuple *direction)
+t_object	*create_object(char type)
 {
-	t_ray	*ray;
+	static unsigned int	id = 0;
+	t_object			*obj;
 
-	ray = (t_ray *)malloc(sizeof(t_ray));
-	if (!ray)
+	obj = (t_object *)malloc(sizeof(t_object));
+	if (!obj)
 		return (NULL);
-	ray->origin = origin;
-	ray->direction = direction;
-	return (ray);
-}
-
-t_tuple	*position(t_ray *ray, double t)
-{
-	t_tuple	*pos;
-	t_tuple	*tmp;
-
-	tmp = scalar_multi(ray->direction, t);
-	if (!tmp)
-		return (NULL);
-	pos = add_tuples(ray->origin, tmp);
-	free(tmp);
-	return (pos);
+	obj->type = type;
+	obj->id = id;
+	obj->t = NULL;
+	id++;
+	return (obj);
 }
