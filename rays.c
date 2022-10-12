@@ -6,11 +6,17 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 19:04:51 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/12 13:23:24 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/12 19:07:10 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
+
+
+t_intersect	*hit(t_intersect *head)
+{
+	return (head);
+}
 
 t_ray	*create_ray(t_tuple *origin, t_tuple *direction)
 {

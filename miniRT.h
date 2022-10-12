@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 10:45:39 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/12 17:54:17 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/12 19:10:36 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ double		magnitude(t_tuple *tuple);
 void		display_tuple(t_tuple *t);
 
 /* ************************************************************************** */
-/*                                 matrices.c                          		  */
+/*                                 matrices.c                                 */
 /* ************************************************************************** */
 double		**cofactor(double **m);
 double		**inverse_matrix(double **m);
@@ -94,21 +94,22 @@ double		**matrix_multi(double **a, double **b, int rows, int columns);
 /* ************************************************************************** */
 /*                                 transformations.c                          */
 /* ************************************************************************** */
+double		**translation(double x, double y, double z);
+double		**scaling(double x, double y, double z);
+double		**shearing(int x, int y, int z);
 double		**rotation_x(double r);
 double		**rotation_y(double r);
 double		**rotation_z(double r);
-double		**scaling(double x, double y, double z);
-double		**shearing(int x, int y, int z);
-double		**translation(double x, double y, double z);
 
 /* ************************************************************************** */
-/*                                 rays.c                          			  */
+/*                                 rays.c                                     */
 /* ************************************************************************** */
-t_ray		*create_ray(t_tuple *origin, t_tuple *direction);
+t_intersect	*hit(t_intersect *head);
 t_tuple		*position(t_ray *ray, double t);
+t_ray		*create_ray(t_tuple *origin, t_tuple *direction);
 
 /* ************************************************************************** */
-/*                                 objects.c                          		  */
+/*                                 objects.c                                  */
 /* ************************************************************************** */
 t_object	*create_object(char type);
 

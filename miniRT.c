@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/12 18:34:54 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/12 19:02:11 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,16 +147,16 @@ void	intersections(t_intersect **head, double t, char type)
 
 int	main(void)
 {
-	// t_data	img;
+	t_data	img;
 
-	// img.mlx = mlx_init();
-	// img.mlx_win = mlx_new_window(img.mlx, 800, 800, "miniRT");
-	// img.img = mlx_new_image(img.mlx, 800, 800);
-	// img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
-	// repere(&img);
-	// test();
-	// mlx_hook(img.mlx_win, 02, 0L, key_hook, &img);
-	// mlx_loop(img.mlx);
+	img.mlx = mlx_init();
+	img.mlx_win = mlx_new_window(img.mlx, 800, 800, "miniRT");
+	img.img = mlx_new_image(img.mlx, 800, 800);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
+	repere(&img);
+	test();
+	mlx_hook(img.mlx_win, 02, 0L, key_hook, &img);
+	mlx_loop(img.mlx);
 
 
 	t_intersect	*head = NULL;
@@ -181,4 +181,3 @@ int	main(void)
 		head = head->next;
 	}
 }
-
