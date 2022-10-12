@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 10:45:39 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/12 19:10:36 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/12 19:11:49 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ typedef struct s_intersect
 }	t_intersect;
 
 /* ************************************************************************** */
-/*                                 tuples.c                          		  */
+/*                                 tuples.c                                   */
 /* ************************************************************************** */
 t_tuple		*create_tuple(double x, double y, double z, double w);
 t_tuple		*scalar_multi(t_tuple *tpl, double scalar);
