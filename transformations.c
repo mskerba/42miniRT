@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transformations.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/07 16:25:54 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/12 17:53:52 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/10/13 08:00:52 by mskerba           #+#    #+#             */
+/*   Updated: 2022/10/13 08:00:55 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ double	**shearing(int x, int y, int z)
 {
 	double	**matrix;
 
+<<<<<<< Updated upstream
 	matrix = create_matrix(4, 4);
 	matrix[0][0] = 1;
 	matrix[0][1] = (double)(x / 10);
@@ -158,4 +159,24 @@ double	**shearing(int x, int y, int z)
 	matrix[3][2] = 0;
 	matrix[3][3] = 1;
 	return (matrix);
+=======
+    matrix = create_matrix(4, 4);
+    matrix[0][0] = 1;
+    matrix[0][1] = x_y;
+    matrix[0][2] = x_z;
+    matrix[0][3] = 0;
+    matrix[1][0] = y_x;
+    matrix[1][1] = 1;
+    matrix[1][2] = y_z;
+    matrix[1][3] = 0;
+    matrix[2][0] = z_x;
+    matrix[2][1] = z_y;
+    matrix[2][2] = 1;
+    matrix[2][3] = 0;
+    matrix[3][0] = 0;
+    matrix[3][1] = 0;
+    matrix[3][2] = 0;
+    matrix[3][3] = 1;
+    return (matrix);
+>>>>>>> Stashed changes
 }
