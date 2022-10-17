@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 MLX_FLAGS = /usr/local/lib/ -lmlx -framework OpenGL -framework Appkit
 
-SRCS = miniRT.c matrices.c rays.c transformations.c tuples.c objects.c
+SRCS = miniRT.c matrices.c rays.c transformations.c tuples.c objects.c main.c
 
 all : $(NAME)
 

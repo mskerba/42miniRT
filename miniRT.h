@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/13 08:00:43 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/17 15:48:25 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void		display_tuple(t_tuple *t);
 /*                                 matrices.c                                 */
 /* ************************************************************************** */
 double		**cofactor(double **m);
+double		**trim_matrix(double **m);
 double		**inverse_matrix(double **m);
 void		clear_matrix(double **m, int r);
 double		**create_matrix(int rows, int columns);
@@ -94,37 +95,34 @@ double		**matrix_multi(double **a, double **b, int rows, int columns);
 /* ************************************************************************** */
 /*                                 transformations.c                          */
 /* ************************************************************************** */
-<<<<<<< Updated upstream
 double		**translation(double x, double y, double z);
 double		**scaling(double x, double y, double z);
 double		**shearing(int x, int y, int z);
 double		**rotation_x(double r);
 double		**rotation_y(double r);
 double		**rotation_z(double r);
-=======
-double  **shearing(double x_y, double x_z, double y_x, double y_z, double z_x, double z_y);
-double  **translation(double x, double y, double z);
-double  **scaling(double x, double y, double z);
-double  **rotation_x(double r);
-double  **rotation_y(double r);
-double  **rotation_z(double r);
->>>>>>> Stashed changes
+
 
 /* ************************************************************************** */
 /*                                 rays.c                                     */
 /* ************************************************************************** */
-<<<<<<< Updated upstream
 t_intersect	*hit(t_intersect *head);
 t_tuple		*position(t_ray *ray, double t);
 t_ray		*create_ray(t_tuple *origin, t_tuple *direction);
-=======
-t_tuple	*position(t_ray *ray, double t);
-t_ray	*create_ray(t_tuple *origin, t_tuple *direction);
->>>>>>> Stashed changes
 
 /* ************************************************************************** */
 /*                                 objects.c                                  */
 /* ************************************************************************** */
-t_object	*create_object(char type);
+t_object	*create_object(char type, double **t);
+
+
+// ????????
+double	*intersect(t_ray *r);
+t_intersect	*create_intersect(double t, char type, double **tr);
+void	draw(t_data *img, double **tr);
+
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+
+t_tuple	*trim_tuple(t_tuple *tuple);
 
 #endif
