@@ -6,47 +6,49 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/19 14:07:51 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/19 19:37:25 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
 
-double	lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal)
+int    lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal)
 {
-	double	effective_c;
-	double	ambient;
-	double	diffuse;
-	double	specular;
-	double	factor;
-	double	reflect_dot_eye;
-	t_tuple	lightv;
-	t_tuple	light_dot_norm;
-	t_tuple	reflectv;
+    double    effective_c;
+    double    ambient;
+    double    diffuse;
+    double    specular;
+    double    factor;
+    double    reflect_dot_eye;
+    double    light_dot_norm;
+    t_tuple    lightv;
+    t_tuple    reflectv;
 
-	effective_c = scalar_multi(light.intensity, material.color);
-	lightv = substract_tuples(light.position, point);
-	normalize_tuple(&lightv);
-	ambient = effective_c * material.ambient;
-	light_dot_norm = dot_product(lightv, normal);
-	if (light_dot_norm < 0)
-	{
-		diffuse = 0;
-		specular = 0;
-		return (ambient + diffuse + specular);
-	}
-	diffuse = effective_c * material.diffuse * light_norm;
-	reflectv = reflect(negate_tuple(lightv), normal);
-	reflect_dot_eye = dot_product(reflectv, eyev);
-	if (reflect_dot_eye <= 0)
-		specular = 0;
-	else
-	{
-		factor = pow(reflect_dot_eye , material.shininess);
-		specular = scalar_multi(light.intensity, material.specular * factor);
-	}
-	return (ambient + diffuse + specular);
+    effective_c = light.intensity * material.color;
+    lightv = substract_tuples(light.position, point);
+    normalize_tuple(&lightv);
+    ambient = effective_c * material.ambient;
+    light_dot_norm = dot_product(lightv, normal);
+    if (light_dot_norm < 0)
+    {
+        diffuse = 0;
+        specular = 0;
+        return (ambient + diffuse + specular);
+    }
+    diffuse = effective_c * material.diffuse * light_dot_norm;
+    reflectv = reflect(negate_tuple(lightv), normal);
+    reflect_dot_eye = dot_product(reflectv, eyev);
+    if (reflect_dot_eye <= 0)
+        specular = 0;
+    else
+    {
+        factor = pow(reflect_dot_eye , material.shininess);
+        specular = light.intensity * material.specular * factor;
+    }
+	printf("ambient = %lf | diffuse  = %lf | specular = %lf\n", ambient, diffuse, specular);
+	// return ((int)ambient << 16 | (int)diffuse << 8 | (int)specular);
+    return (ambient + diffuse + specular);
 }
 
 double	*intersect(t_ray r)
@@ -199,32 +201,43 @@ void	trim_tuple(t_tuple *tuple)
 
 int	main(void)
 {
-	t_data	img;
+	// t_data		img;
+	// t_object	*obj;
+	// t_light		light;
 
-	img.mlx = mlx_init();
-	img.mlx_win = mlx_new_window(img.mlx, 800, 800, "miniRT");
-	img.img = mlx_new_image(img.mlx, 800, 800);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
-	double **tr;
-	// tr[0][0] = 1.0;
-	// tr[0][1] = 0.0;
-	// tr[0][2] = 0.0;
-	// tr[0][3] = 1.0;
-	// tr[1][0] = 0.0;
-	// tr[1][1] = 1.0;
-	// tr[1][2] = 0.0;
-	// tr[1][3] = 0.0;
-	// tr[2][0] = 0.0;
-	// tr[2][1] = 0.0;
-	// tr[2][2] = 1.0;
-	// tr[2][3] = 0.0;
-	// tr[3][0] = 0.0;
-	// tr[3][1] = 0.0;
-	// tr[3][2] = 0.0;
-	// tr[3][3] = 1.0;
-	tr = rotation_x(3.14 / 4);
-	draw(&img, tr);
-	mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);
-	mlx_hook(img.mlx_win, 02, 0L, key_hook, &img);
-	mlx_loop(img.mlx);
+	// img.mlx = mlx_init();
+	// img.mlx_win = mlx_new_window(img.mlx, 800, 800, "miniRT");
+	// img.img = mlx_new_image(img.mlx, 800, 800);
+	// img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
+	// double **tr;
+	
+	// // tr = matrix_multi(scaling(1, 0.5, 1), rotation_z(3.14/5), 4, 4);
+	// tr = scaling(1, 1, 1);
+	// obj = create_object('s', tr);
+	// obj->m.color = 0xffffff;
+	// obj->m.ambient = 0.10;
+	// obj->m.diffuse = 0.90;
+	// obj->m.specular = 0.90;
+	// obj->m.shininess = 200.0;
+	// light.intensity = 0xffffff;
+	// light.position = create_tuple(-10, 10, -10, 1);
+	// draw(&img, obj, &light);
+	// mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);
+	// mlx_hook(img.mlx_win, 02, 0L, key_hook, &img);
+	// mlx_loop(img.mlx);
+
+	t_light		light;
+	t_material	m;
+
+	m.color = 0xffffff;
+	m.ambient = 0.10;
+	m.diffuse = 0.90;
+	m.specular = 0.90;
+	m.shininess = 200.0;
+	light.intensity = 0xffffff;
+	t_tuple	eyev = create_tuple(0, 0, -1, 0);
+	t_tuple	normalv = create_tuple(0, 0, -1, 0);
+	light.position = create_tuple(0, 0, -10, 1);
+	int	color = lighting(m, light, create_tuple(0, 0, 0, 1), eyev, normalv);
+	printf("%d\n", color);
 }

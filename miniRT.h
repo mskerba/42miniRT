@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/19 13:04:35 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/19 19:15:05 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_object
 {
 	char			type;
 	unsigned int	id;
-	t_material		*m;
+	t_material		m;
 	double			**t;
 }	t_object;
 
@@ -74,8 +74,8 @@ typedef struct s_intersect
 
 typedef struct s_light
 {
-	t_tuple	*position;
-	t_tuple	*intensity;
+	t_tuple	position;
+	double	intensity;
 }			t_light;
 
 
@@ -136,10 +136,12 @@ t_object	*create_object(char type, double **t);
 // ????????
 double	*intersect(t_ray r);
 t_intersect	*create_intersect(double t, char type, double **tr);
-void	draw(t_data *img, double **tr);
+void	draw(t_data *img, t_object *obj, t_light *light);
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 void	trim_tuple(t_tuple *tuple);
-
+t_tuple    reflect(t_tuple lightv, t_tuple normal);
+t_tuple	normal_at(t_object *obj, t_tuple *w_point);
+int    lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal);
 #endif
