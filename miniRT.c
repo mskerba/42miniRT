@@ -6,17 +6,52 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/17 15:48:12 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/19 14:07:51 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
 
-
-double	*intersect(t_ray *r)
+double	lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal)
 {
-	t_tuple	*s_to_r;
+	double	effective_c;
+	double	ambient;
+	double	diffuse;
+	double	specular;
+	double	factor;
+	double	reflect_dot_eye;
+	t_tuple	lightv;
+	t_tuple	light_dot_norm;
+	t_tuple	reflectv;
+
+	effective_c = scalar_multi(light.intensity, material.color);
+	lightv = substract_tuples(light.position, point);
+	normalize_tuple(&lightv);
+	ambient = effective_c * material.ambient;
+	light_dot_norm = dot_product(lightv, normal);
+	if (light_dot_norm < 0)
+	{
+		diffuse = 0;
+		specular = 0;
+		return (ambient + diffuse + specular);
+	}
+	diffuse = effective_c * material.diffuse * light_norm;
+	reflectv = reflect(negate_tuple(lightv), normal);
+	reflect_dot_eye = dot_product(reflectv, eyev);
+	if (reflect_dot_eye <= 0)
+		specular = 0;
+	else
+	{
+		factor = pow(reflect_dot_eye , material.shininess);
+		specular = scalar_multi(light.intensity, material.specular * factor);
+	}
+	return (ambient + diffuse + specular);
+}
+
+double	*intersect(t_ray r)
+{
+	t_tuple	s_to_r;
 	double	a;
 	double	b;
 	double	c;
@@ -25,9 +60,9 @@ double	*intersect(t_ray *r)
 
 	// the vector from the sphere's center, to the ray origin
 	// remember: the sphere is centered at the world origin
-	s_to_r = create_tuple(r->origin->x, r->origin->y, r->origin->z, 0);
-	a = dot_product(r->direction, r->direction);
-	b = 2 * dot_product(r->direction, s_to_r);
+	s_to_r = create_tuple(r.origin->x, r.origin->y, r.origin->z, 0);
+	a = dot_product(*r.direction, *r.direction);
+	b = 2 * dot_product(*r.direction, s_to_r);
 	c = dot_product(s_to_r, s_to_r) - 1;
 	descriminant = pow(b, 2) - (4 * a * c);
 	if (descriminant < 0)
@@ -38,6 +73,34 @@ double	*intersect(t_ray *r)
 	return (inter);
 }
 
+t_tuple	normal_at(t_object *obj, t_tuple *w_point)
+{
+	t_tuple	o_point;
+	t_tuple	o_normal;
+	t_tuple	w_normal;
+	double	**trsp;
+	double	**inv;
+
+	inv = inverse_matrix(obj->t);
+	trsp = transpose_matrix(inv, 4);
+	o_point = matrix_x_tuple(inv, *w_point);
+	o_normal = create_tuple(o_point.x, o_point.y, o_point.z, 0);
+	w_normal = matrix_x_tuple(trsp, o_normal);
+	w_normal.w = 0;
+	normalize_tuple(&w_normal);
+	return (w_normal);
+}
+
+t_tuple	reflect(t_tuple lightv, t_tuple normal)
+{
+	t_tuple	reflect;
+	double	dot;
+
+	dot = 2 * dot_product(lightv, normal);
+	reflect = scalar_multi(normal, dot);
+	reflect = substract_tuples(lightv, reflect);
+	return (reflect);
+}
 
 t_intersect	*create_intersect(double t, char type, double **tr)
 {
@@ -122,7 +185,7 @@ double	**trim_matrix(double **m)
 	return (m);
 }
 
-t_tuple	*trim_tuple(t_tuple *tuple)
+void	trim_tuple(t_tuple *tuple)
 {
 	if (tuple->x <  EPSILON && tuple->x > -EPSILON)
 		tuple->x = 0.0;
@@ -132,7 +195,6 @@ t_tuple	*trim_tuple(t_tuple *tuple)
 		tuple->z = 0.0;
 	if (tuple->w <  EPSILON && tuple->w > -EPSILON)
 		tuple->w = 0.0;
-	return (tuple);
 }
 
 int	main(void)
@@ -143,26 +205,24 @@ int	main(void)
 	img.mlx_win = mlx_new_window(img.mlx, 800, 800, "miniRT");
 	img.img = mlx_new_image(img.mlx, 800, 800);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,&img.endian);
-	double **tr = create_matrix(4, 4);
-	tr[0][0] = 1.0;
-	tr[0][1] = 0.0;
-	tr[0][2] = 0.0;
-	tr[0][3] = 1.0;
-	tr[1][0] = 0.0;
-	tr[1][1] = 1.0;
-	tr[1][2] = 0.0;
-	tr[1][3] = 0.0;
-	tr[2][0] = 0.0;
-	tr[2][1] = 0.0;
-	tr[2][2] = 1.0;
-	tr[2][3] = 0.0;
-	tr[3][0] = 0.0;
-	tr[3][1] = 0.0;
-	tr[3][2] = 0.0;
-	tr[3][3] = 1.0;
-	
-	// tr = inverse_matrix(tr);
-	// tr = trim_matrix(tr);
+	double **tr;
+	// tr[0][0] = 1.0;
+	// tr[0][1] = 0.0;
+	// tr[0][2] = 0.0;
+	// tr[0][3] = 1.0;
+	// tr[1][0] = 0.0;
+	// tr[1][1] = 1.0;
+	// tr[1][2] = 0.0;
+	// tr[1][3] = 0.0;
+	// tr[2][0] = 0.0;
+	// tr[2][1] = 0.0;
+	// tr[2][2] = 1.0;
+	// tr[2][3] = 0.0;
+	// tr[3][0] = 0.0;
+	// tr[3][1] = 0.0;
+	// tr[3][2] = 0.0;
+	// tr[3][3] = 1.0;
+	tr = rotation_x(3.14 / 4);
 	draw(&img, tr);
 	mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);
 	mlx_hook(img.mlx_win, 02, 0L, key_hook, &img);

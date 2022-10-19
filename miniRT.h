@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/17 15:48:25 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/19 13:04:35 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,15 @@ typedef struct s_data
 	void	*mlx_win;
 }				t_data;
 
+typedef struct s_material
+{
+	int		color;
+	double	ambient;
+	double	diffuse;
+	double	specular;
+	double	shininess;
+}			t_material;
+
 typedef struct s_tuple
 {
 	double	x;
@@ -52,6 +61,7 @@ typedef struct s_object
 {
 	char			type;
 	unsigned int	id;
+	t_material		*m;
 	double			**t;
 }	t_object;
 
@@ -62,18 +72,25 @@ typedef struct s_intersect
 	struct s_intersect	*next;
 }	t_intersect;
 
+typedef struct s_light
+{
+	t_tuple	*position;
+	t_tuple	*intensity;
+}			t_light;
+
+
 /* ************************************************************************** */
 /*                                 tuples.c                                   */
 /* ************************************************************************** */
-t_tuple		*create_tuple(double x, double y, double z, double w);
-t_tuple		*scalar_multi(t_tuple *tpl, double scalar);
-t_tuple		*substract_tuples(t_tuple *a, t_tuple *b);
-t_tuple		*cross_product(t_tuple *a, t_tuple *b);
-double		dot_product(t_tuple *a, t_tuple *b);
-t_tuple		*add_tuples(t_tuple *a, t_tuple *b);
+t_tuple		create_tuple(double x, double y, double z, double w);
+t_tuple		scalar_multi(t_tuple tpl, double scalar);
+t_tuple		substract_tuples(t_tuple a, t_tuple b);
+t_tuple		cross_product(t_tuple a, t_tuple b);
+double		dot_product(t_tuple a, t_tuple b);
+t_tuple		add_tuples(t_tuple a, t_tuple b);
 void		normalize_tuple(t_tuple *tuple);
-t_tuple		*negate_tuple(t_tuple *tpl);
-double		magnitude(t_tuple *tuple);
+t_tuple		negate_tuple(t_tuple tpl);
+double		magnitude(t_tuple tuple);
 void		display_tuple(t_tuple *t);
 
 /* ************************************************************************** */
@@ -84,7 +101,7 @@ double		**trim_matrix(double **m);
 double		**inverse_matrix(double **m);
 void		clear_matrix(double **m, int r);
 double		**create_matrix(int rows, int columns);
-t_tuple		*matrix_x_tuple(double **m, t_tuple *t);
+t_tuple		matrix_x_tuple(double **m, t_tuple t);
 double		**transpose_matrix(double **m, int size);
 double		determinant(double **m, double **cofactors);
 double		determinant(double **m, double **cofactors);
@@ -107,8 +124,8 @@ double		**rotation_z(double r);
 /*                                 rays.c                                     */
 /* ************************************************************************** */
 t_intersect	*hit(t_intersect *head);
-t_tuple		*position(t_ray *ray, double t);
-t_ray		*create_ray(t_tuple *origin, t_tuple *direction);
+t_tuple		position(t_ray ray, double t);
+t_ray		create_ray(t_tuple *origin, t_tuple *direction);
 
 /* ************************************************************************** */
 /*                                 objects.c                                  */
@@ -117,12 +134,12 @@ t_object	*create_object(char type, double **t);
 
 
 // ????????
-double	*intersect(t_ray *r);
+double	*intersect(t_ray r);
 t_intersect	*create_intersect(double t, char type, double **tr);
 void	draw(t_data *img, double **tr);
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
-t_tuple	*trim_tuple(t_tuple *tuple);
+void	trim_tuple(t_tuple *tuple);
 
 #endif

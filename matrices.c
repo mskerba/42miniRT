@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:01:13 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/17 15:44:23 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/19 09:23:09 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,14 @@ double	**matrix_multi(double **a, double **b, int rows, int columns)
 	return (m);
 }
 
-t_tuple	*matrix_x_tuple(double **m, t_tuple *t)
+t_tuple	matrix_x_tuple(double **m, t_tuple t)
 {
-	t_tuple	*tuple;
-	tuple = malloc(sizeof(t_tuple));
-	if (!tuple)
-		return (tuple);
-	tuple->x = (m[0][0] * t->x) + (m[0][1] * t->y) + (m[0][2] * t->z) + (m[0][3] * t->w);
-	tuple->y = (m[1][0] * t->x) + (m[1][1] * t->y) + (m[1][2] * t->z) + (m[1][3] * t->w);
-	tuple->z = (m[2][0] * t->x) + (m[2][1] * t->y) + (m[2][2] * t->z) + (m[2][3] * t->w);
-	tuple->w = (m[3][0] * t->x) + (m[3][1] * t->y) + (m[3][2] * t->z) + (m[3][3] * t->w);
+	t_tuple	tuple;
+	
+	tuple.x = (m[0][0] * t.x) + (m[0][1] * t.y) + (m[0][2] * t.z) + (m[0][3] * t.w);
+	tuple.y = (m[1][0] * t.x) + (m[1][1] * t.y) + (m[1][2] * t.z) + (m[1][3] * t.w);
+	tuple.z = (m[2][0] * t.x) + (m[2][1] * t.y) + (m[2][2] * t.z) + (m[2][3] * t.w);
+	tuple.w = (m[3][0] * t.x) + (m[3][1] * t.y) + (m[3][2] * t.z) + (m[3][3] * t.w);
 	return (tuple);
 }
 
@@ -181,6 +179,7 @@ double	**inverse_matrix(double **m)
 		while (++j < 4)
 			inverse[j][i] = cof[i][j] / det;
 	}
+	clear_matrix(cof, 4);
 	return (inverse);
 }
 
