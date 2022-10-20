@@ -6,47 +6,40 @@
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/19 21:55:32 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/20 15:25:00 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
 
-double    lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal)
+t_tuple    lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal)
 {
-    double   effective_c;
-    double   ambient;
-    double   diffuse;
-    double   specular;
+    t_tuple   effective_c;
+    t_tuple   ambient;
+    t_tuple   diffuse;
+    t_tuple   specular;
     double    factor;
     double    reflect_dot_eye;
     double    light_dot_norm;
     t_tuple   lightv;
     t_tuple   reflectv;
 
-    effective_c =  dot_product(material.color, light.intensity);
+    effective_c = create_tuple(light.intensity.x * material.color.x, light.intensity.y * material.color.y, light.intensity.z * material.color.z, 0);
     lightv = substract_tuples(light.position, point);
     normalize_tuple(&lightv);
-    ambient = effective_c * material.ambient;
+    ambient = scalar_multi(effective_c, material.ambient);
     light_dot_norm = dot_product(lightv, normal);
     if (light_dot_norm < 0)
-    {
-        diffuse = 0;
-        specular = 0;
-        return (ambient + diffuse + specular);
-    }
-    diffuse = effective_c * material.diffuse * light_dot_norm;
+        return (ambient);
+    diffuse = scalar_multi(effective_c, material.diffuse * light_dot_norm);
     reflectv = reflect(negate_tuple(lightv), normal);
     reflect_dot_eye = dot_product(reflectv, eyev);
     if (reflect_dot_eye <= 0)
-        specular = 0;
-    else
-    {
-        factor = pow(reflect_dot_eye , material.shininess);
-        specular = ((int)light.intensity.x << 16 | (int)light.intensity.y << 8 | (int)light.intensity.z) * material.specular * factor;
-    }
-	return (ambient + diffuse + specular);
+        return (add_tuples(ambient, diffuse));
+    factor = pow(reflect_dot_eye , material.shininess);
+    specular = scalar_multi(light.intensity, material.specular * factor);
+	return (add_tuples(ambient, add_tuples(diffuse, specular)));
 }
 
 double	*intersect(t_ray r)
@@ -210,14 +203,14 @@ int	main(void)
 	double **tr;
 	
 	// tr = matrix_multi(scaling(1, 0.5, 1), rotation_z(3.14/5), 4, 4);
-	tr = scaling(1, 1, 1);
+	tr =  scaling(1, 1, 1);
 	obj = create_object('s', tr);
-	obj->m.color = create_tuple(1, 1, 1, 0);
-	obj->m.ambient = 0.10;
+	obj->m.color = create_tuple(1, 0.2, 1,1);
+	obj->m.ambient = 0.1;
 	obj->m.diffuse = 0.90;
-	obj->m.specular = 0.90;
-	obj->m.shininess = 200.0;
-	light.intensity = create_tuple(1, 1, 1, 0);
+	obj->m.specular = 0.01;
+	obj->m.shininess = 10.0;
+	light.intensity = create_tuple(1.0, 1.0, 1.0, 1);
 	light.position = create_tuple(-10, 10, -10, 1);
 	draw(&img, obj, &light);
 	mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);

@@ -9,8 +9,21 @@ double	min(double a, double b)
 }
 
 
+int get_color(t_tuple color)
+{
+	int	r;
+	int	g;
+	int	b;
+
+	r = (color.x * 255);
+	g = (color.y * 255);
+	b = (color.z * 255);
+	return (r << 16 | g << 8 | b);
+}
+
 void	draw(t_data *img, t_object *obj, t_light *light)
 {
+	(void)img;
 	double		i;
 	double		j;
 	double		x;
@@ -24,7 +37,8 @@ void	draw(t_data *img, t_object *obj, t_light *light)
 	double		**tr;
 	t_tuple		normal;
 	t_tuple		point;
-	int			color;
+	t_tuple		light_ing;
+	double			color;
 	
 	i = -1;
 	tr = inverse_matrix(obj->t);
@@ -48,7 +62,10 @@ void	draw(t_data *img, t_object *obj, t_light *light)
 			{
 				point = position(r, min(inter[0], inter[1]));
 				normal = normal_at(obj, &point);
-				color = lighting(obj->m, *light, point, negate_tuple(*r.direction), normal);
+				light_ing = lighting(obj->m, *light, point, negate_tuple(*r.direction), normal);
+				// display_tuple(&light_ing);
+				color = get_color(light_ing);
+				// printf("%d\n",color);
 				my_mlx_pixel_put(img, j, i, color);
 				free(inter);
 			}
