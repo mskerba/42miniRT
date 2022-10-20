@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/19 19:15:05 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/19 21:46:59 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,6 @@ typedef struct s_data
 	void	*mlx_win;
 }				t_data;
 
-typedef struct s_material
-{
-	int		color;
-	double	ambient;
-	double	diffuse;
-	double	specular;
-	double	shininess;
-}			t_material;
-
 typedef struct s_tuple
 {
 	double	x;
@@ -50,6 +41,15 @@ typedef struct s_tuple
 	double	z;
 	double	w;
 }			t_tuple;
+
+typedef struct s_material
+{
+	t_tuple	color;
+	double	ambient;
+	double	diffuse;
+	double	specular;
+	double	shininess;
+}			t_material;
 
 typedef struct s_ray
 {
@@ -75,7 +75,7 @@ typedef struct s_intersect
 typedef struct s_light
 {
 	t_tuple	position;
-	double	intensity;
+	t_tuple	intensity;
 }			t_light;
 
 
@@ -143,5 +143,5 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void	trim_tuple(t_tuple *tuple);
 t_tuple    reflect(t_tuple lightv, t_tuple normal);
 t_tuple	normal_at(t_object *obj, t_tuple *w_point);
-int    lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal);
+double    lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal);
 #endif
