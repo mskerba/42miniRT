@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/20 17:37:42 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/20 17:50:07 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ t_tuple	normal_at(t_object *obj, t_tuple *w_point)
 	o_point = matrix_x_tuple(inv, *w_point);
 	o_normal = create_tuple(o_point.x, o_point.y, o_point.z, 0);
 	w_normal = matrix_x_tuple(trsp, o_normal);
+	clear_matrix(inv, 4);
+	clear_matrix(trsp, 4);
 	w_normal.w = 0;
 	normalize_tuple(&w_normal);
 	return (w_normal);
