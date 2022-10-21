@@ -6,7 +6,7 @@
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/20 13:25:08 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/21 12:20:29 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,28 @@ typedef struct s_intersect
 	struct s_intersect	*next;
 }	t_intersect;
 
+typedef struct s_comp
+{
+	double			t;
+	bool			inside;
+	t_tuple			point;
+	t_tuple			eyev;
+	t_tuple			normalv;
+	t_object		*object;
+}	t_comp;
+
 typedef struct s_light
 {
 	t_tuple	position;
 	t_tuple	intensity;
 }			t_light;
 
+typedef struct s_word
+{
+	t_light			light;
+	t_object		*object;
+	struct s_word	*next;
+}	t_word;
 
 /* ************************************************************************** */
 /*                                 tuples.c                                   */
@@ -144,4 +160,5 @@ void	trim_tuple(t_tuple *tuple);
 t_tuple    reflect(t_tuple lightv, t_tuple normal);
 t_tuple	normal_at(t_object *obj, t_tuple *w_point);
 t_tuple    lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal);
+t_comp	prepare_computations(t_intersect intersection, t_ray ray);
 #endif

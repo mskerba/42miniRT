@@ -3,15 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/20 17:50:07 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/21 12:17:34 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
+t_comp	prepare_computations(t_intersect intersection, t_ray ray)
+{
+	t_comp comps;
+
+	comps.t = intersection.t;	
+	comps.object = intersection.object;
+	comps.point = position(ray, intersection.t);
+	comps.eyev = negate_tuple(*ray.direction);
+	comps.normalv = normal_at(comps.object, &comps.point);
+	if (dot_product(comps.normalv, comps.eyev) < 0)
+	{
+		comps.inside = true;
+		comps.normalv = negate_tuple(comps.normalv);
+	}
+	else
+		comps.inside = false;
+	trim_tuple(&comps.normalv);
+	trim_tuple(&comps.eyev);
+	return (comps);
+}
+
+t_tuple shade_hit (t_word word, t_comp comps)
+{
+	return (lighting(comps.obj.m, world.light, comps.point, comps.eyev, comps.normalv));
+}
 
 t_tuple    lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal)
 {
@@ -212,10 +237,10 @@ int	main(void)
 	obj->m.color = create_tuple(1.0, 0.2, 1,1);
 	obj->m.ambient = 0.0;
 	obj->m.diffuse = 1;
-	obj->m.specular = 1;
+	obj->m.specular = 0.1;
 	obj->m.shininess = 10.0;
 	light.intensity = create_tuple(1.0, 1.0, 1.0, 1.0);
-	light.position = create_tuple(10.0, 10.0, -10.0, 1.0);
+	light.position = create_tuple(-10.0, 10.0, -10.0, 1.0);
 	draw(&img, obj, &light);
 	mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);
 	mlx_hook(img.mlx_win, 02, 0L, key_hook, &img);
@@ -223,7 +248,7 @@ int	main(void)
 
 	// t_light		light;
 	// t_material	m;
-
+// 
 	// m.color = create_tuple(1, 1, 1, 0);
 	// m.ambient = 0.10;
 	// m.diffuse = 0.90;

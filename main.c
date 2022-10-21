@@ -44,7 +44,7 @@ void	draw(t_data *img, t_object *obj, t_light *light)
 	t_tuple		normal;
 	t_tuple		point;
 	t_tuple		light_ing;
-	double			color;
+	double		color;
 	
 	i = -1;
 	tr = inverse_matrix(obj->t);
@@ -68,7 +68,6 @@ void	draw(t_data *img, t_object *obj, t_light *light)
 			{
 				point = position(r, min(inter[0], inter[1]));
 				normal = normal_at(obj, &point);
-				system("leaks miniRT");
 				light_ing = lighting(obj->m, *light, point, negate_tuple(*r.direction), normal);
 				color = get_color(light_ing);
 				my_mlx_pixel_put(img, j, i, color);
