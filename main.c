@@ -28,47 +28,37 @@ int get_color(t_tuple color)
 	return (r << 16 | g << 8 | b);
 }
 
-void	draw(t_data *img, t_object *obj, t_light *light)
+void	draw(t_data *img, t_world *world)
 {
 	double		i;
 	double		j;
 	double		x;
 	double		y;
-	double		*inter;
-	double		scale = 7.0 / 800.0;
+	double		scale = 70.0 / 800.0;
 	t_tuple		pos;
 	t_tuple		origin = create_tuple(0.0, 0.0, -5.0, 1.0);
-	t_tuple		direc;
-	t_ray		r;
-	double		**tr;
 	t_tuple		normal;
 	t_tuple		point;
 	t_tuple		light_ing;
 	double		color;
+	t_intersect	*inter;
 	
 	i = -1;
-	tr = inverse_matrix(obj->t);
-	tr = trim_matrix(tr);
-	origin = matrix_x_tuple(tr, origin);
-	r = create_ray(&origin, NULL);
+	
 	while (++i < 800)
 	{
-		y = 3.50 - (i * scale);
+		y = 35.0 - (i * scale);
 		j = -1;
 		while (++j < 800)
 		{
-			x = -3.50 + (j * scale);
-			pos = create_tuple(x, y, 10.0, 1.0);
-			direc = substract_tuples(pos, origin);
-			direc = matrix_x_tuple(tr, direc);
-			normalize_tuple(&direc);
-			r.direction = &direc;
-			inter = intersect(r);
-			if (inter)
+			x = -35.0 + (j * scale);
+			pos = create_tuple(x, y, 50.0, 1.0);
+			inter = intersect_world(world, origin, create_tuple(x, y, 50.0, 1.0));
+			if (hit(inter))
 			{
-				point = position(r, min(inter[0], inter[1]));
-				normal = normal_at(obj, &point);
-				light_ing = lighting(obj->m, *light, point, negate_tuple(*r.direction), normal);
+				point = position(inter->r, inter->t);
+				normal = normal_at(inter->object, &point);
+				light_ing = lighting(inter->object->m, world->light, point, negate_tuple(inter->r.direction), normal);
 				color = get_color(light_ing);
 				my_mlx_pixel_put(img, j, i, color);
 				free(inter);
@@ -77,5 +67,4 @@ void	draw(t_data *img, t_object *obj, t_light *light)
 				my_mlx_pixel_put(img, j, i, 0);
 		}
 	}
-	clear_matrix(tr, 4);
 }

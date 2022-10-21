@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/21 12:20:29 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/21 17:57:46 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,23 @@ typedef struct s_material
 
 typedef struct s_ray
 {
-	t_tuple	*origin;
-	t_tuple	*direction;
+	t_tuple	origin;
+	t_tuple	direction;
 }				t_ray;
 
 typedef struct s_object
 {
-	char			type;
-	unsigned int	id;
-	t_material		m;
-	double			**t;
+	unsigned int		id;
+	char				type;
+	t_material			m;
+	double				**t;
+	struct	s_object	*next;
 }	t_object;
 
 typedef struct s_intersect
 {
 	double				t;
+	t_ray				r;
 	t_object			*object;
 	struct s_intersect	*next;
 }	t_intersect;
@@ -88,12 +90,11 @@ typedef struct s_light
 	t_tuple	intensity;
 }			t_light;
 
-typedef struct s_word
+typedef struct s_world
 {
-	t_light			light;
-	t_object		*object;
-	struct s_word	*next;
-}	t_word;
+	t_light		light;
+	t_object	*objects;
+}	t_world;
 
 /* ************************************************************************** */
 /*                                 tuples.c                                   */
@@ -141,7 +142,7 @@ double		**rotation_z(double r);
 /* ************************************************************************** */
 t_intersect	*hit(t_intersect *head);
 t_tuple		position(t_ray ray, double t);
-t_ray		create_ray(t_tuple *origin, t_tuple *direction);
+t_ray		create_ray(t_tuple origin, t_tuple direction);
 
 /* ************************************************************************** */
 /*                                 objects.c                                  */
@@ -150,15 +151,19 @@ t_object	*create_object(char type, double **t);
 
 
 // ????????
-double	*intersect(t_ray r);
-t_intersect	*create_intersect(double t, char type, double **tr);
-void	draw(t_data *img, t_object *obj, t_light *light);
+double		*intersect(t_ray r);
+void		intersections(t_intersect **head, t_object *obj, t_ray r, double t);
+t_intersect	*create_intersect(double t, t_object *obj, t_ray r);
+void		draw(t_data *img, t_world *world);
+t_intersect	*intersect_world(t_world *world, t_tuple origin, t_tuple p);
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-int get_color(t_tuple color);
-void	trim_tuple(t_tuple *tuple);
-t_tuple    reflect(t_tuple lightv, t_tuple normal);
-t_tuple	normal_at(t_object *obj, t_tuple *w_point);
-t_tuple    lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal);
-t_comp	prepare_computations(t_intersect intersection, t_ray ray);
+bool	compare(double a, double b);
+
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+int 		get_color(t_tuple color);
+void		trim_tuple(t_tuple *tuple);
+t_tuple		reflect(t_tuple lightv, t_tuple normal);
+t_tuple		normal_at(t_object *obj, t_tuple *w_point);
+t_tuple		lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal);
+t_comp		prepare_computations(t_intersect intersection, t_ray ray);
 #endif

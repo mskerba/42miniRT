@@ -2,7 +2,7 @@ NAME = miniRT
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 
 MLX_FLAGS = /usr/local/lib/ -lmlx -framework OpenGL -framework Appkit
 
