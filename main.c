@@ -35,7 +35,6 @@ void	draw(t_data *img, t_world *world)
 	double		x;
 	double		y;
 	double		scale = 70.0 / 800.0;
-	t_tuple		pos;
 	t_tuple		origin = create_tuple(0.0, 0.0, -5.0, 1.0);
 	t_tuple		normal;
 	t_tuple		point;
@@ -52,7 +51,6 @@ void	draw(t_data *img, t_world *world)
 		while (++j < 800)
 		{
 			x = -35.0 + (j * scale);
-			pos = create_tuple(x, y, 50.0, 1.0);
 			inter = intersect_world(world, origin, create_tuple(x, y, 50.0, 1.0));
 			if (hit(inter))
 			{
