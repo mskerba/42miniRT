@@ -6,7 +6,7 @@
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/22 10:49:22 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/22 10:59:13 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,14 @@ t_comp	prepare_computations(t_intersect intersection, t_ray ray)
 
 t_tuple	shade_hit(t_world world, t_comp comps)
 {
-	return (lighting(comps.obj->m, world.light, comps.point, comps.eyev,
-			comps.normalv));
+	t_tuple	*p;
+	t_tuple	*ev;
+	t_tuple	*nv;
+
+	p = &comps.point;
+	ev = &comps.eyev;
+	nv = &comps.normalv;
+	return (lighting(comps.obj->m, world.light, *p, *ev, *nv));
 }
 
 t_tuple	lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal)

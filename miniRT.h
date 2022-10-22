@@ -6,7 +6,7 @@
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/22 10:48:41 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/22 11:00:34 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,7 @@ t_intersect	*create_intersect(double t, t_object *obj, t_ray r);
 void		draw(t_data *img, t_world *world);
 t_intersect	*intersect_world(t_world *world, t_tuple origin, t_tuple p);
 
-bool	compare(double a, double b);
-
+bool		compare(double a, double b);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int 		get_color(t_tuple color);
 void		trim_tuple(t_tuple *tuple);
