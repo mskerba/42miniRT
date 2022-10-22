@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/22 10:59:13 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/22 13:04:25 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_tuple	shade_hit(t_world world, t_comp comps)
 
 t_tuple	lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal)
 {
+	normalize_tuple(&eyev);
 	t_tuple	effective_c;
 	t_tuple	ambient;
 	t_tuple	diffuse;
@@ -82,17 +83,14 @@ t_intersect	*intersect_world(t_world *world, t_tuple origin, t_tuple p)
 	t_intersect	*inter = NULL;
 	t_object	*obj;
 	double		*t;
-	double		**trans;
 	t_ray		r;
 
 	obj = world->objects;
 	while (obj)
 	{
-		trans = inverse_matrix(obj->t);
-		trans = trim_matrix(trans);
-		r.origin = matrix_x_tuple(trans, origin);
+		r.origin = matrix_x_tuple(obj->inv, origin);
 		r.direction = substract_tuples(p, origin);
-		r.direction = matrix_x_tuple(trans, r.direction);
+		r.direction = matrix_x_tuple(obj->inv, r.direction);
 		normalize_tuple(&r.direction);
 		t = intersect(r);
 		if (t)
@@ -103,7 +101,6 @@ t_intersect	*intersect_world(t_world *world, t_tuple origin, t_tuple p)
 			free(t);
 		}
 		obj = obj->next;
-		clear_matrix(trans, 4);
 	}
 	return (inter);
 }
@@ -137,16 +134,10 @@ t_tuple	normal_at(t_object *obj, t_tuple *w_point)
 	t_tuple	o_point;
 	t_tuple	o_normal;
 	t_tuple	w_normal;
-	double	**trsp;
-	double	**inv;
-
-	inv = inverse_matrix(obj->t);
-	trsp = transpose_matrix(inv, 4);
-	o_point = matrix_x_tuple(inv, *w_point);
+	
+	o_point = matrix_x_tuple(obj->inv, *w_point);
 	o_normal = create_tuple(o_point.x, o_point.y, o_point.z, 0);
-	w_normal = matrix_x_tuple(trsp, o_normal);
-	clear_matrix(inv, 4);
-	clear_matrix(trsp, 4);
+	w_normal = matrix_x_tuple(obj->transp, o_normal);
 	w_normal.w = 0;
 	normalize_tuple(&w_normal);
 	return (w_normal);
@@ -275,7 +266,6 @@ int	main(void)
 {
 	t_data		img;
 	t_light		light;
-	double		**tr;
 	t_world		world;
 
 	img.mlx = mlx_init();
@@ -283,30 +273,43 @@ int	main(void)
 	img.img = mlx_new_image(img.mlx, 800, 800);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
-	tr = scaling(1, 1, 1);
 	light.intensity = create_tuple(1.0, 1.0, 1.0, 1.0);
-	light.position = create_tuple(0.0, 20.0, -20.0, 1.0);
+	light.position = create_tuple(20.0, 0.0, -20.0, 1.0);
 	world.light = light;
 	world.objects = NULL;
+	
 	add_object(&world.objects, 's', scaling(1, 1, 1));
-	world.objects->m.color = create_tuple(1.0, 0.2, 1, 1);
+	world.objects->inv = inverse_matrix(world.objects->t);
+	world.objects->inv = trim_matrix(world.objects->inv);
+	world.objects->transp = transpose_matrix(world.objects->inv, 4);
+	world.objects->m.color = create_tuple(1.0, 0.0, 1, 1);
 	world.objects->m.ambient = 0.0;
 	world.objects->m.diffuse = 1;
 	world.objects->m.specular = 1;
-	world.objects->m.shininess = 10.0;
-	// create another object
-	add_object(&world.objects, 's', translation(1.0, 1.0, 1.0));
+	world.objects->m.shininess = 20.0;
+	//
+	add_object(&world.objects, 's', translation(3.0, 0.0, 0.0));
+	world.objects->inv = inverse_matrix(world.objects->t);
+	world.objects->inv = trim_matrix(world.objects->inv);
+	world.objects->transp = transpose_matrix(world.objects->inv, 4);
 	world.objects->m.color = create_tuple(1.0, 1, 0.0, 1);
 	world.objects->m.ambient = 0.0;
 	world.objects->m.diffuse = 1;
 	world.objects->m.specular = 1;
 	world.objects->m.shininess = 10.0;
-	add_object(&world.objects, 's', translation(-1.0, -1.0, -1.0));
-	world.objects->m.color = create_tuple(1.0, 0.0, 1, 1);
+	//
+
+
+	add_object(&world.objects, 's', translation(-2.0, 0.0, 0.0));
+	world.objects->inv = inverse_matrix(world.objects->t);
+	world.objects->inv = trim_matrix(world.objects->inv);
+	world.objects->transp = transpose_matrix(world.objects->inv, 4);
+	world.objects->m.color = create_tuple(1.0, 0.2, 1, 1);
 	world.objects->m.ambient = 0.0;
 	world.objects->m.diffuse = 1;
 	world.objects->m.specular = 1;
 	world.objects->m.shininess = 10.0;
+
 	draw(&img, &world);
 	mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);
 	mlx_hook(img.mlx_win, 02, 0L, key_hook, &img);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/22 11:00:34 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/22 12:49:17 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ typedef struct s_object
 	char				type;
 	t_material			m;
 	double				**t;
+	double				**inv;
+	double				**transp;
 	struct	s_object	*next;
 }	t_object;
 

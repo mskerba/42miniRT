@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:52 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/16 21:23:41 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/22 11:21:54 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,8 @@
 double	**translation(double x, double y, double z)
 {
 	double	**matrix;
-	int		i;
-	int		j;
 
-	matrix = create_matrix(4, 4);
-	i = -1;
-	while (++i < 4)
-	{
-		j = -1;
-		while (++j < 4)
-		{
-			if (j == i)
-				matrix[i][j] = 1;
-			else
-				matrix[i][j] = 0;
-		}
-	}
+	matrix = scaling(1, 1, 1);
 	matrix[0][3] = x;
 	matrix[1][3] = y;
 	matrix[2][3] = z;
