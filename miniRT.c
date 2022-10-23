@@ -6,22 +6,22 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/23 10:41:50 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/23 11:50:14 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-t_comp	prepare_computations(t_intersect intersection, t_ray ray)
+t_comp	prepare_computations(t_intersect *intersecs, t_ray *r)
 {
 	t_comp	comps;
 
-	comps.t = intersection.t;
-	comps.obj = intersection.object;
-	comps.point = position(ray, intersection.t);
-	comps.eyev = negate_tuple(ray.direction);
+	comps.t = intersecs->t;
+	comps.obj = intersecs->object;
+	comps.point = position(*r, comps.t);
+	comps.eyev = negate_tuple(r->direction);
 	comps.normalv = normal_at(comps.obj, &comps.point);
-	if (dot_product(comps.normalv, comps.eyev) < 0)
+	if (compare(dot_product(comps.normalv, comps.eyev), 0))
 	{
 		comps.inside = true;
 		comps.normalv = negate_tuple(comps.normalv);
@@ -33,7 +33,7 @@ t_comp	prepare_computations(t_intersect intersection, t_ray ray)
 	return (comps);
 }
 
-t_tuple	shade_hit(t_world world, t_comp comps)
+t_tuple	shade_hit(t_world *world, t_comp comps)
 {
 	t_tuple	*p;
 	t_tuple	*ev;
@@ -42,7 +42,7 @@ t_tuple	shade_hit(t_world world, t_comp comps)
 	p = &comps.point;
 	ev = &comps.eyev;
 	nv = &comps.normalv;
-	return (lighting(comps.obj->m, world.light, *p, *ev, *nv));
+	return (lighting(comps.obj->m, world->light, *p, *ev, *nv));
 }
 
 t_tuple	lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal)
