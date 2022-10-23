@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/22 12:49:17 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/23 10:40:32 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ typedef struct s_object
 typedef struct s_intersect
 {
 	double				t;
-	t_ray				r;
 	t_object			*object;
 	struct s_intersect	*next;
 }	t_intersect;
@@ -154,10 +153,10 @@ t_object	*create_object(char type, double **t);
 
 // ????????
 double		*intersect(t_ray r);
-void		intersections(t_intersect **head, t_object *obj, t_ray r, double t);
-t_intersect	*create_intersect(double t, t_object *obj, t_ray r);
+void		intersections(t_intersect **head, t_object *obj, double t);
+t_intersect	*create_intersect(double t, t_object *obj);
 void		draw(t_data *img, t_world *world);
-t_intersect	*intersect_world(t_world *world, t_tuple origin, t_tuple p);
+t_intersect	*intersect_world(t_world *world, t_ray r);
 
 bool		compare(double a, double b);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);

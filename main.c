@@ -41,6 +41,7 @@ void	draw(t_data *img, t_world *world)
 	t_tuple		light_ing;
 	double		color;
 	t_intersect	*inter;
+	t_ray		r;
 	
 	i = -1;
 	
@@ -51,12 +52,15 @@ void	draw(t_data *img, t_world *world)
 		while (++j < 800)
 		{
 			x = -35.0 + (j * scale);
-			inter = intersect_world(world, origin, create_tuple(x, y, 50.0, 1.0));
+			r.origin = origin;
+			r.direction = substract_tuples(create_tuple(x, y, 50.0, 1.0), origin);
+			normalize_tuple(&r.direction);
+			inter = intersect_world(world, r);
 			if (hit(inter))
 			{
-				point = position(inter->r, inter->t);
+				point = position(r, inter->t);
 				normal = normal_at(inter->object, &point);
-				light_ing = lighting(inter->object->m, world->light, point, negate_tuple(inter->r.direction), normal);
+				light_ing = lighting(inter->object->m, world->light, point, negate_tuple(r.direction), normal);
 				color = get_color(light_ing);
 				my_mlx_pixel_put(img, j, i, color);
 				free(inter);
