@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/23 12:20:08 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/23 12:55:39 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,8 +268,7 @@ int	main(void)
 	img.mlx = mlx_init();
 	img.mlx_win = mlx_new_window(img.mlx, 1000, 1000, "miniRT");
 	img.img = mlx_new_image(img.mlx, 1000, 1000);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-			&img.endian);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	light.intensity = create_tuple(1.0, 1.0, 1.0, 1.0);
 	light.position = create_tuple(0.0, 0.0, -20.0, 1.0);
 	world.light = light;
