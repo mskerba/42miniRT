@@ -6,7 +6,7 @@
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/23 13:01:30 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/23 13:04:54 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,6 @@ double	**view_transform(t_tuple from, t_tuple to, t_tuple up)
 	orint[1][2] = true_up.z;
 	orint[2][0] = -forward.x;
 	orint[2][1] = -forward.y;
-	display_tuple(&left);
-	printf("\n");
-	display_tuple(&true_up);
-	printf("\n");
-	display_tuple(&forward);
-	printf("\n");
-	// orint = trim_matrix(orint);
 	tr = translation(-forward.x, -forward.y, -forward.z);
 	orint = matrix_multi(orint, tr, 4, 4);
 	return (orint);
@@ -293,62 +286,55 @@ void	add_object(t_object **obj, char type, double **t)
 
 int	main(void)
 {
-	t_tuple	from = create_tuple(1.0, 3.0, 2.0, 1);
-	t_tuple	to = create_tuple(4.0, -2.0, 8.0, 1);
-	t_tuple	up = create_tuple(1.0, 1.0, 0.0, 0);
-	double **tr;
+	t_data		img;
+	t_light		light;
+	t_world		world;
 
-	tr = view_transform(from, to, up);
-	display_matrix(tr, 4, 4);
-	// t_data		img;
-	// t_light		light;
-	// t_world		world;
-
-	// img.mlx = mlx_init();
-	// img.mlx_win = mlx_new_window(img.mlx, 1000, 1000, "miniRT");
-	// img.img = mlx_new_image(img.mlx, 1000, 1000);
-	// img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-			// &img.endian);
-	// light.intensity = create_tuple(1.0, 1.0, 1.0, 1.0);
-	// light.position = create_tuple(0.0, 0.0, -20.0, 1.0);
-	// world.light = light;
-	// world.objects = NULL;
+	img.mlx = mlx_init();
+	img.mlx_win = mlx_new_window(img.mlx, 1000, 1000, "miniRT");
+	img.img = mlx_new_image(img.mlx, 1000, 1000);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
+			&img.endian);
+	light.intensity = create_tuple(1.0, 1.0, 1.0, 1.0);
+	light.position = create_tuple(0.0, 0.0, -20.0, 1.0);
+	world.light = light;
+	world.objects = NULL;
 	
-	// add_object(&world.objects, 's', scaling(1.0, 0.50, 1.0));
-	// world.objects->t = matrix_multi(translation(1.0, 1.0, 1.0), world.objects->t, 4, 4);
-	// world.objects->inv = inverse_matrix(world.objects->t);
-	// world.objects->inv = trim_matrix(world.objects->inv);
-	// world.objects->transp = transpose_matrix(world.objects->inv, 4);
-	// world.objects->m.color = create_tuple(1.0, 0.0, 1, 1);
-	// world.objects->m.ambient = 0.1;
-	// world.objects->m.diffuse = 0.9;
-	// world.objects->m.specular = 0.9;
-	// world.objects->m.shininess = 200.0;
-	//
-	// add_object(&world.objects, 's', translation(3.0, 0.0, 0.0));
-	// world.objects->inv = inverse_matrix(world.objects->t);
-	// world.objects->inv = trim_matrix(world.objects->inv);
-	// world.objects->transp = transpose_matrix(world.objects->inv, 4);
-	// world.objects->m.color = create_tuple(1.0, 1, 0.0, 1);
-	// world.objects->m.ambient = 0.1;
-	// world.objects->m.diffuse = 0.9;
-	// world.objects->m.specular = 0.9;
-	// world.objects->m.shininess = 200.0;
-	//
+	add_object(&world.objects, 's', scaling(1.0, 0.50, 1.0));
+	world.objects->t = matrix_multi(translation(1.0, 1.0, 1.0), world.objects->t, 4, 4);
+	world.objects->inv = inverse_matrix(world.objects->t);
+	world.objects->inv = trim_matrix(world.objects->inv);
+	world.objects->transp = transpose_matrix(world.objects->inv, 4);
+	world.objects->m.color = create_tuple(1.0, 0.0, 1, 1);
+	world.objects->m.ambient = 0.1;
+	world.objects->m.diffuse = 0.9;
+	world.objects->m.specular = 0.9;
+	world.objects->m.shininess = 200.0;
+	
+	add_object(&world.objects, 's', translation(3.0, 0.0, 0.0));
+	world.objects->inv = inverse_matrix(world.objects->t);
+	world.objects->inv = trim_matrix(world.objects->inv);
+	world.objects->transp = transpose_matrix(world.objects->inv, 4);
+	world.objects->m.color = create_tuple(1.0, 1, 0.0, 1);
+	world.objects->m.ambient = 0.1;
+	world.objects->m.diffuse = 0.9;
+	world.objects->m.specular = 0.9;
+	world.objects->m.shininess = 200.0;
+	
 
 
-	// add_object(&world.objects, 's', translation(-2.0, 0.0, 0.0));
-	// world.objects->inv = inverse_matrix(world.objects->t);
-	// world.objects->inv = trim_matrix(world.objects->inv);
-	// world.objects->transp = transpose_matrix(world.objects->inv, 4);
-	// world.objects->m.color = create_tuple(1.0, 0.2, 1, 1);
-	// world.objects->m.ambient = 0.0;
-	// world.objects->m.diffuse = 1;
-	// world.objects->m.specular = 1;
-	// world.objects->m.shininess = 10.0;
+	add_object(&world.objects, 's', translation(-2.0, 0.0, 0.0));
+	world.objects->inv = inverse_matrix(world.objects->t);
+	world.objects->inv = trim_matrix(world.objects->inv);
+	world.objects->transp = transpose_matrix(world.objects->inv, 4);
+	world.objects->m.color = create_tuple(1.0, 0.2, 1, 1);
+	world.objects->m.ambient = 0.0;
+	world.objects->m.diffuse = 1;
+	world.objects->m.specular = 1;
+	world.objects->m.shininess = 10.0;
 
-	// draw(&img, &world);
-	// mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);
-	// mlx_hook(img.mlx_win, 02, 0L, key_hook, &img);
-	// mlx_loop(img.mlx);
+	draw(&img, &world);
+	mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);
+	mlx_hook(img.mlx_win, 02, 0L, key_hook, &img);
+	mlx_loop(img.mlx);
 }
