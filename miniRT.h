@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/23 11:34:55 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/23 12:06:00 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ double		*intersect(t_ray r);
 void		intersections(t_intersect **head, t_object *obj, double t);
 t_intersect	*create_intersect(double t, t_object *obj);
 void		draw(t_data *img, t_world *world);
-t_intersect	*intersect_world(t_world *world, t_ray r);
+t_intersect	*intersect_world(t_world *world, t_ray *r);
 
 bool		compare(double a, double b);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);

@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/23 11:50:14 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/23 12:20:08 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,18 +76,19 @@ t_tuple	lighting(t_material material, t_light light, t_tuple point, t_tuple eyev
 	return (add_tuples(ambient, add_tuples(diffuse, specular)));
 }
 
-t_intersect	*intersect_world(t_world *world, t_ray r)
+t_intersect	*intersect_world(t_world *world, t_ray *r)
 {
-	t_intersect	*inter = NULL;
+	t_intersect	*inter;
 	t_object	*obj;
 	double		*t;
 	t_ray		r1;
 
+	inter = NULL;
 	obj = world->objects;
 	while (obj)
 	{
-		r1.origin = matrix_x_tuple(obj->inv, r.origin);
-		r1.direction = matrix_x_tuple(obj->inv, r.direction);
+		r1.origin = matrix_x_tuple(obj->inv, r->origin);
+		r1.direction = matrix_x_tuple(obj->inv, r->direction);
 		normalize_tuple(&r1.direction);
 		t = intersect(r1);
 		if (t)
@@ -265,12 +266,12 @@ int	main(void)
 	t_world		world;
 
 	img.mlx = mlx_init();
-	img.mlx_win = mlx_new_window(img.mlx, 800, 800, "miniRT");
-	img.img = mlx_new_image(img.mlx, 800, 800);
+	img.mlx_win = mlx_new_window(img.mlx, 1000, 1000, "miniRT");
+	img.img = mlx_new_image(img.mlx, 1000, 1000);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 			&img.endian);
 	light.intensity = create_tuple(1.0, 1.0, 1.0, 1.0);
-	light.position = create_tuple(0.0, -20.0, -20.0, 1.0);
+	light.position = create_tuple(0.0, 0.0, -20.0, 1.0);
 	world.light = light;
 	world.objects = NULL;
 	

@@ -28,46 +28,64 @@ int get_color(t_tuple color)
 	return (r << 16 | g << 8 | b);
 }
 
+void	clear_intersecs(t_intersect **intersecs)
+{
+	t_intersect	*inters;
+	t_intersect	*curr;
+
+	inters = *intersecs;
+	while (inters)
+	{
+		curr = inters;
+		inters = inters->next;
+		free(curr);
+	}
+}
+
+int	color_at(t_world *world, t_ray *r)
+{
+	t_comp		comps;
+	t_intersect	*intersecs;
+	t_tuple		shading;
+	int			color;
+
+	color = 0;
+	intersecs = intersect_world(world, r);
+	if (hit(intersecs))
+	{
+		comps = prepare_computations(intersecs, r);
+		shading = shade_hit(world, comps);
+		color = get_color(shading);
+	}
+	if (intersecs)
+		clear_intersecs(&intersecs);
+	return (color);
+}
+
+
 void	draw(t_data *img, t_world *world)
 {
 	double		i;
 	double		j;
 	double		x;
 	double		y;
-	double		scale = 70.0 / 800.0;
+	double		scale = 70.0 / 1000.0;
 	t_tuple		origin = create_tuple(0.0, 0.0, -5.0, 1.0);
-	t_tuple		light_ing;
-	double		color;
-	t_intersect	*inter;
-	t_comp		comps;
 	t_ray		r;
-
-	// t_tuple		normal;
-	// t_tuple		point;
 	
 	i = -1;
 	
-	while (++i < 800)
+	while (++i < 1000)
 	{
 		y = 35.0 - (i * scale);
 		j = -1;
-		while (++j < 800)
+		while (++j < 1000)
 		{
 			x = -35.0 + (j * scale);
 			r.origin = origin;
 			r.direction = substract_tuples(create_tuple(x, y, 50.0, 1.0), origin);
 			normalize_tuple(&r.direction);
-			inter = intersect_world(world, r);
-			if (hit(inter))
-			{
-				comps = prepare_computations(inter, &r);
-				light_ing = shade_hit(world, comps);
-				color = get_color(light_ing);
-				my_mlx_pixel_put(img, j, i, color);
-				free(inter);
-			}
-			else
-				my_mlx_pixel_put(img, j, i, 0);
+			my_mlx_pixel_put(img, j, i, color_at(world, &r));
 		}
 	}
 }
