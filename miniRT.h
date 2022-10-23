@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/23 12:06:00 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/23 12:28:50 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,4 +167,6 @@ t_tuple		normal_at(t_object *obj, t_tuple *w_point);
 t_tuple		lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal);
 t_comp		prepare_computations(t_intersect *intersecs, t_ray *r);
 t_tuple		shade_hit(t_world *world, t_comp comps);
+double		**view_transform(t_tuple from, t_tuple to, t_tuple up);
+
 #endif
