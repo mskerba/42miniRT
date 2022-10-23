@@ -6,11 +6,57 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/23 12:55:39 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/23 18:56:48 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "miniRT.h"
+
+void	pixel_size(t_camera *c)
+{
+	double	half_view;
+	double	aspect;
+
+	half_view = tan(c->field_of_view / 2.0);
+	aspect = c->hsize / c->vsize;
+	if (aspect >= 1)
+	{
+		c->half_width = half_view;
+		c->half_height = half_view / aspect;
+	}
+	else
+	{
+		c->half_width = half_view * aspect;
+		c->half_height = half_view;
+	}
+	c->pixel_size = 2.0 * (c->half_width / c->hsize);
+}
+
+double	**view_transform(t_tuple from, t_tuple to, t_tuple up)
+{
+	t_tuple	forward;
+	t_tuple	left;
+	t_tuple	true_up;
+	double **orint;
+	double **tr;
+
+	forward = substract_tuples(to, from);
+	normalize_tuple(&forward);
+	normalize_tuple(&up);
+	left = cross_product(forward, up);
+	true_up = cross_product(left, forward);
+	orint = scaling(left.x, true_up.y, -forward.z);
+	orint[0][1] = left.y;
+	orint[0][2] = left.z;
+	orint[1][0] = true_up.x;
+	orint[1][2] = true_up.z;
+	orint[2][0] = -forward.x;
+	orint[2][1] = -forward.y;
+	tr = translation(-forward.x, -forward.y, -forward.z);
+	orint = matrix_multi(orint, tr, 4, 4);
+	return (orint);
+}
 
 t_comp	prepare_computations(t_intersect *intersecs, t_ray *r)
 {
@@ -284,7 +330,7 @@ int	main(void)
 	world.objects->m.diffuse = 0.9;
 	world.objects->m.specular = 0.9;
 	world.objects->m.shininess = 200.0;
-	//
+	
 	add_object(&world.objects, 's', translation(3.0, 0.0, 0.0));
 	world.objects->inv = inverse_matrix(world.objects->t);
 	world.objects->inv = trim_matrix(world.objects->inv);
@@ -294,7 +340,7 @@ int	main(void)
 	world.objects->m.diffuse = 0.9;
 	world.objects->m.specular = 0.9;
 	world.objects->m.shininess = 200.0;
-	//
+	
 
 
 	add_object(&world.objects, 's', translation(-2.0, 0.0, 0.0));
