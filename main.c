@@ -63,29 +63,20 @@ int	color_at(t_world *world, t_ray *r)
 }
 
 
-void	draw(t_data *img, t_world *world)
+void	draw(t_data *img, t_world *world, t_camera *c)
 {
-	double		i;
-	double		j;
-	double		x;
 	double		y;
-	double		scale = 70.0 / 1000.0;
-	t_tuple		origin = create_tuple(0.0, 0.0, -5.0, 1.0);
+	double		x;
 	t_ray		r;
 	
-	i = -1;
-	
-	while (++i < 1000)
+	y = -1;
+	while (++y < 1000)
 	{
-		y = 35.0 - (i * scale);
-		j = -1;
-		while (++j < 1000)
+		x = -1;
+		while (++x < 1000)
 		{
-			x = -35.0 + (j * scale);
-			r.origin = origin;
-			r.direction = substract_tuples(create_tuple(x, y, 50.0, 1.0), origin);
-			normalize_tuple(&r.direction);
-			my_mlx_pixel_put(img, j, i, color_at(world, &r));
+			r = ray_for_pixel(c, x, y);
+			my_mlx_pixel_put(img, x, y, color_at(world, &r));
 		}
 	}
 }

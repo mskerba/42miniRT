@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/23 18:43:41 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/24 12:37:55 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,9 +102,11 @@ typedef struct s_camera
 	double	hsize;
 	double	vsize;
 	double	half_width;
+	double	half_height;
 	double	pixel_size;
 	double	field_of_view;
 	double	**transf;
+	double	**inv;
 }	t_camera;
 
 /* ************************************************************************** */
@@ -165,7 +167,7 @@ t_object	*create_object(char type, double **t);
 double		*intersect(t_ray r);
 void		intersections(t_intersect **head, t_object *obj, double t);
 t_intersect	*create_intersect(double t, t_object *obj);
-void		draw(t_data *img, t_world *world);
+void		draw(t_data *img, t_world *world, t_camera *c);
 t_intersect	*intersect_world(t_world *world, t_ray *r);
 
 bool		compare(double a, double b);
@@ -178,5 +180,6 @@ t_tuple		lighting(t_material material, t_light light, t_tuple point, t_tuple eye
 t_comp		prepare_computations(t_intersect *intersecs, t_ray *r);
 t_tuple		shade_hit(t_world *world, t_comp comps);
 double		**view_transform(t_tuple from, t_tuple to, t_tuple up);
+t_ray		ray_for_pixel(t_camera *c, double px, double py);
 
 #endif

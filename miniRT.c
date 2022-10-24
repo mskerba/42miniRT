@@ -3,15 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/23 18:56:48 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/24 12:37:45 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "miniRT.h"
+
+
+t_ray	ray_for_pixel(t_camera *c, double px, double py)
+{
+	t_tuple	pixel;
+	t_tuple	origin;
+	t_tuple	direction;
+	double	xoffset;
+	double	yoffset;
+	double	world_x;
+	double	world_y;
+
+	xoffset = (px + 0.5) * c->pixel_size;
+	yoffset = (py + 0.5) * c->pixel_size;
+	world_x = c->half_width - xoffset;
+	world_y = c->half_height - yoffset;
+	pixel = matrix_x_tuple(c->inv, create_tuple(world_x, world_y, -1, 1));
+	origin = matrix_x_tuple(c->inv, create_tuple(0, 0, 0, 1));
+	direction = substract_tuples(pixel, origin);
+	normalize_tuple(&direction);
+	return (create_ray(origin, direction));
+}
 
 void	pixel_size(t_camera *c)
 {
@@ -310,6 +332,14 @@ int	main(void)
 	t_data		img;
 	t_light		light;
 	t_world		world;
+	t_camera	c;
+
+	c.field_of_view = 3.140 / 2.0;
+	c.hsize = 1000.0;
+	c.vsize = 1000.0;
+	c.transf = scaling(1, 1, 1);
+	c.inv = scaling(1, 1, 1);
+	pixel_size(&c);
 
 	img.mlx = mlx_init();
 	img.mlx_win = mlx_new_window(img.mlx, 1000, 1000, "miniRT");
@@ -353,7 +383,7 @@ int	main(void)
 	world.objects->m.specular = 1;
 	world.objects->m.shininess = 10.0;
 
-	draw(&img, &world);
+	draw(&img, &world, &c);
 	mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);
 	mlx_hook(img.mlx_win, 02, 0L, key_hook, &img);
 	mlx_loop(img.mlx);
