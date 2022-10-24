@@ -6,12 +6,34 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/24 16:31:27 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/24 23:10:25 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "miniRT.h"
+
+bool	is_shadowed(t_world *world, t_tuple point)
+{
+	t_ray		r;
+	t_tuple		v;
+	t_intersect	*intersecs;
+	double		distance;
+	bool		in_shadow;
+
+	in_shadow = false;
+	v = substract_tuples(world->light->position, point);
+	distance = magnitude(v);
+	normalize_tuple(&v);
+	r = create_ray(point, v);
+	intersecs = intersect_world(world, &r);
+	if (hit(intersecs))
+		if (intersecs->t < distance)
+			in_shadow = true;
+	if (intersecs)
+		clear_intersecs(&intersecs);
+	return (in_shadow);
+}
 
 
 t_ray	ray_for_pixel(t_camera *c, double px, double py)
@@ -88,6 +110,7 @@ t_comp	prepare_computations(t_intersect *intersecs, t_ray *r)
 	comps.point = position(*r, comps.t);
 	comps.eyev = negate_tuple(r->direction);
 	comps.normalv = normal_at(comps.obj, &comps.point);
+	comps.over_point = add_tuples(comps.point, scalar_multi(comps.normalv, EPSILON));
 	if (compare(dot_product(comps.normalv, comps.eyev), 0))
 	{
 		comps.inside = true;
@@ -100,21 +123,16 @@ t_comp	prepare_computations(t_intersect *intersecs, t_ray *r)
 	return (comps);
 }
 
-t_tuple	shade_hit(t_world *world, t_comp comps)
+t_tuple	shade_hit(t_world *world, t_comp *comps)
 {
-	t_tuple	*p;
-	t_tuple	*ev;
-	t_tuple	*nv;
-
-	p = &comps.point;
-	ev = &comps.eyev;
-	nv = &comps.normalv;
-	return (lighting(comps.obj->m, world->light, *p, *ev, *nv));
+	bool	shadowed;
+	
+	shadowed = is_shadowed(world, comps->over_point);
+	return (lighting(comps, world->light, shadowed));
 }
 
-t_tuple	lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal)
+t_tuple	lighting(t_comp *comps, t_light *light, bool shadowed)
 {
-	normalize_tuple(&eyev);
 	t_tuple	effective_c;
 	t_tuple	ambient;
 	t_tuple	diffuse;
@@ -125,21 +143,23 @@ t_tuple	lighting(t_material material, t_light light, t_tuple point, t_tuple eyev
 	double	reflect_dot_eye;
 	double	light_dot_norm;
 
-	effective_c = create_tuple(light.intensity.x * material.color.x, light.intensity.y * material.color.y, light.intensity.z * material.color.z, 1);
-	ambient = scalar_multi(effective_c, material.ambient);
-	lightv = substract_tuples(light.position, point);
+	effective_c = create_tuple(light->intensity.x * comps->obj->m.color.x, light->intensity.y * comps->obj->m.color.y, light->intensity.z * comps->obj->m.color.z, 1);
+	ambient = scalar_multi(effective_c, comps->obj->m.ambient);
+	if (shadowed)
+		return (ambient);
+	lightv = substract_tuples(light->position, comps->over_point);
 	normalize_tuple(&lightv);
-	light_dot_norm = dot_product(lightv, normal);
+	light_dot_norm = dot_product(lightv, comps->normalv);
 	if (light_dot_norm < 0)
 		return (ambient);
-	diffuse = scalar_multi(effective_c, material.diffuse * light_dot_norm);
-	reflectv = reflect(negate_tuple(lightv), normal);
+	diffuse = scalar_multi(effective_c, comps->obj->m.diffuse * light_dot_norm);
+	reflectv = reflect(negate_tuple(lightv), comps->normalv);
 	normalize_tuple(&reflectv);
-	reflect_dot_eye = dot_product(reflectv, eyev);
+	reflect_dot_eye = dot_product(reflectv, comps->eyev);
 	if (reflect_dot_eye <= 0)
 		return (add_tuples(ambient, diffuse));
-	factor = pow(reflect_dot_eye, material.shininess);
-	specular = scalar_multi(light.intensity, material.specular * factor);
+	factor = pow(reflect_dot_eye, comps->obj->m.shininess);
+	specular = scalar_multi(light->intensity, comps->obj->m.specular * factor);
 	return (add_tuples(ambient, add_tuples(diffuse, specular)));
 }
 
@@ -346,7 +366,7 @@ int	main(void)
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	light.intensity = create_tuple(1.0, 1.0, 1.0, 1.0);
 	light.position = create_tuple(-10.0, 10.0, -10.0, 1.0);
-	world.light = light;
+	world.light = &light;
 	world.objects = NULL;
 	
 
@@ -356,7 +376,7 @@ int	main(void)
 	world.objects->inv = trim_matrix(world.objects->inv);
 	world.objects->transp = transpose_matrix(world.objects->inv, 4);
 	world.objects->m.color = create_tuple(1.0, 0.9, 0.9, 1);
-	world.objects->m.ambient = 0.1;
+	world.objects->m.ambient = 0.01;
 	world.objects->m.diffuse = 0.9;
 	world.objects->m.specular = 0.0;
 	world.objects->m.shininess = 200.0;
@@ -393,23 +413,23 @@ int	main(void)
 
 
 
+	//spheres
 	
-	add_object(&world.objects, 's', scaling(1.0, 1.0, 1.0));
-	world.objects->t = matrix_multi(translation(0.0, 1.0, 0.0), world.objects->t, 4, 4);
+	add_object(&world.objects, 's', translation(2.0, 1.0, 1.0));
 	world.objects->inv = inverse_matrix(world.objects->t);
 	world.objects->inv = trim_matrix(world.objects->inv);
 	world.objects->transp = transpose_matrix(world.objects->inv, 4);
-	world.objects->m.color = create_tuple(1.0, 0.0, 1, 1);
-	world.objects->m.ambient = 0.1;
+	world.objects->m.color = create_tuple(1.0, 0.0, 0.0, 1);
+	world.objects->m.ambient = 0.6;
 	world.objects->m.diffuse = 0.9;
 	world.objects->m.specular = 0.9;
 	world.objects->m.shininess = 200.0;
 	
-	add_object(&world.objects, 's', translation(2.0, 2.0, 0.0));
+	add_object(&world.objects, 's', translation(0.0, 2.0, -1.0));
 	world.objects->inv = inverse_matrix(world.objects->t);
 	world.objects->inv = trim_matrix(world.objects->inv);
 	world.objects->transp = transpose_matrix(world.objects->inv, 4);
-	world.objects->m.color = create_tuple(1.0, 1, 0.0, 1);
+	world.objects->m.color = create_tuple(0.0, 1.0, 0.0, 1);
 	world.objects->m.ambient = 0.1;
 	world.objects->m.diffuse = 0.9;
 	world.objects->m.specular = 0.9;
@@ -417,12 +437,12 @@ int	main(void)
 	
 
 
-	add_object(&world.objects, 's', translation(-2.0, -2.0, 0.0));
+	add_object(&world.objects, 's', translation(-2.2, 2.0, -3.0));
 	world.objects->inv = inverse_matrix(world.objects->t);
 	world.objects->inv = trim_matrix(world.objects->inv);
 	world.objects->transp = transpose_matrix(world.objects->inv, 4);
-	world.objects->m.color = create_tuple(1.0, 0.2, 1, 1);
-	world.objects->m.ambient = 0.0;
+	world.objects->m.color = create_tuple(0.0, 0.0, 1.0, 1);
+	world.objects->m.ambient = 0.1;
 	world.objects->m.diffuse = 1;
 	world.objects->m.specular = 1;
 	world.objects->m.shininess = 10.0;

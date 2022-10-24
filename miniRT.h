@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/24 12:37:55 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/24 22:33:10 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <unistd.h>
 # include <math.h>
 
-# define EPSILON 0.00001
+# define EPSILON 0.000010
 
 typedef struct s_data
 {
@@ -80,6 +80,7 @@ typedef struct s_comp
 	double			t;
 	bool			inside;
 	t_tuple			point;
+	t_tuple			over_point;
 	t_tuple			eyev;
 	t_tuple			normalv;
 	t_object		*obj;
@@ -93,7 +94,7 @@ typedef struct s_light
 
 typedef struct s_world
 {
-	t_light		light;
+	t_light		*light;
 	t_object	*objects;
 }	t_world;
 
@@ -176,10 +177,11 @@ int 		get_color(t_tuple color);
 void		trim_tuple(t_tuple *tuple);
 t_tuple		reflect(t_tuple lightv, t_tuple normal);
 t_tuple		normal_at(t_object *obj, t_tuple *w_point);
-t_tuple		lighting(t_material material, t_light light, t_tuple point, t_tuple eyev, t_tuple normal);
+t_tuple		lighting(t_comp *comps, t_light *light, bool shadowed);
 t_comp		prepare_computations(t_intersect *intersecs, t_ray *r);
-t_tuple		shade_hit(t_world *world, t_comp comps);
+t_tuple		shade_hit(t_world *world, t_comp *comps);
 double		**view_transform(t_tuple from, t_tuple to, t_tuple up);
 t_ray		ray_for_pixel(t_camera *c, double px, double py);
+void		clear_intersecs(t_intersect **intersecs);
 
 #endif

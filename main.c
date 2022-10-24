@@ -53,7 +53,7 @@ int	color_at(t_world *world, t_ray *r)
 	if (hit(intersecs))
 	{
 		comps = prepare_computations(intersecs, r);
-		shading = shade_hit(world, comps);
+		shading = shade_hit(world, &comps);
 		color = get_color(shading);
 	}
 	if (intersecs)
