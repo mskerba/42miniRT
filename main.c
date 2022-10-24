@@ -15,8 +15,7 @@ double	max(double a, double b)
 	return (b);
 }
 
-
-int get_color(t_tuple color)
+int	get_color(t_tuple color)
 {
 	int	r;
 	int	g;
@@ -62,17 +61,16 @@ int	color_at(t_world *world, t_ray *r)
 	return (color);
 }
 
-
 void	draw(t_data *img, t_world *world, t_camera *c)
 {
-	double		y;
-	double		x;
-	t_ray		r;
-	
-	y = -1;
+	double	y;
+	double	x;
+	t_ray	r;
+
+	y = -1.0;
 	while (++y < 1000)
 	{
-		x = -1;
+		x = -1.0;
 		while (++x < 1000)
 		{
 			r = ray_for_pixel(c, x, y);
