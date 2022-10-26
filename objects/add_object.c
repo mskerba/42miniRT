@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   objects.c                                          :+:      :+:    :+:   */
+/*   add_object.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/12 13:19:26 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/17 12:57:26 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/10/26 19:48:03 by mskerba           #+#    #+#             */
+/*   Updated: 2022/10/26 19:48:25 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "../miniRT.h"
 
-t_object	*create_object(char type, double **t)
+void	add_object(t_object **obj, char type, double **t)
 {
 	static unsigned int	id = 0;
-	t_object			*obj;
+	t_object			*new_obj;
 
-	obj = (t_object *)malloc(sizeof(t_object));
+	new_obj = (t_object *)malloc(sizeof(t_object));
 	if (!obj)
-		return (NULL);
-	obj->type = type;
-	obj->id = id;
-	obj->t = t;
+		return ;
+	new_obj->type = type;
+	new_obj->id = id;
+	new_obj->t = t;
+	new_obj->next = *obj;
+	*obj = new_obj;
 	id++;
-	return (obj);
 }

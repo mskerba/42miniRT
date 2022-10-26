@@ -6,7 +6,7 @@
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/26 18:06:28 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/26 19:50:39 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,6 @@ bool	is_shadowed(t_world *world, t_tuple point)
 	return (in_shadow);
 }
 
-// t_intersect *local_intersect(t_world *world, t_ray *r)
-// {
-// 	t_intersect	*inter;
-// 	double		t;
-
-// 	if(fabs(r->direction.y) < EPSILON)
-// 		return (NULL);
-// 	r->origin = matrix_x_tuple(world->objects->inv, r->origin);
-// 	r->direction = matrix_x_tuple(world->objects->inv, r->direction);
-// 	t = -r->origin.y / r->direction.y;
-// 	inter = create_intersect(t, world->objects);
-// 	return (inter);
-// }
-
 t_intersect *local_intersect(t_world *world, t_ray *r)
 {
 	t_intersect	*inter;
@@ -76,25 +62,6 @@ t_intersect *local_intersect(t_world *world, t_ray *r)
 	return (inter);
 }
 
-t_ray	ray_for_pixel(t_camera *c, double px, double py)
-{
-	t_tuple	pixel;
-	t_ray	r;
-	double	xoffset;
-	double	yoffset;
-	double	world_x;
-	double	world_y;
-
-	xoffset = (px + 0.5) * c->pixel_size;
-	yoffset = (py + 0.5) * c->pixel_size;
-	world_x = c->half_width - xoffset;
-	world_y = c->half_height - yoffset;
-	pixel = matrix_x_tuple(c->inv, create_tuple(world_x, world_y, -1.0, 1));
-	r.origin = matrix_x_tuple(c->inv, create_tuple(0, 0, 0, 1));
-	r.direction = substract_tuples(pixel, r.origin);
-	normalize_tuple(&r.direction);
-	return (r);
-}
 
 void	pixel_size(t_camera *c)
 {
@@ -379,50 +346,6 @@ void	intersections(t_intersect **head, t_object *obj, double t)
 		inter_section->next = prev->next;
 		prev->next = inter_section;
 	}
-}
-
-double	**trim_matrix(double **m)
-{
-	int	i;
-	int	j;
-
-	i = -1;
-	while (++i < 4)
-	{
-		j = -1;
-		while (++j < 4)
-			if (m[i][j] < EPSILON && m[i][j] > -EPSILON)
-				m[i][j] = 0.0;
-	}
-	return (m);
-}
-
-void	trim_tuple(t_tuple *tuple)
-{
-	if (tuple->x < EPSILON && tuple->x > -EPSILON)
-		tuple->x = 0.0;
-	if (tuple->y < EPSILON && tuple->y > -EPSILON)
-		tuple->y = 0.0;
-	if (tuple->z < EPSILON && tuple->z > -EPSILON)
-		tuple->z = 0.0;
-	if (tuple->w < EPSILON && tuple->w > -EPSILON)
-		tuple->w = 0.0;
-}
-
-void	add_object(t_object **obj, char type, double **t)
-{
-	static unsigned int	id = 0;
-	t_object			*new_obj;
-
-	new_obj = (t_object *)malloc(sizeof(t_object));
-	if (!obj)
-		return ;
-	new_obj->type = type;
-	new_obj->id = id;
-	new_obj->t = t;
-	new_obj->next = *obj;
-	*obj = new_obj;
-	id++;
 }
 
 int	main(void)

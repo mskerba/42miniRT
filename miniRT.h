@@ -6,7 +6,7 @@
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/25 16:30:03 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/26 19:52:44 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ t_ray		create_ray(t_tuple origin, t_tuple direction);
 /*                                 objects.c                                  */
 /* ************************************************************************** */
 t_object	*create_object(char type, double **t);
-
+void	add_object(t_object **obj, char type, double **t);
 
 // ????????
 double		*intersect(t_ray r);
