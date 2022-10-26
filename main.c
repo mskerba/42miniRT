@@ -1,20 +1,6 @@
 
 #include "miniRT.h"
 
-double	min(double a, double b)
-{
-	if (a < b)
-		return (a);
-	return (b);
-}
-
-double	max(double a, double b)
-{
-	if (a > b)
-		return (a);
-	return (b);
-}
-
 int	get_color(t_tuple color)
 {
 	int	r;
@@ -27,30 +13,14 @@ int	get_color(t_tuple color)
 	return (r << 16 | g << 8 | b);
 }
 
-void	clear_intersecs(t_intersect **intersecs)
-{
-	t_intersect	*inters;
-	t_intersect	*curr;
-
-	inters = *intersecs;
-	while (inters)
-	{
-		curr = inters;
-		inters = inters->next;
-		free(curr);
-	}
-}
-
 int	color_at(t_world *world, t_ray *r)
 {
 	t_comp		comps;
 	t_intersect	*intersecs;
 	t_tuple		shading;
-	// t_object	*obj;
 	int			color;
 
 	color = 0;
-	// obj = world->objects;
 	intersecs = intersect_world(world, r);
 	if (hit(intersecs))
 	{
@@ -70,7 +40,6 @@ int	color_at(t_world *world, t_ray *r)
 	}
 	if (intersecs)
 		clear_intersecs(&intersecs);
-	// world->objects = obj;
 	return (color);
 }
 

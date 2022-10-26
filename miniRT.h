@@ -6,7 +6,7 @@
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/26 19:52:44 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/26 20:23:58 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ typedef struct s_camera
 }	t_camera;
 
 /* ************************************************************************** */
-/*                                 tuples.c                                   */
+/*                                 tuples                                     */
 /* ************************************************************************** */
 t_tuple		create_tuple(double x, double y, double z, double w);
 t_tuple		scalar_multi(t_tuple tpl, double scalar);
@@ -120,12 +120,13 @@ t_tuple		cross_product(t_tuple a, t_tuple b);
 double		dot_product(t_tuple a, t_tuple b);
 t_tuple		add_tuples(t_tuple a, t_tuple b);
 void		normalize_tuple(t_tuple *tuple);
+void		trim_tuple(t_tuple *tuple);
 t_tuple		negate_tuple(t_tuple tpl);
 double		magnitude(t_tuple tuple);
 void		display_tuple(t_tuple *t);
 
 /* ************************************************************************** */
-/*                                 matrices.c                                 */
+/*                                 matrices                                   */
 /* ************************************************************************** */
 double		**cofactor(double **m);
 double		**trim_matrix(double **m);
@@ -141,8 +142,9 @@ void		get_submatrix(double **m, double **sub_m, int r, int c);
 double		**matrix_multi(double **a, double **b, int rows, int columns);
 
 /* ************************************************************************** */
-/*                                 transformations.c                          */
+/*                                 transformations                            */
 /* ************************************************************************** */
+double		**view_transform(t_tuple from, t_tuple to, t_tuple up);
 double		**translation(double x, double y, double z);
 double		**scaling(double x, double y, double z);
 double		**shearing(int x, int y, int z);
@@ -152,38 +154,47 @@ double		**rotation_z(double r);
 
 
 /* ************************************************************************** */
-/*                                 rays.c                                     */
+/*                                 rays                                       */
 /* ************************************************************************** */
 t_intersect	*hit(t_intersect *head);
 t_tuple		position(t_ray ray, double t);
 t_ray		create_ray(t_tuple origin, t_tuple direction);
+t_ray		ray_for_pixel(t_camera *c, double px, double py);
 
 /* ************************************************************************** */
-/*                                 objects.c                                  */
+/*                                 objects                                    */
 /* ************************************************************************** */
+void		add_object(t_object **obj, char type, double **t);
 t_object	*create_object(char type, double **t);
-void	add_object(t_object **obj, char type, double **t);
+
+/* ************************************************************************** */
+/*                                 intersect                                  */
+/* ************************************************************************** */
+double		*intersect(t_ray r);
+void		clear_intersecs(t_intersect **intersecs);
+t_intersect	*intersect_world(t_world *world, t_ray *r);
+t_intersect	*local_intersect(t_world *world, t_ray *r);
+t_intersect	*create_intersect(double t, t_object *obj);
+void		intersections(t_intersect **head, t_object *obj, double t);
+
+/* ************************************************************************** */
+/*                                 utiles                                     */
+/* ************************************************************************** */
+void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+int			key_hook(int key, t_data *img);
+bool		compare(double a, double b);
+double		max(double a, double b);
+double		min(double a, double b);
+
 
 // ????????
-double		*intersect(t_ray r);
-void		intersections(t_intersect **head, t_object *obj, double t);
-t_intersect	*create_intersect(double t, t_object *obj);
 void		draw(t_data *img, t_world *world, t_camera *c);
-t_intersect	*intersect_world(t_world *world, t_ray *r);
-
-bool		compare(double a, double b);
-void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int 		get_color(t_tuple color);
-void		trim_tuple(t_tuple *tuple);
 t_tuple		reflect(t_tuple lightv, t_tuple normal);
 t_tuple		normal_at(t_object *obj, t_tuple *w_point);
 t_tuple		lighting(t_comp *comps, t_light *light, bool shadowed);
 t_comp		prepare_computations(t_intersect *intersecs, t_ray *r);
 t_tuple		shade_hit(t_world *world, t_comp *comps);
-double		**view_transform(t_tuple from, t_tuple to, t_tuple up);
-t_ray		ray_for_pixel(t_camera *c, double px, double py);
-void		clear_intersecs(t_intersect **intersecs);
 t_comp		local_prepare_computations(t_intersect *intersecs, t_ray *r);
-t_intersect	*local_intersect(t_world *world, t_ray *r);
 t_tuple		local_normal_at(t_object *obj, t_tuple *w_point);
 #endif
