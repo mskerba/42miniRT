@@ -46,9 +46,11 @@ int	color_at(t_world *world, t_ray *r)
 	t_comp		comps;
 	t_intersect	*intersecs;
 	t_tuple		shading;
+	t_object	*obj;
 	int			color;
 
 	color = 0;
+	obj = world->objects;
 	intersecs = intersect_world(world, r);
 	if (hit(intersecs))
 	{
@@ -56,8 +58,23 @@ int	color_at(t_world *world, t_ray *r)
 		shading = shade_hit(world, &comps);
 		color = get_color(shading);
 	}
+	else
+	{
+		while(world->objects && world->objects->type != 'p')
+			world->objects = world->objects->next;
+		if (!world->objects)
+			return (0);
+		intersecs = local_intersect(world, r);
+		if (hit(intersecs))
+		{
+			comps = local_prepare_computations(intersecs, r);
+			shading = shade_hit(world, &comps);
+			color = get_color(shading);
+		}
+	}
 	if (intersecs)
 		clear_intersecs(&intersecs);
+	world->objects = obj;
 	return (color);
 }
 

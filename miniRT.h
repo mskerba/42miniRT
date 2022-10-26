@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/24 22:33:10 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/25 16:30:03 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,5 +183,7 @@ t_tuple		shade_hit(t_world *world, t_comp *comps);
 double		**view_transform(t_tuple from, t_tuple to, t_tuple up);
 t_ray		ray_for_pixel(t_camera *c, double px, double py);
 void		clear_intersecs(t_intersect **intersecs);
-
+t_comp		local_prepare_computations(t_intersect *intersecs, t_ray *r);
+t_intersect	*local_intersect(t_world *world, t_ray *r);
+t_tuple		local_normal_at(t_object *obj, t_tuple *w_point);
 #endif

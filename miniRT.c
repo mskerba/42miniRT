@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/24 23:24:38 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/26 07:11:14 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,17 @@ bool	is_shadowed(t_world *world, t_tuple point)
 	return (in_shadow);
 }
 
+t_intersect *local_intersect(t_world *world, t_ray *r)
+{
+	t_intersect	*inter;
+	double		t;
+
+	if(fabs(r->direction.y) < EPSILON)
+		return (NULL);
+	t = -r->origin.y / r->direction.y;
+	inter = create_intersect(t, world->objects);
+	return (inter);
+}
 
 t_ray	ray_for_pixel(t_camera *c, double px, double py)
 {
@@ -123,6 +134,28 @@ t_comp	prepare_computations(t_intersect *intersecs, t_ray *r)
 	return (comps);
 }
 
+t_comp	local_prepare_computations(t_intersect *intersecs, t_ray *r)
+{
+	t_comp	comps;
+
+	comps.t = intersecs->t;
+	comps.obj = intersecs->object;
+	comps.point = position(*r, comps.t);
+	comps.eyev = negate_tuple(r->direction);
+	comps.normalv = normal_at(comps.obj, &comps.point);
+	comps.over_point = add_tuples(comps.point, scalar_multi(comps.normalv, EPSILON));
+	if (compare(dot_product(comps.normalv, comps.eyev), 0))
+	{
+		comps.inside = true;
+		comps.normalv = negate_tuple(comps.normalv);
+	}
+	else
+		comps.inside = false;
+	trim_tuple(&comps.normalv);
+	trim_tuple(&comps.eyev);
+	return (comps);
+}
+
 t_tuple	shade_hit(t_world *world, t_comp *comps)
 {
 	bool	shadowed;
@@ -174,16 +207,19 @@ t_intersect	*intersect_world(t_world *world, t_ray *r)
 	obj = world->objects;
 	while (obj)
 	{
-		r1.origin = matrix_x_tuple(obj->inv, r->origin);
-		r1.direction = matrix_x_tuple(obj->inv, r->direction);
-		normalize_tuple(&r1.direction);
-		t = intersect(r1);
-		if (t)
+		if(obj->type == 's')
 		{
-			intersections(&inter, obj, t[0]);
-			if (!compare(t[0], t[1]))
-				intersections(&inter, obj, t[1]);
-			free(t);
+			r1.origin = matrix_x_tuple(obj->inv, r->origin);
+			r1.direction = matrix_x_tuple(obj->inv, r->direction);
+			normalize_tuple(&r1.direction);
+			t = intersect(r1);
+			if (t)
+			{
+				intersections(&inter, obj, t[0]);
+				if (!compare(t[0], t[1]))
+					intersections(&inter, obj, t[1]);
+				free(t);
+			}
 		}
 		obj = obj->next;
 	}
@@ -222,6 +258,20 @@ t_tuple	normal_at(t_object *obj, t_tuple *w_point)
 	
 	o_point = matrix_x_tuple(obj->inv, *w_point);
 	o_normal = create_tuple(o_point.x, o_point.y, o_point.z, 0);
+	w_normal = matrix_x_tuple(obj->transp, o_normal);
+	w_normal.w = 0;
+	normalize_tuple(&w_normal);
+	return (w_normal);
+}
+
+t_tuple	local_normal_at(t_object *obj, t_tuple *w_point)
+{
+	t_tuple	o_point;
+	t_tuple	o_normal;
+	t_tuple	w_normal;
+	
+	o_point = matrix_x_tuple(obj->inv, *w_point);
+	o_normal = create_tuple(0, 1, 0, 0);
 	w_normal = matrix_x_tuple(obj->transp, o_normal);
 	w_normal.w = 0;
 	normalize_tuple(&w_normal);
@@ -365,52 +415,60 @@ int	main(void)
 	img.img = mlx_new_image(img.mlx, 1000, 1000);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
 	light.intensity = create_tuple(1.0, 1.0, 1.0, 1.0);
-	light.position = create_tuple(-10.0, 10.0, -10.0, 1.0);
+	light.position = create_tuple(0.0, 1.0, 00.0, 1.0);
 	world.light = &light;
 	world.objects = NULL;
 	
 
 	//walls
-	add_object(&world.objects, 's', scaling(4.0, 0.09, 250.0));
-	world.objects->inv = inverse_matrix(world.objects->t);
-	world.objects->inv = trim_matrix(world.objects->inv);
-	world.objects->transp = transpose_matrix(world.objects->inv, 4);
-	world.objects->m.color = create_tuple(1.0, 0.9, 0.9, 1);
-	world.objects->m.ambient = 0.01;
-	world.objects->m.diffuse = 0.9;
-	world.objects->m.specular = 0.0;
-	world.objects->m.shininess = 200.0;
+	// add_object(&world.objects, 's', scaling(4.0, 0.09, 250.0));
+	// world.objects->inv = inverse_matrix(world.objects->t);
+	// world.objects->inv = trim_matrix(world.objects->inv);
+	// world.objects->transp = transpose_matrix(world.objects->inv, 4);
+	// world.objects->m.color = create_tuple(1.0, 0.9, 0.9, 1);
+	// world.objects->m.ambient = 0.01;
+	// world.objects->m.diffuse = 0.9;
+	// world.objects->m.specular = 0.0;
+	// world.objects->m.shininess = 200.0;
 
 
-	add_object(&world.objects, 's', scaling(10.0, 0.1, 10.0));
-	world.objects->t = matrix_multi(rotation_x(3.14 / 2.0) , world.objects->t, 4, 4);
-	world.objects->t = matrix_multi(rotation_y(-3.14 / 4.0) , world.objects->t, 4, 4);
-	world.objects->t = matrix_multi(translation(0.0, 0.0, 5.0), world.objects->t, 4, 4);
-	world.objects->inv = inverse_matrix(world.objects->t);
-	world.objects->inv = trim_matrix(world.objects->inv);
-	world.objects->transp = transpose_matrix(world.objects->inv, 4);
-	world.objects->m.color = create_tuple(1.0, 1, 1, 1);
-	world.objects->m.ambient = 1.0;
-	world.objects->m.diffuse = 0.9;
-	world.objects->m.specular = 0.0;
-	world.objects->m.shininess = 10.0;
+	// add_object(&world.objects, 's', scaling(10.0, 0.1, 10.0));
+	// world.objects->t = matrix_multi(rotation_x(3.14 / 2.0) , world.objects->t, 4, 4);
+	// world.objects->t = matrix_multi(rotation_y(-3.14 / 4.0) , world.objects->t, 4, 4);
+	// world.objects->t = matrix_multi(translation(0.0, 0.0, 5.0), world.objects->t, 4, 4);
+	// world.objects->inv = inverse_matrix(world.objects->t);
+	// world.objects->inv = trim_matrix(world.objects->inv);
+	// world.objects->transp = transpose_matrix(world.objects->inv, 4);
+	// world.objects->m.color = create_tuple(1.0, 1, 1, 1);
+	// world.objects->m.ambient = 1.0;
+	// world.objects->m.diffuse = 0.9;
+	// world.objects->m.specular = 0.0;
+	// world.objects->m.shininess = 10.0;
 
 
 	
-	add_object(&world.objects, 's', scaling(10.0, 0.1, 10.0));
-	world.objects->t = matrix_multi(rotation_x(3.14 / 2.0) , world.objects->t, 4, 4);
-	world.objects->t = matrix_multi(rotation_y(3.14 / 4.0) , world.objects->t, 4, 4);
+	add_object(&world.objects, 'p', scaling(1.0, 0.1, 1.0));
+	// world.objects->t = matrix_multi(rotation_z(3.14) , world.objects->t, 4, 4);
+	// world.objects->t = matrix_multi(rotation_y(-3.14 ) , world.objects->t, 4, 4);
 	world.objects->t = matrix_multi(translation(0.0, 0.0, 5.0), world.objects->t, 4, 4);
 	world.objects->inv = inverse_matrix(world.objects->t);
 	world.objects->inv = trim_matrix(world.objects->inv);
 	world.objects->transp = transpose_matrix(world.objects->inv, 4);
-	world.objects->m.color = create_tuple(0.0, 0, 1, 1);
-	world.objects->m.ambient = 1.0;
-	world.objects->m.diffuse = 0.9;
-	world.objects->m.specular = 0.0;
-	world.objects->m.shininess = 10.0;
-
-
+	world.objects->m.color = create_tuple(0.0, 0.0, 1.0, 1);
+	world.objects->m.ambient = 0.1;
+	world.objects->m.diffuse = 0.5;
+	world.objects->m.specular = 0.9;
+	world.objects->m.shininess = 200.0;
+	
+	// add_object(&world.objects, 'p', scaling(1.0, 1.0, 1.0));
+	// world.objects->inv = inverse_matrix(world.objects->t);
+	// world.objects->inv = trim_matrix(world.objects->inv);
+	// world.objects->transp = transpose_matrix(world.objects->inv, 4);
+	// world.objects->m.color = create_tuple(0.0, 1.0, 0.0, 1);
+	// world.objects->m.ambient = 0.1;
+	// world.objects->m.diffuse = 0.5;
+	// world.objects->m.specular = 0.9;
+	// world.objects->m.shininess = 200.0;
 
 
 	//spheres
@@ -425,27 +483,26 @@ int	main(void)
 	world.objects->m.specular = 0.9;
 	world.objects->m.shininess = 200.0;
 	
-	add_object(&world.objects, 's', translation(0.0, 2.0, -1.0));
-	world.objects->inv = inverse_matrix(world.objects->t);
-	world.objects->inv = trim_matrix(world.objects->inv);
-	world.objects->transp = transpose_matrix(world.objects->inv, 4);
-	world.objects->m.color = create_tuple(0.0, 1.0, 0.0, 1);
-	world.objects->m.ambient = 0.1;
-	world.objects->m.diffuse = 0.9;
-	world.objects->m.specular = 0.9;
-	world.objects->m.shininess = 200.0;
-	
+	// add_object(&world.objects, 's', translation(0.0, 2.0, -1.0));
+	// world.objects->inv = inverse_matrix(world.objects->t);
+	// world.objects->inv = trim_matrix(world.objects->inv);
+	// world.objects->transp = transpose_matrix(world.objects->inv, 4);
+	// world.objects->m.color = create_tuple(0.0, 1.0, 0.0, 1);
+	// world.objects->m.ambient = 0.1;
+	// world.objects->m.diffuse = 0.9;
+	// world.objects->m.specular = 0.9;
+	// world.objects->m.shininess = 200.0;
 
 
-	add_object(&world.objects, 's', translation(-2.2, 2.0, -3.0));
-	world.objects->inv = inverse_matrix(world.objects->t);
-	world.objects->inv = trim_matrix(world.objects->inv);
-	world.objects->transp = transpose_matrix(world.objects->inv, 4);
-	world.objects->m.color = create_tuple(0.0, 0.0, 1.0, 1);
-	world.objects->m.ambient = 0.1;
-	world.objects->m.diffuse = 1;
-	world.objects->m.specular = 0.9;
-	world.objects->m.shininess = 200.0;
+	// add_object(&world.objects, 's', translation(-2.2, 2.0, -3.0));
+	// world.objects->inv = inverse_matrix(world.objects->t);
+	// world.objects->inv = trim_matrix(world.objects->inv);
+	// world.objects->transp = transpose_matrix(world.objects->inv, 4);
+	// world.objects->m.color = create_tuple(0.0,1.0, 1.0, 1);
+	// world.objects->m.ambient = 0.1;
+	// world.objects->m.diffuse = 1;
+	// world.objects->m.specular = 0.9;
+	// world.objects->m.shininess = 200.0;
 
 	draw(&img, &world, &c);
 	mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);
