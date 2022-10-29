@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cylindre_intersect.c                               :+:      :+:    :+:   */
+/*   multply_tuple.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 10:46:09 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/29 11:02:14 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/10/29 11:35:14 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/10/29 11:42:38 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-void	cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter)
+t_tuple multiply_tuple(t_tuple *a, t_tuple *b)
 {
-	t_ray	r1;
-	double	*t;
+    t_tuple t;
 
-	r1.origin = matrix_x_tuple(cylindre->inv, r->origin);
-	r1.direction = matrix_x_tuple(cylindre->inv, r->direction);
-	normalize_tuple(&r1.direction);
-	t = inter_cyl(r1);
-	if (t)
-	{
-		intersections(inter, cylindre, t[0]);
-		if (!compare(t[0], t[1]))
-			intersections(inter, cylindre, t[1]);
-		free(t);
-	}
+    t.x = a->x * b->x;
+    t.y = a->y * b->y;
+    t.z = a->z * b->z;
+    t.w = a->w * b->w;
+    return (t);
 }

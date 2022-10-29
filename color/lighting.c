@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 21:51:04 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/26 22:13:31 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/29 11:40:57 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_tuple	lighting(t_comp *comps, t_light *light, bool shadowed)
 	double	reflect_dot_eye;
 	double	light_dot_norm;
 
-	effective_c = create_tuple(light->intensity.x * comps->obj->m.color.x, light->intensity.y * comps->obj->m.color.y, light->intensity.z * comps->obj->m.color.z, 1);
+	effective_c = multiply_tuple(&light->intensity, &comps->obj->m.color);
 	ambient = scalar_multi(effective_c, comps->obj->m.ambient);
 	if (shadowed)
 		return (ambient);

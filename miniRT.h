@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/29 10:51:33 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/29 11:39:32 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_object
 	double				**t;
 	double				**inv;
 	double				**transp;
-	struct	s_object	*next;
+	struct s_object		*next;
 }	t_object;
 
 typedef struct s_intersect
@@ -115,6 +115,7 @@ typedef struct s_camera
 /* ************************************************************************** */
 t_tuple		create_tuple(double x, double y, double z, double w);
 t_tuple		scalar_multi(t_tuple tpl, double scalar);
+t_tuple 	multiply_tuple(t_tuple *a, t_tuple *b);
 t_tuple		substract_tuples(t_tuple a, t_tuple b);
 t_tuple		cross_product(t_tuple a, t_tuple b);
 double		dot_product(t_tuple a, t_tuple b);
@@ -152,7 +153,6 @@ double		**rotation_x(double r);
 double		**rotation_y(double r);
 double		**rotation_z(double r);
 
-
 /* ************************************************************************** */
 /*                                 rays                                       */
 /* ************************************************************************** */
@@ -170,7 +170,7 @@ t_object	*create_object(char type, double **t);
 /* ************************************************************************** */
 /*                                 intersect                                  */
 /* ************************************************************************** */
-double		*intersect(t_ray r);
+double		*intersect(t_ray r, double *t);
 double		*inter_cyl(t_ray r);
 void		clear_intersecs(t_intersect **intersecs);
 t_intersect	*intersect_world(t_world *world, t_ray *r);
@@ -178,7 +178,7 @@ t_intersect	*local_intersect(t_world *world, t_ray *r);
 t_intersect	*create_intersect(double t, t_object *obj);
 void		cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter);
 void		plane_inter(t_object *plane, t_ray *r, t_intersect **inter);
-void    	sphere_inter(t_object *sphere, t_ray *r, t_intersect **inter);
+void		sphere_inter(t_object *sphere, t_ray *r, t_intersect **inter);
 void		intersections(t_intersect **head, t_object *obj, double t);
 
 /* ************************************************************************** */
@@ -207,15 +207,12 @@ t_comp		prepare_computations(t_intersect *intersecs, t_ray *r);
 /* ************************************************************************** */
 /*                                 color                                      */
 /* ************************************************************************** */
-int 		get_color(t_tuple color);
+int			get_color(t_tuple color);
 int			color_at(t_world *world, t_ray *r);
 t_tuple		shade_hit(t_world *world, t_comp *comps);
 t_tuple		lighting(t_comp *comps, t_light *light, bool shadowed);
 
-
-
-
 // ????????
-bool	is_shadowed(t_world *world, t_tuple point);
+bool		is_shadowed(t_world *world, t_tuple point);
 void		draw(t_data *img, t_world *world, t_camera *c);
 #endif

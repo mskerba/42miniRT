@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_computations.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 21:40:43 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/28 21:06:29 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/29 11:33:11 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ t_comp	prepare_computations(t_intersect *intersecs, t_ray *r)
 		comps.normalv = normal_at(comps.obj, &comps.point);
 	else
 		comps.normalv = local_normal_at(comps.obj, &comps.point);
-	comps.over_point = add_tuples(comps.point, scalar_multi(comps.normalv, EPSILON));
+	comps.over_point = scalar_multi(comps.normalv, EPSILON);
+	comps.over_point = add_tuples(comps.point, comps.over_point);
 	if (compare(dot_product(comps.normalv, comps.eyev), 0))
 	{
 		comps.inside = true;
