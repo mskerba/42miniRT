@@ -6,7 +6,7 @@
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/26 20:23:58 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/28 21:08:59 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,10 +171,12 @@ t_object	*create_object(char type, double **t);
 /*                                 intersect                                  */
 /* ************************************************************************** */
 double		*intersect(t_ray r);
+double		*inter_cyl(t_ray r);
 void		clear_intersecs(t_intersect **intersecs);
 t_intersect	*intersect_world(t_world *world, t_ray *r);
 t_intersect	*local_intersect(t_world *world, t_ray *r);
 t_intersect	*create_intersect(double t, t_object *obj);
+t_intersect	*intersect_cylindre(t_world *world, t_ray *r);
 void		intersections(t_intersect **head, t_object *obj, double t);
 
 /* ************************************************************************** */
@@ -183,18 +185,35 @@ void		intersections(t_intersect **head, t_object *obj, double t);
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int			key_hook(int key, t_data *img);
 bool		compare(double a, double b);
+void		pixel_size(t_camera *c);
 double		max(double a, double b);
 double		min(double a, double b);
 
-
-// ????????
-void		draw(t_data *img, t_world *world, t_camera *c);
-int 		get_color(t_tuple color);
+/* ************************************************************************** */
+/*                                 vector                                     */
+/* ************************************************************************** */
 t_tuple		reflect(t_tuple lightv, t_tuple normal);
 t_tuple		normal_at(t_object *obj, t_tuple *w_point);
-t_tuple		lighting(t_comp *comps, t_light *light, bool shadowed);
-t_comp		prepare_computations(t_intersect *intersecs, t_ray *r);
-t_tuple		shade_hit(t_world *world, t_comp *comps);
-t_comp		local_prepare_computations(t_intersect *intersecs, t_ray *r);
+t_tuple		cyl_normal_at(t_object *obj, t_tuple *w_point);
 t_tuple		local_normal_at(t_object *obj, t_tuple *w_point);
+
+/* ************************************************************************** */
+/*                                 computations                               */
+/* ************************************************************************** */
+t_comp		prepare_computations(t_intersect *intersecs, t_ray *r);
+
+/* ************************************************************************** */
+/*                                 color                                      */
+/* ************************************************************************** */
+int 		get_color(t_tuple color);
+int			color_at(t_world *world, t_ray *r);
+t_tuple		shade_hit(t_world *world, t_comp *comps);
+t_tuple		lighting(t_comp *comps, t_light *light, bool shadowed);
+
+
+
+
+// ????????
+bool	is_shadowed(t_world *world, t_tuple point);
+void		draw(t_data *img, t_world *world, t_camera *c);
 #endif

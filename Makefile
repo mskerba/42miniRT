@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 MLX_FLAGS = /usr/local/lib/ -lmlx -framework OpenGL -framework Appkit
 
-SRCS = miniRT.c main.c \
+SRCS = miniRT.c   \
 		objects/add_object.c objects/create_object.c \
 		tuples/add_tuples.c tuples/substract_tuples.c tuples/scalar_multi.c tuples/trim_tuple.c\
 		tuples/normalize_tuple.c tuples/cross_product.c tuples/create_tuple.c \
@@ -18,8 +18,12 @@ SRCS = miniRT.c main.c \
 		matrices/determinant.c matrices/get_submatrix.c matrices/inverse_matrix.c\
 		matrices/matrix_multi.c matrices/matrix_x_tuple.c matrices/transpose_matrix.c matrices/display_matrix.c\
 		intersect/intersect_world.c intersect/local_intersect.c intersect/intersect.c intersect/create_intersect.c \
-		intersect/intersections.c intersect/clear_intersecs.c \
-		utiles/min.c utiles/max.c utiles/compare.c utiles/mlx.c \
+		intersect/intersections.c intersect/clear_intersecs.c intersect/inter_cyl.c intersect/intersect_cylindre.c \
+		utiles/min.c utiles/max.c utiles/compare.c utiles/mlx.c utiles/pixel_size.c \
+		vector/reflect.c vector/normal_at.c vector/cyl_normal_at.c vector/local_normal.c \
+		computation/prepare_computations.c \
+		color/color_at.c color/get_color.c color/lighting.c color/shade_hit.c \
+		color/draw.c color/shadow.c \
 
 all : $(NAME)
 
