@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intersect_world.c                                  :+:      :+:    :+:   */
+/*   sphere_intersect.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 19:59:20 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/29 10:54:25 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/10/29 10:50:07 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/10/29 10:53:43 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-t_intersect	*intersect_world(t_world *world, t_ray *r)
+void    sphere_inter(t_object *sphere, t_ray *r, t_intersect **inter)
 {
-	t_intersect	*inter;
-	t_object	*obj;
-
-	inter = NULL;
-	obj = world->objects;
-	while (obj)
+    t_ray   r1;
+    double  *t;
+    
+    r1.origin = matrix_x_tuple(sphere->inv, r->origin);
+	r1.direction = matrix_x_tuple(sphere->inv, r->direction);
+	normalize_tuple(&r1.direction);
+	t = intersect(r1);
+	if (t)
 	{
-		if (obj->type == 's')
-			sphere_inter(obj, r, &inter);
-		else if (obj->type == 'c')
-			cylindre_inter(obj, r, &inter);
-		else if (obj->type == 'p')
-			plane_inter(obj, r, &inter);
-		obj = obj->next;
+		intersections(inter, sphere, t[0]);
+		if (!compare(t[0], t[1]))
+			intersections(inter, sphere, t[1]);
+		free(t);
 	}
-	return (inter);
 }

@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/29 10:36:43 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/29 10:51:33 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ t_intersect	*local_intersect(t_world *world, t_ray *r);
 t_intersect	*create_intersect(double t, t_object *obj);
 void		cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter);
 void		plane_inter(t_object *plane, t_ray *r, t_intersect **inter);
+void    	sphere_inter(t_object *sphere, t_ray *r, t_intersect **inter);
 void		intersections(t_intersect **head, t_object *obj, double t);
 
 /* ************************************************************************** */
