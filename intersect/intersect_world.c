@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_world.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 19:59:20 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/26 20:12:41 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/29 10:42:02 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ t_intersect	*intersect_world(t_world *world, t_ray *r)
 				free(t);
 			}
 		}
+		else if (obj->type == 'c')
+			cylindre_inter(obj, r, &inter);
+		else if (obj->type == 'p')
+			plane_inter(obj, r, &inter);
 		obj = obj->next;
 	}
 	return (inter);

@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color_at.c                                         :+:      :+:    :+:   */
+/*   cylindre_intersect.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 21:49:23 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/29 10:17:50 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/10/29 10:46:09 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/10/29 10:46:10 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../miniRT.h"
 
-int	color_at(t_world *world, t_ray *r)
+void	cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter)
 {
-	t_comp		comps;
-	t_intersect	*intersecs;
-	t_tuple		shading;
-	int			color;
-
-	color = 0;
-	intersecs = intersect_world(world, r);
-	if (hit(intersecs))
+	t_ray	r1;
+	double	*t;
+	
+	r1.origin = matrix_x_tuple(cylindre->inv, r->origin);
+	r1.direction = matrix_x_tuple(cylindre->inv, r->direction);
+	normalize_tuple(&r1.direction);
+	t = inter_cyl(r1);
+	if (t)
 	{
-		comps = prepare_computations(intersecs, r);
-		shading = shade_hit(world, &comps);
-		color = get_color(shading);
+		intersections(inter, cylindre, t[0]);
+		if (!compare(t[0], t[1]))
+			intersections(inter, cylindre, t[1]);
+		free(t);
 	}
-	if (intersecs)
-		clear_intersecs(&intersecs);
-	return (color);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/28 21:08:59 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/29 10:36:43 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,8 @@ void		clear_intersecs(t_intersect **intersecs);
 t_intersect	*intersect_world(t_world *world, t_ray *r);
 t_intersect	*local_intersect(t_world *world, t_ray *r);
 t_intersect	*create_intersect(double t, t_object *obj);
-t_intersect	*intersect_cylindre(t_world *world, t_ray *r);
+void		cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter);
+void		plane_inter(t_object *plane, t_ray *r, t_intersect **inter);
 void		intersections(t_intersect **head, t_object *obj, double t);
 
 /* ************************************************************************** */
