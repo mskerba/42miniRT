@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/29 10:51:33 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/29 11:04:41 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ typedef struct s_object
 	double				**t;
 	double				**inv;
 	double				**transp;
+	double				cyl_min;
+	double				cyl_max;
 	struct	s_object	*next;
 }	t_object;
 
@@ -186,6 +188,7 @@ void		intersections(t_intersect **head, t_object *obj, double t);
 /* ************************************************************************** */
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int			key_hook(int key, t_data *img);
+void		ft_swap(double *a, double *b);
 bool		compare(double a, double b);
 void		pixel_size(t_camera *c);
 double		max(double a, double b);

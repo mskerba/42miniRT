@@ -19,7 +19,7 @@ SRCS = miniRT.c   \
 		matrices/matrix_multi.c matrices/matrix_x_tuple.c matrices/transpose_matrix.c matrices/display_matrix.c\
 		intersect/intersect_world.c intersect/plane_intersect.c intersect/sphere_intersect.c  intersect/intersect.c intersect/create_intersect.c \
 		intersect/intersections.c intersect/clear_intersecs.c intersect/inter_cyl.c intersect/cylindre_intersect.c  \
-		utiles/min.c utiles/max.c utiles/compare.c utiles/mlx.c utiles/pixel_size.c \
+		utiles/min.c utiles/max.c utiles/compare.c utiles/mlx.c utiles/pixel_size.c utiles/ft_swap.c \
 		vector/reflect.c vector/normal_at.c vector/cyl_normal_at.c vector/local_normal.c \
 		computation/prepare_computations.c \
 		color/color_at.c color/get_color.c color/lighting.c color/shade_hit.c \
