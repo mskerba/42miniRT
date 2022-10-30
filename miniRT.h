@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/29 11:39:32 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/30 11:27:58 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <math.h>
+# include <fcntl.h>
 
 # define EPSILON 0.000010
+# define BUFFER_SIZE 1000
 
 typedef struct s_data
 {
@@ -65,6 +67,8 @@ typedef struct s_object
 	double				**t;
 	double				**inv;
 	double				**transp;
+	double				cyl_min;
+	double				cyl_max;
 	struct s_object		*next;
 }	t_object;
 
@@ -110,12 +114,25 @@ typedef struct s_camera
 	double	**inv;
 }	t_camera;
 
+typedef struct s_phong
+{
+	t_tuple	effective_c;
+	t_tuple	ambient;
+	t_tuple	diffuse;
+	t_tuple	specular;
+	t_tuple	lightv;
+	t_tuple	reflectv;
+	double	factor;
+	double	reflect_dot_eye;
+	double	light_dot_norm;
+}	t_phong;
+
 /* ************************************************************************** */
 /*                                 tuples                                     */
 /* ************************************************************************** */
 t_tuple		create_tuple(double x, double y, double z, double w);
 t_tuple		scalar_multi(t_tuple tpl, double scalar);
-t_tuple 	multiply_tuple(t_tuple *a, t_tuple *b);
+t_tuple		multiply_tuple(t_tuple *a, t_tuple *b);
 t_tuple		substract_tuples(t_tuple a, t_tuple b);
 t_tuple		cross_product(t_tuple a, t_tuple b);
 double		dot_product(t_tuple a, t_tuple b);
@@ -145,7 +162,7 @@ double		**matrix_multi(double **a, double **b, int rows, int columns);
 /* ************************************************************************** */
 /*                                 transformations                            */
 /* ************************************************************************** */
-double		**view_transform(t_tuple from, t_tuple to, t_tuple up);
+void		view_transform(t_camera *c, t_tuple from, t_tuple to, t_tuple up);
 double		**translation(double x, double y, double z);
 double		**scaling(double x, double y, double z);
 double		**shearing(int x, int y, int z);
@@ -186,10 +203,23 @@ void		intersections(t_intersect **head, t_object *obj, double t);
 /* ************************************************************************** */
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
 int			key_hook(int key, t_data *img);
+int			ft_strcmp(char *s1, char *s2);
 bool		compare(double a, double b);
+void		swap(double *a, double *b);
 void		pixel_size(t_camera *c);
 double		max(double a, double b);
 double		min(double a, double b);
+int			ft_strlen(char *s);
+double		d_atoi(char *s);
+double		atod(char *s);
+
+/* ************************************************************************** */
+/*                                 gnl                                        */
+/* ************************************************************************** */
+int			check_buf(char *buff);
+size_t		len(char *str);
+char		*ft_calloc(char *buffer, size_t count, size_t size);
+char		*get_next_line(int fd);
 
 /* ************************************************************************** */
 /*                                 vector                                     */
@@ -210,9 +240,23 @@ t_comp		prepare_computations(t_intersect *intersecs, t_ray *r);
 int			get_color(t_tuple color);
 int			color_at(t_world *world, t_ray *r);
 t_tuple		shade_hit(t_world *world, t_comp *comps);
+void		render(t_data *img, t_world *world, t_camera *c);
 t_tuple		lighting(t_comp *comps, t_light *light, bool shadowed);
 
+/* ************************************************************************** */
+/*                                 parse                                      */
+/* ************************************************************************** */
+t_world		parser(t_world *world, t_camera *c, int fd);
+void		parse_cylindre(t_world *w, int fd);
+void		parse_sphere(t_world *w, int fd);
+t_light		*parse_light(int fd);
+void		parse_plan(t_world *w, int fd);
+void		parse_ambient(t_world *world, int fd);
+t_camera    parse_camera(t_camera c, int fd);
+
+
+
 // ????????
+double	get_value(int fd, char c);
 bool		is_shadowed(t_world *world, t_tuple point);
-void		draw(t_data *img, t_world *world, t_camera *c);
 #endif

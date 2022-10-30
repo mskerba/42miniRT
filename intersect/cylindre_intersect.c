@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:46:09 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/29 11:02:14 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/29 11:47:25 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter)
 {
 	t_ray	r1;
 	double	*t;
+	double	y;
 
 	r1.origin = matrix_x_tuple(cylindre->inv, r->origin);
 	r1.direction = matrix_x_tuple(cylindre->inv, r->direction);
@@ -23,8 +24,12 @@ void	cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter)
 	t = inter_cyl(r1);
 	if (t)
 	{
-		intersections(inter, cylindre, t[0]);
-		if (!compare(t[0], t[1]))
+		y = r->origin.y + t[0] * r->direction.y;
+		if (cylindre->cyl_min < y && y < cylindre->cyl_max)
+			intersections(inter, cylindre, t[0]);
+		y = r->origin.y + t[1] * r->direction.y;
+		if (!compare(t[0], t[1]) && cylindre->cyl_min < y \
+		&& y < cylindre->cyl_max)
 			intersections(inter, cylindre, t[1]);
 		free(t);
 	}

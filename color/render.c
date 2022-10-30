@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 22:04:48 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/26 22:07:32 by mskerba          ###   ########.fr       */
+/*   Created: 2022/10/29 15:09:53 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/10/29 16:38:38 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-void	draw(t_data *img, t_world *world, t_camera *c)
+void	render(t_data *img, t_world *world, t_camera *c)
 {
 	double	y;
 	double	x;

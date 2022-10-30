@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   view_transform.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 19:54:43 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/26 19:56:37 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/29 15:23:00 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-double	**view_transform(t_tuple from, t_tuple to, t_tuple up)
+void	view_transform(t_camera *c, t_tuple from, t_tuple to, t_tuple up)
 {
 	t_tuple	forward;
 	t_tuple	left;
@@ -33,6 +33,7 @@ double	**view_transform(t_tuple from, t_tuple to, t_tuple up)
 	orint[2][0] = -forward.x;
 	orint[2][1] = -forward.y;
 	tr = translation(-from.x, -from.y, -from.z);
-	orint = matrix_multi(orint, tr, 4, 4);
-	return (orint);
+	c->transf = matrix_multi(orint, tr, 4, 4);
+	clear_matrix(tr, 4);
+	clear_matrix(orint, 4);
 }

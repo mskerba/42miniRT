@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_x_tuple.c                                   :+:      :+:    :+:   */
+/*   parse_light.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 18:56:14 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/30 08:43:10 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/10/29 16:04:01 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/10/30 08:48:11 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-t_tuple	matrix_x_tuple(double **m, t_tuple t)
+t_light    *parse_light(int fd)
 {
-	t_tuple	tuple;
+    double  x;
+    double  y;
+    double  z;
+    t_light *l;
 
-	tuple.x = (m[0][0] * t.x) + (m[0][1] * t.y) \
-	+ (m[0][2] * t.z) + (m[0][3] * t.w);
-	tuple.y = (m[1][0] * t.x) + (m[1][1] * t.y) \
-	+ (m[1][2] * t.z) + (m[1][3] * t.w);
-	tuple.z = (m[2][0] * t.x) + (m[2][1] * t.y) \
-	+ (m[2][2] * t.z) + (m[2][3] * t.w);
-	tuple.w = (m[3][0] * t.x) + (m[3][1] * t.y) \
-	+ (m[3][2] * t.z) + (m[3][3] * t.w);
-	return (tuple);
+    l = malloc(sizeof(t_light));
+    x = get_value(fd, ',');
+    y = get_value(fd, ',');
+    z = get_value(fd, ' ');
+    l->position = create_tuple(x, y, z, 1);
+    get_value(fd, ' ');
+    x = get_value(fd, ',');
+    y = get_value(fd, ',');
+    z = get_value(fd, '\n');
+    l->intensity = create_tuple(x, y, z, 1);
+    return (l);
 }
