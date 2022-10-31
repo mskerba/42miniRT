@@ -1,6 +1,6 @@
 int	main(void)
 {
-	t_data		img;
+	t_mlx		img;
 	t_light		light;
 	t_world		world;
 	int fd;

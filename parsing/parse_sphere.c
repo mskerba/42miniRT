@@ -6,7 +6,7 @@
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:04:04 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/31 15:12:26 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/31 21:06:57 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void    parse_sphere(t_world *w, char *s, int len)
     w->objects->inv = inverse_matrix(w->objects->t);
     w->objects->inv = trim_matrix(w->objects->inv);
 	w->objects->transp = transpose_matrix(w->objects->inv, 4);
-
 	x = get_value(s, ',', len);
 	y = get_value(s, ',', len);
 	z = get_value(s, ' ', len);

@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   valid_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 15:09:53 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/31 16:53:12 by mskerba          ###   ########.fr       */
+/*   Created: 2022/10/31 15:30:10 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/10/31 16:55:12 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../miniRT.h"
+# include "../miniRT.h"
 
-void	render(t_mlx *img, t_world *world, t_camera *c)
+int valid_map(int ac, char *s)
 {
-	double	y;
-	double	x;
-	t_ray	r;
+    int	fd;
 
-	y = -1.0;
-	while (++y < 1000)
-	{
-		x = -1.0;
-		while (++x < 1000)
-		{
-			r = ray_for_pixel(c, x, y);
-			my_mlx_pixel_put(img, x, y, color_at(world, &r));
-		}
-	}
+	if (ac > 2)
+	;
+		// error("too many arguments!");
+	// if (ac < 2)
+		// error("missing map!");
+	// valid_extension(s);
+	fd = open(s, O_RDONLY);
+	// if (fd < 0)
+		// error("The map cannot be opened!");
+	return (fd);
 }

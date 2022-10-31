@@ -6,7 +6,7 @@
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:04:01 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/31 16:40:04 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/31 22:30:26 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ void	parse_light(t_world	*w, char *s, int len)
 	w->diffuse = get_value(s, ' ', len);
 	x = get_value(s, ',', len);
 	y = get_value(s, ',', len);
-	z = get_value(s, 0, len);
+	z = get_value(s, '\n', len);
 	w->light->intensity = create_tuple(x, y, z, 1);
 }

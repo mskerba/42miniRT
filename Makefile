@@ -26,10 +26,10 @@ SRCS = miniRT.c   \
 		color/color_at.c color/get_color.c color/lighting.c color/shade_hit.c \
 		color/render.c color/shadow.c \
 		parsing/parser.c parsing/parse_ambient.c parsing/parse_sphere.c parsing/parse_cylindre.c parsing/parse_plane.c \
-		parsing/parse_light.c \
-		gnl/get_next_line.c gnl/get_next_line_utils.c 
-		
-#parsing/parse_camera.c  
+		gnl/get_line.c mlx/destroy_window.c \
+		parsing/valid_extension.c parsing/valid_map.c parsing/parse_light.c\
+		utiles/error.c parsing/parse_camera.c \
+
 
 all : $(NAME)
 
