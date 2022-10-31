@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/31 15:47:12 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:10:42 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,4 +277,5 @@ int			destroy(t_mlx *mlx);
 void		valid_extension(char *s);
 int 		valid_map(int ac, char *s);
 void    	error(char *s);
+char		*get_line(int fd);
 #endif
