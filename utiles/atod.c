@@ -6,17 +6,16 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:21:25 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/29 17:06:26 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/31 09:50:08 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../miniRT.h"
-
+#include "../miniRT.h"
 
 double	atod(char *s)
 {
 	double	result;
-	int 	i;
+	int		i;
 	double	sign;
 
 	i = -1;
@@ -32,17 +31,18 @@ double	atod(char *s)
 	return (result * sign);
 }
 
-double  d_atoi(char *s)
+double	d_atoi(char *s)
 {
-    double  result;
-    int     i;
+	double	result;
+	int		i;
 
-    i = -1;
-    while (s[++i] && s[i] != '.');
-    if (s[i] != '.')
-        return (atod(s));
-    s[i] = 0;
-    result = atod(s);
-    result += (atod(s + i + 1) / pow(10, ft_strlen(s + i + 1)));
-    return (result);
+	i = -1;
+	while (s[++i] && s[i] != '.')
+		;
+	if (s[i] != '.')
+		return (atod(s));
+	s[i] = 0;
+	result = atod(s);
+	result += (atod(s + i + 1) / pow(10, ft_strlen(s + i + 1)));
+	return (result);
 }

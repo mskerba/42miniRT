@@ -5,41 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 16:03:58 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/30 08:48:03 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/10/30 18:59:15 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/10/31 10:00:07 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-double	get_value(int fd, char c)
+void	parse_ambient(t_comp *comps, char *s, int len)
 {
-	char	token[1000];
-    int i;
+	double	x;
+	double	y;
+	double	z;
 
-    i = 0;
-    while (1)
-    {
-        if (read(fd, token, 1) <= 0)
-            break ;
-        if (token[0] != ' ' && token[0] != '\n')
-            break ;
-    }
-    while (token[i] != c && token[i] != ' ')
-    {
-        i++;
-        if (read(fd, token + i, 1) <= 0)
-            break ;
-    }
-	token[i] = 0;
-    return (d_atoi(token));
-}
-
-void    parse_ambient(t_world *world, int fd)
-{
-    (void) world;
-	get_value(fd, ' ');
-	get_value(fd, ',');
-	get_value(fd, ',');
-	get_value(fd, '\n');
+	comps->ambient.ambient = get_value(s, ' ', len);
+	x = get_value(s, ',', len);
+	y = get_value(s, ',', len);
+	z = get_value(s, '\n', len);
+	comps->ambient.color = create_tuple(x, y, z, 1);
 }

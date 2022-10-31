@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/30 11:27:58 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/31 09:55:42 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,12 @@ typedef struct s_intersect
 	struct s_intersect	*next;
 }	t_intersect;
 
+typedef struct s_ambient
+{
+	double	ambient;
+	t_tuple	color;
+}			t_ambient;
+
 typedef struct s_comp
 {
 	double			t;
@@ -88,6 +94,7 @@ typedef struct s_comp
 	t_tuple			eyev;
 	t_tuple			normalv;
 	t_object		*obj;
+	t_ambient		ambient;
 }	t_comp;
 
 typedef struct s_light
@@ -202,6 +209,7 @@ void		intersections(t_intersect **head, t_object *obj, double t);
 /*                                 utiles                                     */
 /* ************************************************************************** */
 void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+double		get_value(char *s, char c, int len);
 int			key_hook(int key, t_data *img);
 int			ft_strcmp(char *s1, char *s2);
 bool		compare(double a, double b);
@@ -209,6 +217,7 @@ void		swap(double *a, double *b);
 void		pixel_size(t_camera *c);
 double		max(double a, double b);
 double		min(double a, double b);
+char		*get_token(char *s);
 int			ft_strlen(char *s);
 double		d_atoi(char *s);
 double		atod(char *s);
@@ -246,17 +255,16 @@ t_tuple		lighting(t_comp *comps, t_light *light, bool shadowed);
 /* ************************************************************************** */
 /*                                 parse                                      */
 /* ************************************************************************** */
-t_world		parser(t_world *world, t_camera *c, int fd);
-void		parse_cylindre(t_world *w, int fd);
-void		parse_sphere(t_world *w, int fd);
-t_light		*parse_light(int fd);
-void		parse_plan(t_world *w, int fd);
-void		parse_ambient(t_world *world, int fd);
-t_camera    parse_camera(t_camera c, int fd);
+t_world		parser(t_world *world, t_comp *comp, t_camera *c, int fd);
+void		parse_ambient(t_comp *comps, char *s, int len);
+void		parse_camera(t_camera c, char *s);
+void		parse_cylindre(t_world *w, char *s, int len);
+// t_light		*parse_light(char *s);
+void		parse_plan(t_world *w, char *s, int len);
+void    	parse_sphere(t_world *w, char *s, int len);
 
 
 
 // ????????
-double	get_value(int fd, char c);
 bool		is_shadowed(t_world *world, t_tuple point);
 #endif

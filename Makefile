@@ -2,7 +2,7 @@ NAME = miniRT
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 
 MLX_FLAGS = /usr/local/lib/ -lmlx -framework OpenGL -framework Appkit
 
@@ -20,14 +20,16 @@ SRCS = miniRT.c   \
 		intersect/intersect_world.c intersect/plane_intersect.c intersect/sphere_intersect.c  intersect/intersect.c intersect/create_intersect.c \
 		intersect/intersections.c intersect/clear_intersecs.c intersect/inter_cyl.c intersect/cylindre_intersect.c \
 		utiles/min.c utiles/max.c utiles/compare.c utiles/mlx.c utiles/pixel_size.c utiles/swap.c utiles/strcmp.c \
-		utiles/strlen.c utiles/atod.c \
+		utiles/strlen.c utiles/atod.c utiles/get_value.c utiles/get_token.c \
 		vector/reflect.c vector/normal_at.c vector/cyl_normal_at.c vector/local_normal.c \
 		computation/prepare_computations.c \
 		color/color_at.c color/get_color.c color/lighting.c color/shade_hit.c \
 		color/render.c color/shadow.c \
-		parsing/parser.c parsing/parse_ambient.c parsing/parse_camera.c parsing/parse_cylindre.c \
-		parsing/parse_light.c parsing/parse_plane.c parsing/parse_sphere.c \
-		gnl/get_next_line.c gnl/get_next_line_utils.c
+		parsing/parser.c parsing/parse_ambient.c parsing/parse_sphere.c parsing/parse_cylindre.c parsing/parse_plane.c \
+		gnl/get_next_line.c gnl/get_next_line_utils.c 
+		
+#parsing/parse_camera.c  
+#parsing/parse_light.c   \
 
 all : $(NAME)
 

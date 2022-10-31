@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strlen.c                                           :+:      :+:    :+:   */
+/*   get_token.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 16:13:57 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/31 09:51:24 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/10/31 09:57:46 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/10/31 09:58:35 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-int	ft_strlen(char *s)
+char	*get_token(char *s)
 {
 	int	i;
+	int	j;
 
 	i = -1;
-	if (!s)
-		return (0);
-	while (s[++i])
+	while (s[++i] && s[i] == ' ')
 		;
-	return (i);
+	j = i;
+	while (s[i] && s[i] != ' ')
+		i++;
+	s[i] = 0;
+	return (s + j);
 }
