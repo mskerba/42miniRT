@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/31 09:55:42 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:40:37 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ typedef struct s_tuple
 typedef struct s_material
 {
 	t_tuple	color;
-	double	ambient;
-	double	diffuse;
 	double	specular;
 	double	shininess;
 }			t_material;
@@ -94,7 +92,6 @@ typedef struct s_comp
 	t_tuple			eyev;
 	t_tuple			normalv;
 	t_object		*obj;
-	t_ambient		ambient;
 }	t_comp;
 
 typedef struct s_light
@@ -107,6 +104,8 @@ typedef struct s_world
 {
 	t_light		*light;
 	t_object	*objects;
+	t_ambient	ambient;
+	double		diffuse;
 }	t_world;
 
 typedef struct s_camera
@@ -225,10 +224,10 @@ double		atod(char *s);
 /* ************************************************************************** */
 /*                                 gnl                                        */
 /* ************************************************************************** */
-int			check_buf(char *buff);
 size_t		len(char *str);
-char		*ft_calloc(char *buffer, size_t count, size_t size);
+int			check_buf(char *buff);
 char		*get_next_line(int fd);
+char		*ft_calloc(char *buffer, size_t count, size_t size);
 
 /* ************************************************************************** */
 /*                                 vector                                     */
@@ -250,16 +249,16 @@ int			get_color(t_tuple color);
 int			color_at(t_world *world, t_ray *r);
 t_tuple		shade_hit(t_world *world, t_comp *comps);
 void		render(t_data *img, t_world *world, t_camera *c);
-t_tuple		lighting(t_comp *comps, t_light *light, bool shadowed);
+t_tuple		lighting(t_world *w,t_comp *comps, t_light *light, bool shadowed);
 
 /* ************************************************************************** */
 /*                                 parse                                      */
 /* ************************************************************************** */
-t_world		parser(t_world *world, t_comp *comp, t_camera *c, int fd);
-void		parse_ambient(t_comp *comps, char *s, int len);
+t_world		parser(t_world *world, t_camera *c, int fd);
+void		parse_ambient(t_world *w, char *s, int len);
 void		parse_camera(t_camera c, char *s);
 void		parse_cylindre(t_world *w, char *s, int len);
-// t_light		*parse_light(char *s);
+void		parse_light(t_world	*w, char *s, int len);
 void		parse_plan(t_world *w, char *s, int len);
 void    	parse_sphere(t_world *w, char *s, int len);
 

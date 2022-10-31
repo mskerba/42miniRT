@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/31 09:52:20 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/31 16:40:50 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(void)
 	t_data		img;
 	t_light		light;
 	t_world		world;
-	t_comp		comp;
+	// t_comp		comp;
 	t_camera	c;
 	t_camera	l;
 
@@ -37,16 +37,18 @@ int	main(void)
 	world.light = &light;
 	world.objects = NULL;
 	
+	
 
 // 	//walls
+	world.ambient.color = create_tuple(1,1,1,1);
+	world.ambient.ambient = 0.9;
+	world.diffuse = 0.9;
 	add_object(&world.objects, 'p', rotation_z(M_PI / 2));
 	world.objects->t = matrix_multi(translation(5, 0.0, 0.0), world.objects->t, 4, 4);
 	world.objects->inv = inverse_matrix(world.objects->t);
 	world.objects->inv = trim_matrix(world.objects->inv);
 	world.objects->transp = transpose_matrix(world.objects->inv, 4);
 	world.objects->m.color = create_tuple(1.0, 0.9, 0.9, 1);
-	world.objects->m.ambient = 0.5;
-	world.objects->m.diffuse = 0.9;
 	world.objects->m.specular = 0.9;
 	world.objects->m.shininess = 200.0;
 
@@ -56,13 +58,10 @@ int	main(void)
 	world.objects->inv = trim_matrix(world.objects->inv);
 	world.objects->transp = transpose_matrix(world.objects->inv, 4);
 	world.objects->m.color = create_tuple(0.0, 1.0, 0.0, 1);
-	world.objects->m.ambient = 0.1;
-	world.objects->m.diffuse = 0.5;
 	world.objects->m.specular = 0.9;
 	world.objects->m.shininess = 200.0;
 
-	comp.ambient.ambient = 0.1;
-	comp.ambient.color = create_tuple(0.0, 1.0, 0.0, 1);
+
 
 	// 
 	add_object(&world.objects, 'p', rotation_z(-M_PI / 2));
@@ -71,12 +70,10 @@ int	main(void)
 	world.objects->inv = trim_matrix(world.objects->inv);
 	world.objects->transp = transpose_matrix(world.objects->inv, 4);
 	world.objects->m.color = create_tuple(1.0, 0.0, 0.0, 1);
-	world.objects->m.ambient = 0.1;
-	world.objects->m.diffuse = 0.5;
 	world.objects->m.specular = 0.9;
 	world.objects->m.shininess = 200.0;
 	int fd = open("res", O_RDWR);
-	world = parser(&world, &comp, &l, fd);
+	world = parser(&world, &l, fd);
 	render(&img, &world, &c);
 	mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);
 	mlx_hook(img.mlx_win, 02, 0L, key_hook, &img);

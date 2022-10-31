@@ -6,28 +6,25 @@
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:04:01 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/30 15:23:32 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/31 16:40:04 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-t_light    *parse_light(char *s)
+void	parse_light(t_world	*w, char *s, int len)
 {
-    double  x;
-    double  y;
-    double  z;
-    t_light *l;
+	double	x;
+	double	y;
+	double	z;
 
-    l = malloc(sizeof(t_light));
-    x = get_value(s, ',');
-    y = get_value(s, ',');
-    z = get_value(s, ' ');
-    l->position = create_tuple(x, y, z, 1);
-    get_value(s, ' ');
-    x = get_value(s, ',');
-    y = get_value(s, ',');
-    z = get_value(s, 0);
-    l->intensity = create_tuple(x, y, z, 1);
-    return (l);
+	x = get_value(s, ',', len);
+	y = get_value(s, ',', len);
+	z = get_value(s, ' ', len);
+	w->light->position = create_tuple(x, y, z, 1);
+	w->diffuse = get_value(s, ' ', len);
+	x = get_value(s, ',', len);
+	y = get_value(s, ',', len);
+	z = get_value(s, 0, len);
+	w->light->intensity = create_tuple(x, y, z, 1);
 }

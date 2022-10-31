@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_plane.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:04:02 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/30 23:08:47 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:12:32 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void    parse_plan(t_world *w, char *s, int len)
 	y = get_value(s, ',', len);
 	z = get_value(s, ' ', len);
 	w->objects->m.color = create_tuple(x / 255.0, y / 255.0, z / 255.0, 1);
-	w->objects->m.ambient = 0.1;
-	w->objects->m.diffuse = get_value(s, ' ', len);
 	w->objects->m.specular = get_value(s, ' ', len);
 	w->objects->m.shininess = get_value(s, '\n', len);
 	display_matrix(w->objects->t, 4, 4);
