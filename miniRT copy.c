@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT copy.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/30 12:35:30 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/31 14:59:38 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(void)
 {
-	t_data		img;
+	t_mlx		img;
 	t_light		light;
 	t_world		world;
 	t_camera	c;

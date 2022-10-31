@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 15:09:53 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/31 14:59:38 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/10/31 15:45:02 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/10/31 15:45:57 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../miniRT.h"
+# include "../miniRT.h"
 
-void	render(t_mlx *img, t_world *world, t_camera *c)
+void    error(char *s)
 {
-	double	y;
-	double	x;
-	t_ray	r;
-
-	y = -1.0;
-	while (++y < 1000)
-	{
-		x = -1.0;
-		while (++x < 1000)
-		{
-			r = ray_for_pixel(c, x, y);
-			my_mlx_pixel_put(img, x, y, color_at(world, &r));
-		}
-	}
+    while (*s)
+        write(2, s++, 1);
+    write(2, "\n", 1);
+    exit(24);
 }

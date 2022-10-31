@@ -6,15 +6,15 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/31 09:52:20 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:43:58 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-int	main(void)
+int	main(int ac, char **av)
 {
-	t_data		img;
+	t_mlx		img;
 	t_light		light;
 	t_world		world;
 	t_comp		comp;
@@ -75,10 +75,11 @@ int	main(void)
 	world.objects->m.diffuse = 0.5;
 	world.objects->m.specular = 0.9;
 	world.objects->m.shininess = 200.0;
-	int fd = open("res", O_RDWR);
+	int fd = valid_map(ac, av[1]);
 	world = parser(&world, &comp, &l, fd);
 	render(&img, &world, &c);
 	mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);
-	mlx_hook(img.mlx_win, 02, 0L, key_hook, &img);
+	mlx_hook(img.mlx_win, ON_KEYDOWN, 0L, key_hook, &img);;
+	mlx_hook(img.mlx_win, ON_DESTROY, 0L, destroy, &img);;
 	mlx_loop(img.mlx);
 }

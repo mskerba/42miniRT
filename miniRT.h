@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/31 09:55:42 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/10/31 15:47:12 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@
 # define EPSILON 0.000010
 # define BUFFER_SIZE 1000
 
+enum
+{
+	ON_KEYDOWN = 2,
+	ON_DESTROY = 17
+};
+
 typedef struct s_data
 {
 	void	*img;
@@ -34,7 +40,7 @@ typedef struct s_data
 	int		endian;
 	void	*mlx;
 	void	*mlx_win;
-}				t_data;
+}				t_mlx;
 
 typedef struct s_tuple
 {
@@ -208,9 +214,9 @@ void		intersections(t_intersect **head, t_object *obj, double t);
 /* ************************************************************************** */
 /*                                 utiles                                     */
 /* ************************************************************************** */
-void		my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void		my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 double		get_value(char *s, char c, int len);
-int			key_hook(int key, t_data *img);
+int			key_hook(int key, t_mlx *mlx);
 int			ft_strcmp(char *s1, char *s2);
 bool		compare(double a, double b);
 void		swap(double *a, double *b);
@@ -249,7 +255,7 @@ t_comp		prepare_computations(t_intersect *intersecs, t_ray *r);
 int			get_color(t_tuple color);
 int			color_at(t_world *world, t_ray *r);
 t_tuple		shade_hit(t_world *world, t_comp *comps);
-void		render(t_data *img, t_world *world, t_camera *c);
+void		render(t_mlx *img, t_world *world, t_camera *c);
 t_tuple		lighting(t_comp *comps, t_light *light, bool shadowed);
 
 /* ************************************************************************** */
@@ -267,4 +273,8 @@ void    	parse_sphere(t_world *w, char *s, int len);
 
 // ????????
 bool		is_shadowed(t_world *world, t_tuple point);
+int			destroy(t_mlx *mlx);
+void		valid_extension(char *s);
+int 		valid_map(int ac, char *s);
+void    	error(char *s);
 #endif

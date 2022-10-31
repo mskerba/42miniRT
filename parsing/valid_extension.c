@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   valid_extension.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/29 15:09:53 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/31 14:59:38 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/10/31 15:23:47 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/10/31 15:48:26 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../miniRT.h"
+# include "../miniRT.h"
 
-void	render(t_mlx *img, t_world *world, t_camera *c)
+void	valid_extension(char *s)
 {
-	double	y;
-	double	x;
-	t_ray	r;
+	int	i;
 
-	y = -1.0;
-	while (++y < 1000)
-	{
-		x = -1.0;
-		while (++x < 1000)
-		{
-			r = ray_for_pixel(c, x, y);
-			my_mlx_pixel_put(img, x, y, color_at(world, &r));
-		}
-	}
+	i	= ft_strlen(s);
+	if (i < 4 || !(s[i - 3] == '.' && s[i - 2] == 'r' && s[i - 1] == 't'))
+		error("invalid extension");
 }
