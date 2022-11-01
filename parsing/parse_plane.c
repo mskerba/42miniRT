@@ -3,42 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   parse_plane.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:04:02 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/31 15:12:32 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/31 23:03:11 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-void    parse_plan(t_world *w, char *s, int len)
+void	parse_plan(t_world *w, char *s, int len)
 {
 	double	x;
 	double	y;
 	double	z;
-    double  **t;
+	double	**t;
 
-	//position
 	x = get_value(s, ',', len);
 	y = get_value(s, ',', len);
 	z = get_value(s, ' ', len);
 	t = translation(x, y, z);
 	add_object(&w->objects, 'c', t);
-	//orientation
 	x = (get_value(s, ',', len));
 	y = (get_value(s, ',', len));
 	z = (get_value(s, ' ', len));
-	
 	t = matrix_multi(rotation_x(x), t, 4, 4);
 	t = matrix_multi(rotation_y(y), t, 4, 4);
 	t = matrix_multi(rotation_z(y), t, 4, 4);
-	//orient();
-    w->objects->t = t;
-    w->objects->inv = inverse_matrix(w->objects->t);
-    w->objects->inv = trim_matrix(w->objects->inv);
+	w->objects->t = t;
+	w->objects->inv = inverse_matrix(w->objects->t);
+	w->objects->inv = trim_matrix(w->objects->inv);
 	w->objects->transp = transpose_matrix(w->objects->inv, 4);
-
 	x = get_value(s, ',', len);
 	y = get_value(s, ',', len);
 	z = get_value(s, ' ', len);

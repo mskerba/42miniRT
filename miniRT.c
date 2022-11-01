@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 11:02:44 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/31 22:42:03 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/31 22:51:58 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	main(int ac, char **av)
 	world = parser(&world, &c, fd);
 	render(&img, &world, &c);
 	mlx_put_image_to_window(img.mlx, img.mlx_win, img.img, 0, 0);
-	mlx_hook(img.mlx_win, ON_KEYDOWN, 0L, key_hook, &img);;
-	mlx_hook(img.mlx_win, ON_DESTROY, 0L, destroy, &img);;
+	mlx_hook(img.mlx_win, ON_KEYDOWN, 0L, key_hook, &img);
+	mlx_hook(img.mlx_win, ON_DESTROY, 0L, destroy, &img);
 	mlx_loop(img.mlx);
 }

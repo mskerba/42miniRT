@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_value.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 09:54:21 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/31 21:06:33 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/31 22:55:46 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,17 @@ double	get_value(char *s, char c, int len)
 	int			j;
 
 	j = 0;
-
 	if (i >= len)
-	{
-		write(2, "component not fount\n", 21);
-		// exit (1);
-	}
-	while (s[i] && s[i] == ' ')
+		error("component not fount!");
+	while (s[i] && (s[i] == ' ' || s[i] == '\t'))
 		i++;
 	if (i >= len)
-	{
-		write(2, "component not fount\n", 21);
-		// exit (1);
-	}
+		error("component not fount!");
 	j = i;
-	while (s[i] && s[i] != c && s[i] != ' ')
+	while (s[i] && s[i] != c && (s[i] != ' ' || s[i] == '\t'))
 		i++;
-
 	s[i++] = 0;
-	if(c == '\n')
+	if (c == '\n')
 		i = 0;
 	return (d_atoi(s + j));
 }

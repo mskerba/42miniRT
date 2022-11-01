@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/31 22:36:29 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/10/31 23:13:02 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ int			get_color(t_tuple color);
 int			color_at(t_world *world, t_ray *r);
 t_tuple		shade_hit(t_world *world, t_comp *comps);
 void		render(t_mlx *img, t_world *world, t_camera *c);
-t_tuple		lighting(t_world *w,t_comp *comps, t_light *light, bool shadowed);
+t_tuple		lighting(t_world *w, t_comp *comps, t_light *light, bool shadowed);
 
 /* ************************************************************************** */
 /*                                 parse                                      */
@@ -262,18 +262,17 @@ t_tuple		lighting(t_world *w,t_comp *comps, t_light *light, bool shadowed);
 void		parse_cylindre(t_world *w, char *s, int len);
 t_world		parser(t_world *world, t_camera *c, int fd);
 void		parse_ambient(t_world *w, char *s, int len);
-void    	parse_sphere(t_world *w, char *s, int len);
+void		parse_sphere(t_world *w, char *s, int len);
 void		parse_light(t_world	*w, char *s, int len);
 void		parse_plan(t_world *w, char *s, int len);
-void    	parse_camera(t_camera *c, char *s, int len);
-
-
+void		parse_camera(t_camera *c, char *s, int len);
 
 // ????????
 bool		is_shadowed(t_world *world, t_tuple point);
 int			destroy(t_mlx *mlx);
 void		valid_extension(char *s);
-int 		valid_map(int ac, char *s);
-void    	error(char *s);
+int			valid_map(int ac, char *s);
+void		error(char *s);
 char		*get_line(int fd);
+
 #endif
