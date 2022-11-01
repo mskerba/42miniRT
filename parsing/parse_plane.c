@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_plane.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:04:02 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/01 09:59:15 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/11/01 19:40:18 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,20 @@ void	parse_plan(t_world *w, char *s, int len)
 	double	y;
 	double	z;
 	double	**t;
+	double	**r;
 
 	x = get_value(s, ',', len);
 	y = get_value(s, ',', len);
 	z = get_value(s, ' ', len);
 	t = translation(x, y, z);
-	add_object(&w->objects, 'c', t);
-	x = (get_value(s, ',', len));
-	y = (get_value(s, ',', len));
-	z = (get_value(s, ' ', len));
-	t = matrix_multi(rotation_x(x), t, 4, 4);
-	t = matrix_multi(rotation_y(y), t, 4, 4);
-	w->objects->t = matrix_multi(rotation_z(y), t, 4, 4);
+	x = get_value(s, ',', len) * M_PI;
+	y = get_value(s, ',', len) * M_PI;
+	z = get_value(s, ' ', len) * M_PI;
+	r = rotation_x(x);
+	r = matrix_multi(rotation_y(y), t, 4, 4);
+	r = matrix_multi(rotation_z(z), t, 4, 4);
+	add_object(&w->objects, 'p', r);
+	w->objects->t = matrix_multi(t, r, 4, 4);
 	w->objects->inv = inverse_matrix(w->objects->t);
 	w->objects->inv = trim_matrix(w->objects->inv);
 	w->objects->transp = transpose_matrix(w->objects->inv, 4);

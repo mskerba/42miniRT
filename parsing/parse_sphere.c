@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:04:04 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/31 23:01:49 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/01 18:34:09 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	parse_sphere(t_world *w, char *s, int len)
 	w->objects->inv = inverse_matrix(w->objects->t);
 	w->objects->inv = trim_matrix(w->objects->inv);
 	w->objects->transp = transpose_matrix(w->objects->inv, 4);
-	x = get_value(s, ',', len);
-	y = get_value(s, ',', len);
-	z = get_value(s, ' ', len);
-	w->objects->m.color = create_tuple(x / 255.0, y / 255.0, z / 255.0, 1);
+	x = get_value(s, ',', len) / 255.0;
+	y = get_value(s, ',', len) / 255.0;
+	z = get_value(s, ' ', len) / 255.0;
+	w->objects->m.color = create_tuple(x, y, z, 1);
 	w->objects->m.specular = get_value(s, ' ', len);
 	w->objects->m.shininess = get_value(s, '\n', len);
 	clear_matrix(t, 4);
