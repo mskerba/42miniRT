@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lighting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 21:51:04 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/01 18:31:01 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/02 12:49:36 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ t_tuple	lighting(t_world *w, t_comp *comps, t_light *light, bool shadowed)
 {
 	t_phong	phong;
 
-	phong.effective_c = multiply_tuple(&light->intensity, &w->ambient.color);
-	phong.ambient = scalar_multi(phong.effective_c, w->ambient.ambient);
 	phong.effective_c = multiply_tuple(&light->intensity, &comps->obj->m.color);
+	phong.ambient = scalar_multi(phong.effective_c, w->ambient.ambient);
 	if (shadowed)
 		return (phong.ambient);
 	phong.lightv = substract_tuples(light->position, comps->over_point);

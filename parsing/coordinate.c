@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_value.c                                        :+:      :+:    :+:   */
+/*   coordinate.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 09:54:21 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/02 14:06:57 by mskerba          ###   ########.fr       */
+/*   Created: 2022/11/02 09:30:56 by mskerba           #+#    #+#             */
+/*   Updated: 2022/11/02 09:31:22 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-double	get_value(char *s, char c, int len)
+double	**coordinate(char *s, int len)
 {
-	static int	i = 0;
-	int			j;
+	double	x;
+	double	y;
+	double	z;
 
-	j = 0;
-	if (i >= len)
-		error("component not fount!");
-	while (s[i] && (s[i] == ' ' || s[i] == '\t'))
-		i++;
-	if (i >= len)
-		error("component not fount!");
-	j = i;
-	while (s[i] && s[i] != c && (s[i] != ' ' || s[i] == '\t'))
-		i++;
-	s[i++] = 0;
-	if (c == '\n')
-		i = 0;
-	return (d_atoi(s + j));
+	x = get_value(s, ',', len);
+	y = get_value(s, ',', len);
+	z = get_value(s, ' ', len);
+	return (translation(x, y, z));
 }

@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   cylindre_intersect.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:46:09 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/29 11:47:25 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/02 12:37:57 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
+
+int	check_cap(t_ray *r,	double t)
+{
+	double x;
+	double z;
+
+	x = r->origin.x + t * r->direction.x;
+	z = r->origin.z + t * r->direction.z;
+	return (pow(x, 2) + pow(z, 2));
+}
 
 void	cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter)
 {
@@ -33,4 +43,10 @@ void	cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter)
 			intersections(inter, cylindre, t[1]);
 		free(t);
 	}
+	// y = (cylindre->cyl_min - r->origin.y) / r->direction.y;
+	// if(check_cap(r, y) <= 1)
+	// 	intersections(inter, cylindre, y);
+	// y = (cylindre->cyl_max - r->origin.y) / r->direction.y;
+	// if(check_cap(r, y) <= 1)
+	// 	intersections(inter, cylindre, y);
 }

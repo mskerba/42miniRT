@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/31 23:13:02 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/02 10:56:42 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,11 @@ typedef struct s_phong
 }	t_phong;
 
 /* ************************************************************************** */
+/*                                 miniRT                                     */
+/* ************************************************************************** */
+void		minirt(t_mlx *img, int ac, char *s);
+
+/* ************************************************************************** */
 /*                                 tuples                                     */
 /* ************************************************************************** */
 t_tuple		create_tuple(double x, double y, double z, double w);
@@ -199,23 +204,21 @@ t_object	*create_object(char type, double **t);
 /* ************************************************************************** */
 /*                                 intersect                                  */
 /* ************************************************************************** */
-double		*intersect(t_ray r, double *t);
 double		*inter_cyl(t_ray r);
+double		*intersect(t_ray r, double *t);
 void		clear_intersecs(t_intersect **intersecs);
+t_intersect	*create_intersect(double t, t_object *obj);
 t_intersect	*intersect_world(t_world *world, t_ray *r);
 t_intersect	*local_intersect(t_world *world, t_ray *r);
-t_intersect	*create_intersect(double t, t_object *obj);
-void		cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter);
+void		intersections(t_intersect **head, t_object *obj, double t);
 void		plane_inter(t_object *plane, t_ray *r, t_intersect **inter);
 void		sphere_inter(t_object *sphere, t_ray *r, t_intersect **inter);
-void		intersections(t_intersect **head, t_object *obj, double t);
+void		cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter);
 
 /* ************************************************************************** */
 /*                                 utiles                                     */
 /* ************************************************************************** */
-void		my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 double		get_value(char *s, char c, int len);
-int			key_hook(int key, t_mlx *mlx);
 int			ft_strcmp(char *s1, char *s2);
 bool		compare(double a, double b);
 void		swap(double *a, double *b);
@@ -225,6 +228,7 @@ double		min(double a, double b);
 char		*get_token(char *s);
 int			ft_strlen(char *s);
 double		d_atoi(char *s);
+void		error(char *s);
 double		atod(char *s);
 
 /* ************************************************************************** */
@@ -237,10 +241,10 @@ void		ft_strcpy(char	*dst, char	*src, char c);
 /* ************************************************************************** */
 /*                                 vector                                     */
 /* ************************************************************************** */
-t_tuple		reflect(t_tuple lightv, t_tuple normal);
-t_tuple		normal_at(t_object *obj, t_tuple *w_point);
-t_tuple		cyl_normal_at(t_object *obj, t_tuple *w_point);
 t_tuple		local_normal_at(t_object *obj, t_tuple *w_point);
+t_tuple		cyl_normal_at(t_object *obj, t_tuple *w_point);
+t_tuple		normal_at(t_object *obj, t_tuple *w_point);
+t_tuple		reflect(t_tuple lightv, t_tuple normal);
 
 /* ************************************************************************** */
 /*                                 computations                               */
@@ -253,6 +257,7 @@ t_comp		prepare_computations(t_intersect *intersecs, t_ray *r);
 int			get_color(t_tuple color);
 int			color_at(t_world *world, t_ray *r);
 t_tuple		shade_hit(t_world *world, t_comp *comps);
+bool		is_shadowed(t_world *world, t_tuple point);
 void		render(t_mlx *img, t_world *world, t_camera *c);
 t_tuple		lighting(t_world *w, t_comp *comps, t_light *light, bool shadowed);
 
@@ -260,19 +265,22 @@ t_tuple		lighting(t_world *w, t_comp *comps, t_light *light, bool shadowed);
 /*                                 parse                                      */
 /* ************************************************************************** */
 void		parse_cylindre(t_world *w, char *s, int len);
+void		parse_camera(t_camera *c, char *s, int len);
 t_world		parser(t_world *world, t_camera *c, int fd);
 void		parse_ambient(t_world *w, char *s, int len);
 void		parse_sphere(t_world *w, char *s, int len);
 void		parse_light(t_world	*w, char *s, int len);
+void		phong_value(t_world *w, char *s, int len);
 void		parse_plan(t_world *w, char *s, int len);
-void		parse_camera(t_camera *c, char *s, int len);
-
-// ????????
-bool		is_shadowed(t_world *world, t_tuple point);
-int			destroy(t_mlx *mlx);
-void		valid_extension(char *s);
+double		**coordinate(char *s, int len);
 int			valid_map(int ac, char *s);
-void		error(char *s);
-char		*get_line(int fd);
+void		valid_extension(char *s);
+
+/* ************************************************************************** */
+/*                                 mlx                                        */
+/* ************************************************************************** */
+int			destroy(t_mlx *mlx);
+int			key_hook(int key, t_mlx *mlx);
+void		my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 
 #endif
