@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_camera.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:03:59 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/02 09:40:09 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/11/02 22:30:49 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,26 @@ t_tuple	from_val(char *s, int len)
 
 t_tuple	to_val(t_tuple from, char *s, int len)
 {	
-	double	**m;
+	double	**r;
 	t_tuple	to;
 	double	x;
 	double	y;
 	double	z;
 
 	x = get_value(s, ',', len) * M_PI;
+	if (x < 0)
+		x = (2 * M_PI) + x;
 	y = get_value(s, ',', len) * M_PI;
+	if (y < 0)
+		y = (2 * M_PI) + y;
 	z = get_value(s, ' ', len) * M_PI;
-	m = rotation_x(x);
-	m = matrix_multi(rotation_y(y), m, 4, 4);
-	m = matrix_multi(rotation_z(z), m, 4, 4);
+	if (z < 0)
+		z = (2 * M_PI) + z;
+	r = rotation_x(x);
+	r = matrix_multi(rotation_y(y), r, 4, 4);
+	r = matrix_multi(rotation_z(z), r, 4, 4);
 	to = create_tuple(from.x + EPSILON, from.y + EPSILON, from.z + EPSILON, 1);
-	return (matrix_x_tuple(m, to));
+	return (matrix_x_tuple(r, to));
 }
 
 void	parse_camera(t_camera *c, char *s, int len)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_sphere.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:04:04 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/02 09:40:34 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/11/02 22:31:26 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	parse_sphere(t_world *w, char *s, int len)
 	add_object(&w->objects, 's', t);
 	x = get_value(s, ' ', len) / 2.0;
 	tmp = scaling(x, x, x);
-	w->objects->t = matrix_multi(tmp, t, 4, 4);
+	w->objects->t = matrix_multi(t, tmp, 4, 4);
 	w->objects->inv = inverse_matrix(w->objects->t);
 	w->objects->inv = trim_matrix(w->objects->inv);
 	w->objects->transp = transpose_matrix(w->objects->inv, 4);

@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 20:06:06 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/29 11:05:41 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/02 21:14:35 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,7 @@ double	*intersect(t_ray r, double *t)
 	t = malloc(2 * sizeof(double));
 	t[0] = (-b - sqrt(descriminant)) / (2 * a);
 	t[1] = (-b + sqrt(descriminant)) / (2 * a);
+	if (t[1] < t[0])
+		t[0] = t[1];
 	return (t);
 }
