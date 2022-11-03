@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylindre_intersect.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:46:09 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/02 21:15:32 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 06:31:17 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,12 @@ void	cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter)
 	t = inter_cyl(r1);
 	if (t)
 	{
-		y = r->origin.y + t[0] * r->direction.y;
+		y = r1.origin.y + t[0] * r1.direction.y;
 		if (cylindre->cyl_min < y && y < cylindre->cyl_max)
 			intersections(inter, cylindre, t[0]);
-		// y = r->origin.y + t[1] * r->direction.y;
-		// if (!compare(t[0], t[1]) && cylindre->cyl_min < y && y < cylindre->cyl_max)
-		// 	intersections(inter, cylindre, t[1]);
+		y = r1.origin.y + t[1] * r1.direction.y;
+		if (!compare(t[0], t[1]) && cylindre->cyl_min < y && y < cylindre->cyl_max)
+			intersections(inter, cylindre, t[1]);
 		free(t);
 	}
-	// y = (cylindre->cyl_min - r->origin.y) / r->direction.y;
-	// if(check_cap(r, y) <= 1)
-	// 	intersections(inter, cylindre, y);
-	// y = (cylindre->cyl_max - r->origin.y) / r->direction.y;
-	// if(check_cap(r, y) <= 1)
-	// 	intersections(inter, cylindre, y);
 }
