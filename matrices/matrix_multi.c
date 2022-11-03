@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 18:56:11 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/03 08:31:53 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 10:57:19 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,7 @@ double	**matrix_multi(double **a, double **b)
 			(a[i][3] * b[3][j]);
 		}
 	}
-	// if (clear)
-	// {
-	// 	clear_matrix(a, 4);
-	// 	clear_matrix(b, 4);
-	// }
+	clear_matrix(a, 4);
+	clear_matrix(b, 4);
 	return (m);
 }

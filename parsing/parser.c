@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 13:11:38 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/01 10:12:15 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/11/03 10:59:25 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_world	parser(t_world *world, t_camera *c, int fd)
 			parse_cylindre(world, line + len + 1, ft_strlen(line + len + 1));
 		else if (!ft_strcmp(token, "pl"))
 			parse_plan(world, line + len + 1, ft_strlen(line + len + 1));
+		free(line);
 		line = get_line(fd);
 	}
 	return (*world);

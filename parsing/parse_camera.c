@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:03:59 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/03 09:20:02 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:07:46 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ t_tuple	to_val(t_tuple from, char *s, int len)
 
 	r = orientation(s, len);
 	to = create_tuple(from.x + EPSILON, from.y + EPSILON, from.z + 1, 1);
-	return (matrix_x_tuple(r, to));
+	to = matrix_x_tuple(r, to);
+	clear_matrix(r, 4);
+	return (to);
 }
 
 void	parse_camera(t_camera *c, char *s, int len)
@@ -48,5 +50,4 @@ void	parse_camera(t_camera *c, char *s, int len)
 	c->vsize = 1000.0;
 	pixel_size(c);
 	view_transform(c, from, to, up);
-	c->inv = inverse_matrix(c->transf);
 }
