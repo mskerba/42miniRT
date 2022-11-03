@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 07:58:49 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/03 07:58:51 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 12:45:57 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ double	**coordinates(char *s, int len)
 	double	y;
 	double	z;
 
-	x = get_value(s, ',', len);
-	y = get_value(s, ',', len);
-	z = get_value(s, ' ', len);
+	x = set_value(s, ',', len, NULL);
+	y = set_value(s, ',', len, NULL);
+	z = set_value(s, ' ', len, NULL);
 	return (translation(x, y, z));
 }

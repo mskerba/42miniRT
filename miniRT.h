@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/03 11:05:23 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 13:22:04 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINIRT_H
 
 # include <math.h>
+# include <limits.h>
 # include <mlx.h>
 # include <stdbool.h>
 # include <stdio.h>
@@ -218,17 +219,18 @@ void		cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter);
 /* ************************************************************************** */
 /*                                 utiles                                     */
 /* ************************************************************************** */
-double		get_value(char *s, char c, int len);
+char		*get_token(char *s, char c, int len);
+double		set_value(char *s, char c, int len, double *range);
 int			ft_strcmp(char *s1, char *s2);
 bool		compare(double a, double b);
 void		swap(double *a, double *b);
+void		error(char *s1, char *s2);
 void		pixel_size(t_camera *c);
 double		max(double a, double b);
 double		min(double a, double b);
-char		*get_token(char *s);
+void		is_valid(char *token);
 int			ft_strlen(char *s);
 double		d_atoi(char *s);
-void		error(char *s);
 double		atod(char *s);
 
 /* ************************************************************************** */
@@ -266,7 +268,7 @@ t_tuple		lighting(t_world *w, t_comp *comps, t_light *light, bool shadowed);
 /* ************************************************************************** */
 void		parse_cylindre(t_world *w, char *s, int len);
 void		parse_camera(t_camera *c, char *s, int len);
-t_world		parser(t_world *world, t_camera *c, int fd);
+void		parser(t_world *world, t_camera *c, int fd);
 void		parse_ambient(t_world *w, char *s, int len);
 void		parse_sphere(t_world *w, char *s, int len);
 void		parse_light(t_world	*w, char *s, int len);

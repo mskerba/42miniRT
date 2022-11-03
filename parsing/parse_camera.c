@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:03:59 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/03 11:07:46 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 12:49:02 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ t_tuple	from_val(char *s, int len)
 	double	y;
 	double	z;
 
-	x = get_value(s, ',', len);
-	y = get_value(s, ',', len);
-	z = get_value(s, ' ', len);
+	x = set_value(s, ',', len, NULL);
+	y = set_value(s, ',', len, NULL);
+	z = set_value(s, ' ', len, NULL);
 	return (create_tuple(x, y, z, 1));
 }
 
@@ -41,11 +41,14 @@ void	parse_camera(t_camera *c, char *s, int len)
 	t_tuple	from;
 	t_tuple	to;
 	t_tuple	up;
+	double	range[2];
 
+	range[0] = 0.0;
+	range[1] = 360.0;
 	from = from_val(s, len);
 	to = to_val(from, s, len);
 	up = create_tuple(0, 1, 0, 0);
-	c->field_of_view = get_value(s, '\n', len) * M_PI / 180.0;
+	c->field_of_view = set_value(s, '\n', len, range) * M_PI / 180.0;
 	c->hsize = 1000.0;
 	c->vsize = 1000.0;
 	pixel_size(c);

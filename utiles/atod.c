@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   atod.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:21:25 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/02 14:14:36 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/11/03 13:13:52 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ double	d_atoi(char *s)
 	while (s[++i] && s[i] != '.')
 		;
 	if (s[i] != '.')
-		return (atod(s));
+		return (atod(s) * sign);
+	else if (s[0] == '.')
+		return (atod(s + i + 1) / pow(10, ft_strlen(s + i + 1)) * sign);
 	s[i] = 0;
 	result = atod(s);
 	result += (atod(s + i + 1) / pow(10, ft_strlen(s + i + 1)));

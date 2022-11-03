@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_value.c                                        :+:      :+:    :+:   */
+/*   set_value.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 09:54:21 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/03 09:02:55 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/11/03 12:17:47 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/11/03 13:26:58 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-double	get_value(char *s, char c, int len)
+double	set_value(char *s, char c, int len, double *range)
 {
-	static int	i = 0;
-	int			j;
+	char	*token;
+	double	n;
 
-	j = 0;
-	if (i >= len)
-		error("component not fount!");
-	while (s[i] && (s[i] == ' ' || s[i] == '\t'))
-		i++;
-	if (i >= len)
-		error("component not fount!");
-	j = i;
-	while (s[i] && s[i] != c && s[i] != ' ' && s[i] != '\t')
-		i++;
-	s[i++] = 0;
-	if (c == '\n')
-		i = 0;
-	return (d_atoi(s + j));
+	token = get_token(s, c, len);
+	is_valid(token);
+	n = d_atoi(token);
+	if (range && (n < range[0] || n > range[1]))
+		error(NULL, "value out of the expected range!\n");
+	return (n);
 }

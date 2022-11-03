@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 19:54:43 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/03 11:07:51 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:51:26 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	view_transform(t_camera *c, t_tuple from, t_tuple to, t_tuple up)
 
 	forward = substract_tuples(to, from);
 	normalize_tuple(&forward);
-	normalize_tuple(&up);
 	left = cross_product(forward, up);
 	true_up = cross_product(left, forward);
 	orint = scaling(left.x, true_up.y, -forward.z);
@@ -33,6 +32,11 @@ void	view_transform(t_camera *c, t_tuple from, t_tuple to, t_tuple up)
 	orint[2][0] = -forward.x;
 	orint[2][1] = -forward.y;
 	tr = translation(-from.x, -from.y, -from.z);
+	if (c->transf)
+	{
+		clear_matrix(c->transf, 4);
+		clear_matrix(c->inv, 4);
+	}
 	c->transf = matrix_multi(orint, tr);
 	c->inv = inverse_matrix(c->transf);
 }

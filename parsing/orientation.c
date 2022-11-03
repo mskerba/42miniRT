@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 07:56:52 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/03 10:56:55 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 13:24:36 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,21 @@ double	**orientation(char *s, int len)
 {
 	double	a;
 	double	**r;
+	double	range[2];
 
-    a = get_value(s, ',', len) * M_PI;
+	range[0] = -1.0;
+	range[1] = 1.0;
+	a = set_value(s, ',', len, range) * M_PI;
 	if (a < 0)
 		a = (2 * M_PI) + a;
 	r = rotation_x(a);
-	a = get_value(s, ',', len) * M_PI;
+	a = set_value(s, ',', len, range) * M_PI;
 	if (a < 0)
 		a = (2 * M_PI) + a;
 	r = matrix_multi(rotation_y(a), r);
-	a = get_value(s, ' ', len) * M_PI;
+	a = set_value(s, ' ', len, range) * M_PI;
 	if (a < 0)
 		a = (2 * M_PI) + a;
 	r = matrix_multi(rotation_z(a), r);
-    return (r);
+	return (r);
 }

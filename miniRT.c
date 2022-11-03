@@ -6,22 +6,36 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 09:18:50 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/03 11:12:09 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 11:53:24 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
+void	is_everything_exist(t_world *world, t_camera *c)
+{
+	if (!c->transf)
+		error(NULL, "there is no camera!\n");
+	else if (compare(world->light->intensity.x, -1.0))
+		error(NULL, "there is no light!\n");
+	else if (compare(world->ambient.ambient, -1.0))
+		error(NULL, "there is no ambient!\n");
+	else if (!world->objects)
+		error(NULL, "there is no object!\n");
+}
+
 void	minirt(t_world *world, t_mlx *img, int ac, char *s)
 {
-	t_light		light;
 	t_camera	c;
 	int			fd;
 
-	world->light = &light;
+	c.transf = NULL;
+	world->ambient.ambient = -1;
+	world->light->intensity = create_tuple(-1.0, -1.0, -1.0, 1.0);
 	world->objects = NULL;
 	fd = valid_map(ac, s);
-	*world = parser(world, &c, fd);
+	parser(world, &c, fd);
+	is_everything_exist(world, &c);
 	render(img, world, &c);
 	clear_matrix(c.transf, 4);
 	clear_matrix(c.inv, 4);

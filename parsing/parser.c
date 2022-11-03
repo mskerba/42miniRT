@@ -6,13 +6,13 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 13:11:38 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/03 10:59:25 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 13:30:36 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-t_world	parser(t_world *world, t_camera *c, int fd)
+void	parser(t_world *world, t_camera *c, int fd)
 {
 	char	*line;
 	char	*token;
@@ -21,7 +21,7 @@ t_world	parser(t_world *world, t_camera *c, int fd)
 	line = get_line(fd);
 	while (line)
 	{
-		token = get_token(line);
+		token = get_token(line, ' ', ft_strlen(line));
 		len = ft_strlen(token);
 		if (!ft_strcmp(token, "A"))
 			parse_ambient(world, line + len + 1, ft_strlen(line + len + 1));
@@ -35,8 +35,9 @@ t_world	parser(t_world *world, t_camera *c, int fd)
 			parse_cylindre(world, line + len + 1, ft_strlen(line + len + 1));
 		else if (!ft_strcmp(token, "pl"))
 			parse_plan(world, line + len + 1, ft_strlen(line + len + 1));
+		else
+			error(token, "invalid identifier!\n");
 		free(line);
 		line = get_line(fd);
 	}
-	return (*world);
 }

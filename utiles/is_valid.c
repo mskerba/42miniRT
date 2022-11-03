@@ -1,22 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   valid_extension.c                                  :+:      :+:    :+:   */
+/*   is_valid.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/31 15:23:47 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/03 11:33:26 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/11/03 12:12:14 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/11/03 12:37:21 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-void	valid_extension(char *s)
+bool	is_digit(char c)
 {
-	int	i;
+	if (c >= '0' && c <= '9')
+		return (true);
+	return (false);
+}
 
-	i = ft_strlen(s);
-	if (i < 4 || !(s[i - 3] == '.' && s[i - 2] == 'r' && s[i - 1] == 't'))
-		error(NULL, "invalid extension\n");
+void	is_valid(char *token)
+{
+	int		i;
+	int		count;
+
+	i = -1;
+	count = 0;
+	if (token[0] == '-')
+		i = 0;
+	while (token[++i])
+	{
+		if (token[i] == '.')
+			count++;
+		else if (!is_digit(token[i]))
+			error(NULL, "Invalid value!\n");
+		if (count > 1)
+			error(NULL, "Too many \'.\' !\n");
+	}
 }

@@ -6,23 +6,29 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 09:57:46 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/10/31 09:58:35 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 12:18:45 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-char	*get_token(char *s)
+char	*get_token(char *s, char c, int len)
 {
-	int	i;
-	int	j;
+	static int	i = 0;
+	int			j;
 
-	i = -1;
-	while (s[++i] && s[i] == ' ')
-		;
-	j = i;
-	while (s[i] && s[i] != ' ')
+	j = 0;
+	if (i >= len)
+		error(NULL, "component not fount!\n");
+	while (s[i] && (s[i] == ' ' || s[i] == '\t'))
 		i++;
-	s[i] = 0;
+	if (s[i] == '\n' || !s[i])
+		error(NULL, "component not fount!\n");
+	j = i;
+	while (s[i] && s[i] != c && s[i] != ' ' && s[i] != '\t')
+		i++;
+	s[i++] = 0;
+	if (c == '\n')
+		i = 0;
 	return (s + j);
 }
