@@ -1,40 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_multi.c                                     :+:      :+:    :+:   */
+/*   parse_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 18:56:11 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/03 08:31:53 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/11/03 08:43:24 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/11/03 09:12:44 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../miniRT.h"
+# include "../miniRT.h"
 
-double	**matrix_multi(double **a, double **b)
+t_tuple parse_color(char *s, int len, char c)
 {
-	double	**m;
-	int		i;
-	int		j;
+    double  r;
+    double  g;
+    double  b;
+    t_tuple color;
 
-	m = create_matrix(4, 4);
-	i = -1;
-	while (++i < 4)
-	{
-		j = -1;
-		while (++j < 4)
-		{
-			m[i][j] = (a[i][0] * b[0][j]) + \
-			(a[i][1] * b[1][j]) + \
-			(a[i][2] * b[2][j]) + \
-			(a[i][3] * b[3][j]);
-		}
-	}
-	// if (clear)
-	// {
-	// 	clear_matrix(a, 4);
-	// 	clear_matrix(b, 4);
-	// }
-	return (m);
+    r = get_value(s, ',', len) / 255.0;
+	g = get_value(s, ',', len) / 255.0;
+	b = get_value(s, c, len) / 255.0;
+    color = create_tuple(r, g, b, 1);
+    return (color);
 }

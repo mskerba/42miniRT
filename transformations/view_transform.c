@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 19:54:43 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/29 15:23:00 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 08:03:51 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	view_transform(t_camera *c, t_tuple from, t_tuple to, t_tuple up)
 	orint[2][0] = -forward.x;
 	orint[2][1] = -forward.y;
 	tr = translation(-from.x, -from.y, -from.z);
-	c->transf = matrix_multi(orint, tr, 4, 4);
+	c->transf = matrix_multi(orint, tr);
 	clear_matrix(tr, 4);
 	clear_matrix(orint, 4);
 }

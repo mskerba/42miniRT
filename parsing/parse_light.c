@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:04:01 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/01 15:38:10 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 09:12:52 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,5 @@ void	parse_light(t_world	*w, char *s, int len)
 	z = get_value(s, ' ', len);
 	w->light->position = create_tuple(x, y, z, 1);
 	w->diffuse = get_value(s, ' ', len);
-	x = get_value(s, ',', len) / 255.0;
-	y = get_value(s, ',', len) / 255.0;
-	z = get_value(s, '\n', len) / 255.0;
-	w->light->intensity = create_tuple(x, y, z, 1);
+	w->light->intensity = parse_color(s, len, '\n');
 }

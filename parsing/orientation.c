@@ -1,40 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_multi.c                                     :+:      :+:    :+:   */
+/*   orientation.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/26 18:56:11 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/03 08:31:53 by momeaizi         ###   ########.fr       */
+/*   Created: 2022/11/03 07:56:52 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/11/03 08:31:44 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-double	**matrix_multi(double **a, double **b)
+double	**orientation(char *s, int len)
 {
-	double	**m;
-	int		i;
-	int		j;
+	double	a;
+	double	**r;
 
-	m = create_matrix(4, 4);
-	i = -1;
-	while (++i < 4)
-	{
-		j = -1;
-		while (++j < 4)
-		{
-			m[i][j] = (a[i][0] * b[0][j]) + \
-			(a[i][1] * b[1][j]) + \
-			(a[i][2] * b[2][j]) + \
-			(a[i][3] * b[3][j]);
-		}
-	}
-	// if (clear)
-	// {
-	// 	clear_matrix(a, 4);
-	// 	clear_matrix(b, 4);
-	// }
-	return (m);
+    a = get_value(s, ',', len) * M_PI;
+	if (a < 0)
+		a = (2 * M_PI) + a;
+	r = rotation_x(a);
+	a = get_value(s, ',', len) * M_PI;
+	if (a < 0)
+		a = (2 * M_PI) + a;
+	r = matrix_multi(rotation_y(a), r);
+	a = get_value(s, ' ', len) * M_PI;
+	if (a < 0)
+		a = (2 * M_PI) + a;
+	r = matrix_multi(rotation_z(a), r);
+    return (r);
 }

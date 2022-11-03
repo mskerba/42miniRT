@@ -6,36 +6,22 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:04:02 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/02 22:30:25 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/03 08:50:46 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
+//first scale, then rotate, then translate
+
 void	parse_plan(t_world *w, char *s, int len)
 {
-	double	x;
-	double	y;
-	double	z;
 	double	**t;
-	double	**r;
 
-	t = coordinate(s, len);
-	x = get_value(s, ',', len) * M_PI;
-	if (x < 0)
-		x = (2 * M_PI) + x;
-	y = get_value(s, ',', len) * M_PI;
-	if (y < 0)
-		y = (2 * M_PI) + y;
-	z = get_value(s, ' ', len) * M_PI;
-	if (z < 0)
-		z = (2 * M_PI) + z;
-	r = rotation_x(x);
-	r = matrix_multi(rotation_y(y), r, 4, 4);
-	r = matrix_multi(rotation_z(z), r, 4, 4);
-	add_object(&w->objects, 'p', matrix_multi(t, r, 4, 4));
+	t = coordinates(s, len);
+	t = matrix_multi(t, orientation(s, len));
+	add_object(&w->objects, 'p', t);
 	w->objects->inv = inverse_matrix(w->objects->t);
-	w->objects->inv = trim_matrix(w->objects->inv);
 	w->objects->transp = transpose_matrix(w->objects->inv, 4);
 	phong_value(w, s, len);
 }

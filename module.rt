@@ -1,12 +1,12 @@
 A		ambient				color
 
-C		coordinate			orientation			FOV
+C		coordinates			orientation			FOV
 
-L		coordinate			ratio//diffuse				color
+L		coordinates			ratio//diffuse				color
 
-pl		coordinates			orientation			color	specular	shinines
+pl		coordinatess			orientation			color	specular	shinines
 
-sp		coordinate			diameter			color	specular	shininess
+sp		coordinates			diameter			color	specular	shininess
 
 
-cy		coordinates			orientation			diameter	height		color	 specular	shininess
+cy		coordinatess			orientation			diameter	height		color	 specular	shininess

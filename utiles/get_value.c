@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_value.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 09:54:21 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/02 14:06:57 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/11/03 09:02:55 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ double	get_value(char *s, char c, int len)
 	if (i >= len)
 		error("component not fount!");
 	j = i;
-	while (s[i] && s[i] != c && (s[i] != ' ' || s[i] == '\t'))
+	while (s[i] && s[i] != c && s[i] != ' ' && s[i] != '\t')
 		i++;
 	s[i++] = 0;
 	if (c == '\n')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/02 10:56:42 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/11/03 09:12:47 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,14 +167,14 @@ double		**cofactor(double **m);
 double		**trim_matrix(double **m);
 double		**inverse_matrix(double **m);
 void		clear_matrix(double **m, int r);
-double		**create_matrix(int rows, int columns);
 t_tuple		matrix_x_tuple(double **m, t_tuple t);
+double		**create_matrix(int rows, int columns);
 double		**transpose_matrix(double **m, int size);
 double		determinant(double **m, double **cofactors);
 double		determinant(double **m, double **cofactors);
 void		display_matrix(double **m, int rows, int col);
+double		**matrix_multi(double **a, double **b);
 void		get_submatrix(double **m, double **sub_m, int r, int c);
-double		**matrix_multi(double **a, double **b, int rows, int columns);
 
 /* ************************************************************************** */
 /*                                 transformations                            */
@@ -272,7 +272,9 @@ void		parse_sphere(t_world *w, char *s, int len);
 void		parse_light(t_world	*w, char *s, int len);
 void		phong_value(t_world *w, char *s, int len);
 void		parse_plan(t_world *w, char *s, int len);
-double		**coordinate(char *s, int len);
+double		**coordinates(char *s, int len);
+double		**orientation(char *s, int len);
+t_tuple		parse_color(char *s, int len, char c);
 int			valid_map(int ac, char *s);
 void		valid_extension(char *s);
 

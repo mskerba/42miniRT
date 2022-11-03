@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   coordinate.c                                       :+:      :+:    :+:   */
+/*   coordinates.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 09:30:56 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/02 09:31:22 by mskerba          ###   ########.fr       */
+/*   Created: 2022/11/03 07:58:49 by momeaizi          #+#    #+#             */
+/*   Updated: 2022/11/03 07:58:51 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-double	**coordinate(char *s, int len)
+double	**coordinates(char *s, int len)
 {
 	double	x;
 	double	y;

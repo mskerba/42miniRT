@@ -27,7 +27,8 @@ SRCS = miniRT.c   main.c\
 		color/render.c color/shadow.c \
 		parsing/parser.c parsing/parse_ambient.c parsing/parse_sphere.c parsing/parse_cylindre.c parsing/parse_plane.c \
 		gnl/get_line.c mlx/destroy_window.c mlx/mlx.c \
-		parsing/valid_extension.c parsing/valid_map.c parsing/parse_light.c parsing/phong_value.c parsing/coordinate.c\
+		parsing/valid_extension.c parsing/valid_map.c parsing/parse_light.c parsing/phong_value.c parsing/coordinates.c parsing/orientation.c\
+		parsing/parse_color.c \
 		utiles/error.c parsing/parse_camera.c \
 
 

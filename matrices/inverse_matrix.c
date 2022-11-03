@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inverse_matrix.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 18:55:37 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/26 18:58:58 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/11/03 08:50:11 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ double	**inverse_matrix(double **m)
 			inverse[j][i] = cof[i][j] / det;
 	}
 	clear_matrix(cof, 4);
-	return (inverse);
+	return (trim_matrix(inverse));
 }
