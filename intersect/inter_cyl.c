@@ -6,7 +6,7 @@
 /*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 07:54:03 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/03 06:31:06 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/11/03 08:02:09 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ double	*inter_cyl(t_ray r)
 	inter = malloc(2 * sizeof(double));
 	inter[0] = (-b - sqrt(descriminant)) / (2 * a);
 	inter[1] = (-b + sqrt(descriminant)) / (2 * a);
+	if (inter[0] > inter[1])
+		swap(&inter[0], &inter[1]);
 	return (inter);
 }
