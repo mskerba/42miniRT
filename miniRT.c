@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 09:18:50 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/03 11:53:24 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:22:54 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	minirt(t_world *world, t_mlx *img, int ac, char *s)
 	world->light->intensity = create_tuple(-1.0, -1.0, -1.0, 1.0);
 	world->objects = NULL;
 	fd = valid_map(ac, s);
-	parser(world, &c, fd);
+	parser(world, &c, get_line(fd), fd);
 	is_everything_exist(world, &c);
 	render(img, world, &c);
 	clear_matrix(c.transf, 4);

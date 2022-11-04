@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylindre_intersect.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:46:09 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/03 08:19:16 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/11/04 18:13:19 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter)
 	r1.origin = matrix_x_tuple(cylindre->inv, r->origin);
 	r1.direction = matrix_x_tuple(cylindre->inv, r->direction);
 	normalize_tuple(&r1.direction);
-	t = inter_cyl(r1);
+	t = inter_cyl(r1, cylindre->radius);
 	if (t)
 	{
 		y = r1.origin.y + t[0] * r1.direction.y;
@@ -44,9 +44,9 @@ void	cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter)
 		free(t);
 	}
 	y = (cylindre->cyl_min - r1.origin.y) / r1.direction.y;
-	if (check_cap(&r1, y) <= 1.0)
+	if (check_cap(&r1, y) <= cylindre->radius)
 		intersections(inter, cylindre, y);
 	y = (cylindre->cyl_max - r1.origin.y) / r1.direction.y;
-	if (check_cap(&r1, y) <= 1.0)
+	if (check_cap(&r1, y) <= cylindre->radius)
 		intersections(inter, cylindre, y);
 }

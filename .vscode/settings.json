@@ -15,6 +15,7 @@
         "minirt.h": "c",
         "__node_handle": "c",
         "cstdio": "c",
-        "__locale": "c"
+        "__locale": "c",
+        "algorithm": "c"
     }
 }

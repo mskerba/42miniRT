@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   inter_cyl.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
+/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/27 07:54:03 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/03 08:02:09 by mskerba          ###   ########.fr       */
+/*   Updated: 2022/11/04 18:04:33 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-double	*inter_cyl(t_ray r)
+double	*inter_cyl(t_ray r, double radius)
 {
 	double	a;
 	double	b;
@@ -24,7 +24,7 @@ double	*inter_cyl(t_ray r)
 	if (a <= EPSILON && a >= -EPSILON)
 		return (0);
 	b = 2 * r.direction.x * r.origin.x + 2 * r.direction.z * r.origin.z;
-	c = pow(r.origin.x, 2) + pow(r.origin.z, 2) - 1;
+	c = pow(r.origin.x, 2) + pow(r.origin.z, 2) - radius;
 	descriminant = pow(b, 2) - (4 * a * c);
 	if (descriminant < EPSILON)
 		return (NULL);

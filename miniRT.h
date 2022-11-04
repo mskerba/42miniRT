@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/03 13:22:04 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:22:28 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_object
 	double				**t;
 	double				**inv;
 	double				**transp;
+	double				radius;
 	double				cyl_min;
 	double				cyl_max;
 	struct s_object		*next;
@@ -205,8 +206,8 @@ t_object	*create_object(char type, double **t);
 /* ************************************************************************** */
 /*                                 intersect                                  */
 /* ************************************************************************** */
-double		*inter_cyl(t_ray r);
-double		*intersect(t_ray r, double *t);
+double		*inter_cyl(t_ray r, double radius);
+double		*intersect(t_ray r, double radius, double *t);
 void		clear_intersecs(t_intersect **intersecs);
 t_intersect	*create_intersect(double t, t_object *obj);
 t_intersect	*intersect_world(t_world *world, t_ray *r);
@@ -266,17 +267,17 @@ t_tuple		lighting(t_world *w, t_comp *comps, t_light *light, bool shadowed);
 /* ************************************************************************** */
 /*                                 parse                                      */
 /* ************************************************************************** */
+void		parser(t_world *world, t_camera *c, char *line, int fd);
 void		parse_cylindre(t_world *w, char *s, int len);
 void		parse_camera(t_camera *c, char *s, int len);
-void		parser(t_world *world, t_camera *c, int fd);
 void		parse_ambient(t_world *w, char *s, int len);
 void		parse_sphere(t_world *w, char *s, int len);
 void		parse_light(t_world	*w, char *s, int len);
 void		phong_value(t_world *w, char *s, int len);
 void		parse_plan(t_world *w, char *s, int len);
+t_tuple		parse_color(char *s, int len, char c);
 double		**coordinates(char *s, int len);
 double		**orientation(char *s, int len);
-t_tuple		parse_color(char *s, int len, char c);
 int			valid_map(int ac, char *s);
 void		valid_extension(char *s);
 

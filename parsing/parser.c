@@ -6,19 +6,17 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 13:11:38 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/03 13:30:36 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:23:09 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-void	parser(t_world *world, t_camera *c, int fd)
+void	parser(t_world *world, t_camera *c, char *line, int fd)
 {
-	char	*line;
 	char	*token;
 	int		len;
 
-	line = get_line(fd);
 	while (line)
 	{
 		token = get_token(line, ' ', ft_strlen(line));
