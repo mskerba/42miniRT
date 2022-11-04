@@ -6,13 +6,13 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:04:00 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/04 18:07:49 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:25:53 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-void	parse_cylindre(t_world *w, char *s, int len)
+void	parse_cylinder(t_world *w, char *s, int len)
 {
 	double	**t;
 	double	**r;

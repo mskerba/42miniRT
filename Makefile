@@ -20,18 +20,18 @@ SRCS = miniRT.c   main.c\
 		matrices/determinant.c matrices/get_submatrix.c matrices/inverse_matrix.c \
 		matrices/matrix_multi.c matrices/matrix_x_tuple.c matrices/transpose_matrix.c matrices/display_matrix.c \
 		intersect/intersect_world.c intersect/plane_intersect.c intersect/sphere_intersect.c  intersect/intersect.c intersect/create_intersect.c \
-		intersect/intersections.c intersect/clear_intersecs.c intersect/inter_cyl.c intersect/cylindre_intersect.c \
-		utiles/min.c utiles/max.c utiles/compare.c  utiles/pixel_size.c utiles/swap.c utiles/strcmp.c \
-		utiles/strlen.c utiles/atod.c utiles/set_value.c utiles/is_valid.c utiles/get_token.c \
+		intersect/intersections.c intersect/clear_intersecs.c intersect/inter_cyl.c intersect/cylinder_intersect.c \
+		utils/min.c utils/max.c utils/compare.c  utils/pixel_size.c utils/swap.c utils/strcmp.c \
+		utils/strlen.c utils/atod.c utils/set_value.c utils/is_valid.c utils/get_token.c \
 		vector/reflect.c vector/normal_at.c vector/cyl_normal_at.c vector/local_normal.c \
 		computation/prepare_computations.c \
 		color/color_at.c color/get_color.c color/lighting.c color/shade_hit.c \
 		color/render.c color/shadow.c \
-		parsing/parser.c parsing/parse_ambient.c parsing/parse_sphere.c parsing/parse_cylindre.c parsing/parse_plane.c \
+		parsing/parser.c parsing/parse_ambient.c parsing/parse_sphere.c parsing/parse_cylinder.c parsing/parse_plane.c \
 		gnl/get_line.c mlx/destroy_window.c mlx/mlx.c \
 		parsing/valid_extension.c parsing/valid_map.c parsing/parse_light.c parsing/phong_value.c parsing/coordinates.c parsing/orientation.c\
 		parsing/parse_color.c \
-		utiles/error.c parsing/parse_camera.c \
+		utils/error.c parsing/parse_camera.c \
 
 
 all : $(NAME)

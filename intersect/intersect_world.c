@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 19:59:20 by mskerba           #+#    #+#             */
-/*   Updated: 2022/10/29 10:54:25 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:25:53 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_intersect	*intersect_world(t_world *world, t_ray *r)
 		if (obj->type == 's')
 			sphere_inter(obj, r, &inter);
 		else if (obj->type == 'c')
-			cylindre_inter(obj, r, &inter);
+			cylinder_inter(obj, r, &inter);
 		else if (obj->type == 'p')
 			plane_inter(obj, r, &inter);
 		obj = obj->next;

@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/04 18:22:28 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:25:53 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,10 +215,10 @@ t_intersect	*local_intersect(t_world *world, t_ray *r);
 void		intersections(t_intersect **head, t_object *obj, double t);
 void		plane_inter(t_object *plane, t_ray *r, t_intersect **inter);
 void		sphere_inter(t_object *sphere, t_ray *r, t_intersect **inter);
-void		cylindre_inter(t_object *cylindre, t_ray *r, t_intersect **inter);
+void		cylinder_inter(t_object *cylinder, t_ray *r, t_intersect **inter);
 
 /* ************************************************************************** */
-/*                                 utiles                                     */
+/*                                 utils                                     */
 /* ************************************************************************** */
 char		*get_token(char *s, char c, int len);
 double		set_value(char *s, char c, int len, double *range);
@@ -268,7 +268,7 @@ t_tuple		lighting(t_world *w, t_comp *comps, t_light *light, bool shadowed);
 /*                                 parse                                      */
 /* ************************************************************************** */
 void		parser(t_world *world, t_camera *c, char *line, int fd);
-void		parse_cylindre(t_world *w, char *s, int len);
+void		parse_cylinder(t_world *w, char *s, int len);
 void		parse_camera(t_camera *c, char *s, int len);
 void		parse_ambient(t_world *w, char *s, int len);
 void		parse_sphere(t_world *w, char *s, int len);

@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 13:11:38 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/04 18:23:09 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/04 18:25:53 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	parser(t_world *world, t_camera *c, char *line, int fd)
 		else if (!ft_strcmp(token, "sp"))
 			parse_sphere(world, line + len + 1, ft_strlen(line + len + 1));
 		else if (!ft_strcmp(token, "cy"))
-			parse_cylindre(world, line + len + 1, ft_strlen(line + len + 1));
+			parse_cylinder(world, line + len + 1, ft_strlen(line + len + 1));
 		else if (!ft_strcmp(token, "pl"))
 			parse_plan(world, line + len + 1, ft_strlen(line + len + 1));
 		else
