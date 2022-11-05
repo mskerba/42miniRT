@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cylindre_intersect.c                               :+:      :+:    :+:   */
+/*   cylinder_intersect.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 10:46:09 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/04 18:25:53 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/05 15:29:08 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	cylinder_inter(t_object *cylinder, t_ray *r, t_intersect **inter)
 		free(t);
 	}
 	y = (cylinder->cyl_min - r1.origin.y) / r1.direction.y;
-	if (check_cap(&r1, y) <= cylinder->radius)
+	if (check_cap(&r1, y) <= pow(cylinder->radius, 2.0))
 		intersections(inter, cylinder, y);
 	y = (cylinder->cyl_max - r1.origin.y) / r1.direction.y;
-	if (check_cap(&r1, y) <= cylinder->radius)
+	if (check_cap(&r1, y) <= pow(cylinder->radius, 2.0))
 		intersections(inter, cylinder, y);
 }

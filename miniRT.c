@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 09:18:50 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/04 18:22:54 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/05 12:45:39 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	is_everything_exist(t_world *world, t_camera *c)
 		error(NULL, "there is no object!\n");
 }
 
-void	minirt(t_world *world, t_mlx *img, int ac, char *s)
+void	minirt(t_world *world, t_mlx *mlx, int ac, char *s)
 {
 	t_camera	c;
 	int			fd;
@@ -36,7 +36,8 @@ void	minirt(t_world *world, t_mlx *img, int ac, char *s)
 	fd = valid_map(ac, s);
 	parser(world, &c, get_line(fd), fd);
 	is_everything_exist(world, &c);
-	render(img, world, &c);
+	create_win_and_img(mlx);
+	render(mlx, world, &c);
 	clear_matrix(c.transf, 4);
 	clear_matrix(c.inv, 4);
 }

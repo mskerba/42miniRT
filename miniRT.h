@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/05 09:30:07 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/05 12:44:08 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ typedef struct s_phong
 /* ************************************************************************** */
 /*                                 miniRT                                     */
 /* ************************************************************************** */
-void		minirt(t_world *world, t_mlx *img, int ac, char *s);
+void		minirt(t_world *world, t_mlx *mlx, int ac, char *s);
 
 /* ************************************************************************** */
 /*                                 tuples                                     */
@@ -286,6 +286,7 @@ void		valid_extension(char *s);
 /* ************************************************************************** */
 int			destroy(t_mlx *mlx);
 int			key_hook(int key, t_mlx *mlx);
+void		create_win_and_img(t_mlx *mlx);
 void		my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 
 #endif
