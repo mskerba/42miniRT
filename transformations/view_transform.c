@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 19:54:43 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/03 11:51:26 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/05 11:42:29 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@ void	view_transform(t_camera *c, t_tuple from, t_tuple to, t_tuple up)
 	double	**orint;
 	double	**tr;
 
+	normalize_tuple(&up);
 	forward = substract_tuples(to, from);
 	normalize_tuple(&forward);
 	left = cross_product(forward, up);
+	normalize_tuple(&left);
 	true_up = cross_product(left, forward);
+	normalize_tuple(&true_up);
 	orint = scaling(left.x, true_up.y, -forward.z);
 	orint[0][1] = left.y;
 	orint[0][2] = left.z;
