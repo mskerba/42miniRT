@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 16:04:00 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/06 21:50:50 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/06 21:58:05 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	parse_cylinder(t_world *w, char *s, int len)
 	bool	is_y_neg;
 
 	t = coordinates(s, len);
-	y_min = t[0][3];
+	y_min = t[1][3];
 	r = orient_shape(s, len, &is_y_neg);
 	t = matrix_multi(t, r);
 	a = set_value(s, ' ', len, NULL) / 2.0;
