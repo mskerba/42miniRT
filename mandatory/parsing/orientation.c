@@ -6,18 +6,17 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 07:56:52 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/05 19:15:08 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/06 17:44:01 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../miniRT.h"
 
-double	**orientation(char *s, int len)
+t_tuple	orientation_vec(char *s, int len)
 {
 	double	a;
-	double	**r;
 	double	range[2];
-	t_tuple	orient = create_tuple(0, 0, 0, 0);
+	t_tuple	orient;
 
 	range[0] = -1.0;
 	range[1] = 1.0;
@@ -27,17 +26,29 @@ double	**orientation(char *s, int len)
 	orient.y = a;
 	a = set_value(s, ' ', len, range);
 	orient.z = a;
+	orient.w = 0.0;
 	a = magnitude(orient);
 	if (a > 1.01 || a < 0.90)
 		error(NULL, "orientation vector is not normalized!\n");
+	return (orient);
+}
+
+double	**orient_shape(char *s, int len, bool *is_y_neg)
+{
+	double	**r;
+	t_tuple	orient;
+
+	*is_y_neg = false;
+	orient = orientation_vec(s, len);
+	orient.x *= M_PI / -2.0;
+	orient.z *= M_PI / -2.0;
 	if (orient.x < 0)
 		orient.x = (2 * M_PI) + orient.x;
-	if (orient.y < 0)
-		orient.y = (2 * M_PI) + orient.y;
 	if (orient.z < 0)
 		orient.z = (2 * M_PI) + orient.z;
-	r = rotation_x(orient.y / 2.0);
-	r = matrix_multi(rotation_y(orient.x), r);
-	r = matrix_multi(rotation_z(orient.z), r);
+	r = rotation_x(orient.z);
+	r = matrix_multi(rotation_z(orient.x), r);
+	if (orient.y < 0)
+		*is_y_neg = true;
 	return (r);
 }

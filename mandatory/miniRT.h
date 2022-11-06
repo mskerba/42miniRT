@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/13 08:00:39 by mskerba           #+#    #+#             */
-/*   Updated: 2022/11/05 12:44:08 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/06 17:15:48 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ t_tuple		local_normal_at(t_object *obj, t_tuple *w_point);
 t_tuple		cyl_normal_at(t_object *obj, t_tuple *w_point);
 t_tuple		normal_at(t_object *obj, t_tuple *w_point);
 t_tuple		reflect(t_tuple lightv, t_tuple normal);
+t_tuple		orientation_vec(char *s, int len);
 
 /* ************************************************************************** */
 /*                                 computations                               */
@@ -268,6 +269,7 @@ t_tuple		lighting(t_world *w, t_comp *comps, t_light *light, bool shadowed);
 /*                                 parse                                      */
 /* ************************************************************************** */
 void		parser(t_world *world, t_camera *c, char *line, int fd);
+double		**orient_shape(char *s, int len, bool *is_y_neg);
 void		parse_cylinder(t_world *w, char *s, int len);
 void		parse_camera(t_camera *c, char *s, int len);
 void		parse_ambient(t_world *w, char *s, int len);
@@ -277,7 +279,6 @@ void		phong_value(t_world *w, char *s, int len);
 void		parse_plan(t_world *w, char *s, int len);
 t_tuple		parse_color(char *s, int len, char c);
 double		**coordinates(char *s, int len);
-double		**orientation(char *s, int len);
 int			valid_map(int ac, char *s);
 void		valid_extension(char *s);
 
