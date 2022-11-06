@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 09:57:46 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/05 16:56:55 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/06 20:36:59 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*get_token(char *s, char c, int len)
 	int			j;
 
 	j = 0;
+	if (!ft_strcmp(s, "\n"))
+		return (s);
 	if (i >= len)
 		error(NULL, "component not fount!\n");
 	while (s[i] && (s[i] == ' ' || s[i] == '\t'))

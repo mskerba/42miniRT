@@ -6,7 +6,7 @@
 /*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 13:11:38 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/06 18:10:24 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/11/06 20:38:39 by momeaizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	parser(t_world *world, t_camera *c, char *line, int fd)
 			parse_cylinder(world, line, len);
 		else if (!ft_strcmp(token, "pl"))
 			parse_plan(world, line, len);
-		else
+		else if (ft_strcmp(line, "\n"))
 			error(token, "invalid identifier!\n");
 		free(line);
 		line = get_line(fd);
