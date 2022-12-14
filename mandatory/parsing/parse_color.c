@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: momeaizi <momeaizi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mskerba <mskerba@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 08:43:24 by momeaizi          #+#    #+#             */
-/*   Updated: 2022/11/03 13:25:40 by momeaizi         ###   ########.fr       */
+/*   Updated: 2022/12/14 11:37:43 by mskerba          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_tuple	parse_color(char *s, int len, char c)
 
 	range[0] = 0.0;
 	range[1] = 255.0;
+	c = '\n';
 	r = set_value(s, ',', len, range) / 255.0;
 	g = set_value(s, ',', len, range) / 255.0;
 	b = set_value(s, c, len, range) / 255.0;
